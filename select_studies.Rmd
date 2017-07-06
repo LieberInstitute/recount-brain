@@ -1,0 +1,144 @@
+---
+title: "Select brain studies"
+author: "Leo"
+date: "7/6/2017"
+output: html_document
+---
+
+# Required R packages
+
+If you want to reproduce this document, you will need the following R packages installed. It's best if you install R 3.4 from [CRAN](https://cran.r-project.org/) and maybe even [RStudio](https://www.rstudio.com/).
+
+```{r install, eval = FALSE}
+## Install R 3.4 
+source('http://bioconductor.org/biocLite.R')
+biocLite(c('recount', 'downloader', 'devtools', 'DT'))
+```
+
+# Get the predictions data
+
+First we load the R packages.
+
+
+```{r libs, message = FALSE}
+library('recount')
+library('downloader')
+library('devtools')
+library('DT')
+```
+
+Next we load the prediction data from Shannon Ellis which is stored in a data.frame (a table) called `PredictedPhenotypes`.
+
+
+```{r loadPreds}
+## Load the predictions
+predfile <- 'PredictedPhenotypes_v0.0.03.rda'
+url <- paste0("https://github.com/leekgroup/recount-website/blob/master/predictions/",
+    predfile, "?raw=true")
+destfile <- file.path(tempdir(), predfile)
+downloader::download(url, destfile = destfile, mode = "wb")
+load(destfile)
+
+## Explore the data a bit
+head(PredictedPhenotypes)
+dim(PredictedPhenotypes)
+```
+
+Now we can identify which of the 70k+ samples are predicted to be from the brain.
+
+```{r findBrain}
+brain <- tolower(PredictedPhenotypes$predicted_tissue) == 'brain'
+length(brain)
+table(brain)
+```
+
+# Match with SRA metadata
+
+Using the `all_metadata()` function from `recount` we download the metadata for the roughly 50k samples from SRA.
+
+```{r SRAmeta}
+meta <- all_metadata()
+dim(meta)
+```
+
+We can match the predicted brain samples to the SRA metadata using the `run` identifier. Since the metadata doesn't include the roughly 20k samples from GTEx and TCGA, not all predicted brain samples match. That is ok because we want to focus on the SRA data for which we don't have proper metadata.
+
+```{r mapByRun}
+map <- match(PredictedPhenotypes$sample_id[brain], meta$run)
+map <- map[!is.na(map)]
+
+## Number of predicted brain samples in SRA
+length(map)
+
+## Number of corresponding studies in SRA with at least 1 predicted brain sample
+length(unique(meta$project[map]))
+```
+
+
+Now we can get the project ids and check what percent of the samples for a given project have predicted brain samples.
+
+```{r Project}
+proj <- meta$project[map]
+proj.n <- table(proj)
+
+## Get the total number of samples in the projects
+proj.all <- table(meta$project)
+map.proj <- match(names(proj.n), names(proj.all))
+proj.all <- proj.all[map.proj]
+
+## Drop projects with less than 4 samples
+table(proj.all >= 4)
+proj.n <- proj.n[proj.all >= 4]
+proj.all <- proj.all[proj.all >= 4]
+
+## Calculate the percent of predicted brain samples
+proj.perc <- as.vector(round(proj.n / proj.all * 100, 2))
+
+## Explore that distribution
+summary(proj.perc)
+boxplot(proj.perc, main = 'Percent of predicted brain samples')
+```
+
+# Selected projects
+
+To reduce false positives brain predictions, we will focus on studies that are mostly brain samples.
+
+```{r percentCutoffs}
+cutoffs <- c(70, 80, 90)
+cutoffs.pass <- sapply(cutoffs, function(cut) { table(proj.perc > cut) })
+colnames(cutoffs.pass) <- cutoffs
+cutoffs.pass
+```
+
+We can then put all the information in a single table, export it to a text file, and explore it interactively in this document.
+
+```{r project.res, results = 'asis'}
+proj.df <- data.frame(brain_predicted_n = as.vector(proj.n), project_n = as.vector(proj.all),
+    brain_percent = proj.perc, project_id = names(proj.n))
+proj.df <- proj.df[order(proj.df$brain_percent, decreasing = TRUE), ]
+
+write.table(proj.df, file = 'projects_list.txt', sep = '\t', col.names = TRUE, quote = FALSE, row.names = FALSE)
+
+datatable(proj.df,
+    options = list(pagingType='full_numbers', pageLength=25, scrollX='100%'),
+    escape = FALSE, rownames = FALSE)
+```
+
+# Data to use
+
+Lets focus on the projects where at least 70 percent of the samples are predicted to come from the brain. That would include project `SRP025982` which from https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=SRP025982 is mostly "universal human brain".
+
+
+# Reproducibility information
+
+```{r reproducibility}
+## Reproducibility information
+print('Reproducibility information:')
+Sys.time()
+proc.time()
+options(width = 120)
+session_info()
+```
+
+
+
