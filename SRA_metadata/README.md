@@ -1,0 +1,1 @@
+This folder contains one table per SRA project considered in `recount-brain` (see [projects_list.txt](../projects_list.txt) for list of projects). 

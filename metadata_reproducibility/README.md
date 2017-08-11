@@ -1,0 +1,1 @@
+This folder contains a file describing the steps for creating the metadata table for each SRA project considered in `recount-brain` (see [projects_list.txt](../projects_list.txt) for list of projects).
