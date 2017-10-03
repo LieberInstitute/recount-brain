@@ -1,0 +1,121 @@
+---
+title: "Merging metadata"
+author: "Leo"
+date: "10/3/2017"
+output: html_document
+---
+
+## Setup
+
+```{r}
+library('devtools')
+```
+
+
+## Read tables
+
+```{r}
+## Find table files and name them by project id
+table_files <- dir('../SRA_metadata', pattern = '.csv$', full.names = TRUE)
+names(table_files) <- sapply(strsplit(table_files, ', '), function(x) { strsplit(x[2], '-Table')[[1]][1] })
+
+## Read the table files
+table_content <- lapply(table_files, read.csv, header = TRUE, stringsAsFactors = FALSE)
+
+## Drop empty columns (they start with X)
+table_content <- lapply(table_content, function(tab) {
+  idx <- grep('^X', colnames(tab))
+#  colnames(tab)[idx]
+#  summary(is.na(tab[, idx]))
+  if(length(idx) > 0) {
+    return(tab[, -idx])
+  } else {
+    return(tab)
+  }
+  
+})
+
+
+table_cols <- do.call(rbind, lapply(seq_len(length(table_content)), function(i) {
+  tab <- table_content[[i]]
+  df <- data.frame(columns = colnames(tab), number_na = sapply(tab, function(var) { sum(is.na(var))}), n = nrow(tab), study = names(table_content)[i], stringsAsFactors = FALSE)
+  df$percent_na <- df$number_na / df$n * 100
+  df$number_obs <- df$n - df$number_na
+  df$percent_obs <- 100 - df$percent_na
+  rownames(df) <- NULL
+  return(df)
+}))
+
+dim(table_cols)
+summary(table_cols)
+
+sort(table(table_cols$columns), decreasing = TRUE)
+subset(table_cols, columns == 'RNA.Seq.26')
+
+table_content[['ERP010930']]
+table_files['ERP010930']
+
+table_content[['SRP055730']]
+
+boxplot(percent_na ~ columns, data = table_cols, las = 2)
+
+summary(subset(table_cols, columns == 'Age')$percent_na)
+```
+
+
+## Merging tables
+
+
+```{r}
+
+unique_cols <- unique(table_cols$columns)
+
+table_new <- lapply(table_content, function(tab) {
+  missing_cols <- unique_cols[!unique_cols %in% colnames(tab)]
+  if(length(missing_cols) > 0) {
+    df_add <- as.data.frame(matrix(NA, nrow = nrow(tab), ncol = length(missing_cols)))
+    colnames(df_add) <- missing_cols
+    df_new <- cbind(tab, df_add)
+    res <- df_new[, match(unique_cols, colnames(df_new))]
+  } else {
+    res <- tab
+  }
+  return(res)
+})
+
+recount_brain <- do.call(rbind, table_new)
+
+
+library(recount)
+m <- all_metadata('sra')
+
+map <- match(m$run, recount_brain$Run_s)
+table(!is.na(map))
+
+map_r <- match(recount_brain$Run_s, m$run)
+table(!is.na(map_r))
+
+recount_brain$present_in_recount <- !is.na(map_r)
+
+write.csv(recount_brain, file = 'recount_brain.csv', quote = TRUE, row.names = FALSE)
+
+
+table(recount_brain$Organism_s[ is.na(map_r) ])
+table(recount_brain$Organism_s[ is.na(map_r) ], recount_brain$Platform_s[ is.na(map_r) ])
+table(recount_brain$SRA_Study_s[ is.na(map_r) ], recount_brain$Platform_s[ is.na(map_r) ])
+
+table(recount_brain$Assay_Type)
+table(recount_brain$Assay_Type[ is.na(map_r) ])
+```
+
+
+## Reproducibility
+
+```{r}
+## Reproducibility info
+proc.time()
+message(Sys.time())
+options(width = 120)
+session_info()
+```
+
