@@ -1,0 +1,52 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA,Human Brain Reference RNA
+Sex,,,,,,,,,,,,,,,
+Age,,,,,,,,,,,,,,,
+Age Units,,,,,,,,,,,,,,,
+Development,,,,,,,,,,,,,,,
+Race,,,,,,,,,,,,,,,
+Sample Origin,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain
+source_name_s,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs,human brain reference RNA (HBRR) with ERCC control RNAs
+Cell Line,,,,,,,,,,,,,,,
+Tissue Site 1,,,,,,,,,,,,,,,
+tissue_type_s,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain
+Tissue Site 2,,,,,,,,,,,,,,,
+Tissue Site 3,,,,,,,,,,,,,,,
+Brodmann Area,,,,,,,,,,,,,,,
+Hemisphere,,,,,,,,,,,,,,,
+Disease Status,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control
+Disease,,,,,,,,,,,,,,,
+Tumor Type,,,,,,,,,,,,,,,
+Clinical Stage 1,,,,,,,,,,,,,,,
+Clinical Stage 2,,,,,,,,,,,,,,,
+Pathology,,,,,,,,,,,,,,,
+Viability,,,,,,,,,,,,,,,
+Preparation,,,,,,,,,,,,,,,
+PMI,,,,,,,,,,,,,,,
+PMI Units,,,,,,,,,,,,,,,
+RIN,,,,,,,,,,,,,,,
+Sequencing Kit,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+strain_s,,,,,,,,,,,,,,,
+cell_type_s,,,,,,,,,,,,,,,
+AvgSpotLen_l,151,151,151,151,151,151,151,151,151,151,151,151,151,151,151
+BioSample_s,SAMN03755285,SAMN03755286,SAMN03755287,SAMN03755289,SAMN03755290,SAMN03755291,SAMN03755292,SAMN03755293,SAMN03755294,SAMN03755296,SAMN03755297,SAMN03755298,SAMN03755299,SAMN03755300,SAMN03755295
+Experiment_s,SRX1045723,SRX1045724,SRX1045725,SRX1045726,SRX1045727,SRX1045728,SRX1045729,SRX1045730,SRX1045731,SRX1045732,SRX1045733,SRX1045734,SRX1045735,SRX1045736,SRX1045737
+LoadDate_s,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02,2015-06-02
+MBases_l,221,219,410,263,265,184,112,156,135,124,82,136,1116,1234,1141
+MBytes_l,129,127,240,154,155,107,66,92,80,73,49,81,570,628,595
+Run_s,SRR2047480,SRR2047481,SRR2047482,SRR2047483,SRR2047484,SRR2047485,SRR2047486,SRR2047487,SRR2047488,SRR2047489,SRR2047490,SRR2047491,SRR2047492,SRR2047493,SRR2047494
+SRA_Sample_s,SRS950934,SRS950933,SRS950920,SRS950931,SRS950932,SRS950930,SRS950929,SRS950928,SRS950927,SRS950926,SRS950925,SRS950924,SRS950923,SRS950921,SRS950922
+Sample_Name_s,GSM1701465,GSM1701466,GSM1701467,GSM1701468,GSM1701469,GSM1701470,GSM1701471,GSM1701472,GSM1701473,GSM1701474,GSM1701475,GSM1701476,GSM1701477,GSM1701478,GSM1701479
+BioProject_s,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148,PRJNA276148
+Center_Name_s,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO
+Consent_s,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public
+InsertSize_l,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Instrument_s,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq,Illumina MiSeq
+LibraryLayout_s,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE
+LibrarySelection_s,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+ReleaseDate_s,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13,2015-10-13
+SRA_Study_s,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447,SRP055447

@@ -1,0 +1,56 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS,WXS
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+Sex,male,male,male,male,female,female,female,female,female,female,male,male,male,male,male,male,male,male,male,male,male,male,male,male
+,,,,,,,,,,,,,,,,,,,,,,,,
+Age,47,53,63,66,42,42,42,42,47,47,47,47,47,47,53,53,63,63,63,63,63,63,66,66
+Age Units,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years
+Development,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult
+,,,,,,,,,,,,,,,,,,,,,,,,
+Race,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian,Asian
+Sample Origin,Brain,Brain,Brain,Brain,,,Brain,Brain,Brain,Brain,,,Brain,Brain,Brain,Brain,,,,,Brain,Brain,Brain,Brain
+tissue_s,brain tumor tissue,brain tumor tissue,brain tumor tissue,brain tumor tissue,blood,blood,brain tumor tissue,brain tumor tissue,brain tumor tissue,brain tumor tissue,blood,blood,brain tumor tissue,brain tumor tissue,brain tumor tissue,brain tumor tissue,blood,blood,blood,blood,brain tumor tissue,brain tumor tissue,brain tumor tissue,brain tumor tissue
+Cell Line,,,,,,,,,,,,,,,,,,,,,,,,
+Tissue Site 1,,,,,,,,,,,,,,,,,,,,,,,,
+Tissue Site 2,,,,,,,,,,,,,,,,,,,,,,,,
+Tissue Site 3,,,,,,,,,,,,,,,,,,,,,,,,
+Brodmann Area,,,,,,,,,,,,,,,,,,,,,,,,
+Hemisphere,,,,,,,,,,,,,,,,,,,,,,,,
+Disease Status,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease
+isolate_s,Tumor,case 2 malignant sample,case 3 benign sample,case 3 malignant sample,case 1 normal sample,case 1 normal sample,case 1 benign sample,case 1 benign sample,case 1 malignant sample,case 1 malignant sample,case 2 normal sample,case 2 normal sample,case 2 benign sample,case 2 benign sample,case 2 malignant sample,case 2 malignant sample,case 3 normal sample,case 3 normal sample,case 3 normal sample,case 3 normal sample,case 3 benign sample,case 3 benign sample,case 3 malignant sample,case 3 malignant sample
+Disease,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor,Tumor
+Tumor Type,oligodendroglioma,anaplastic oligodendroglioma,oligodendroglioma,anaplastic oligodendroglioma,normal,normal,astrocytoma,astrocytoma,glioblastoma,glioblastoma,normal,normal,oligodendroglioma,oligodendroglioma,anaplastic oligodendroglioma,anaplastic oligodendroglioma,normal,normal,normal,normal,oligodendroglioma,oligodendroglioma,anaplastic oligodendroglioma,anaplastic oligodendroglioma
+,,,,,,,,,,,,,,,,,,,,,,,,
+Clinical Stage 1,,,,,,,,,,,,,,,,,,,,,,,,
+Clinical Stage 2,,,,,,,,,,,,,,,,,,,,,,,,
+Pathology,,,,,,,,,,,,,,,,,,,,,,,,
+Viability,,,,,,,,,,,,,,,,,,,,,,,,
+Preparation,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen
+PMI,,,,,,,,,,,,,,,,,,,,,,,,
+PMI Units,,,,,,,,,,,,,,,,,,,,,,,,
+RIN,,,,,,,,,,,,,,,,,,,,,,,,
+Sequencing Kit,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,
+Sample_Name_s,case-2B,case-2M,case-3B,case-3M,case-1N,case-1N,case-1B,case-1B,case-1M,case-1M,case-2N,case-2N,case-2B,case-2B,case-2M,case-2M,case-3N,case-3N,case-3N,case-3N,case-3B,case-3B,case-3M,case-3M
+BioSampleModel_s,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human,Human
+AvgSpotLen_l,200,180,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200
+BioSample_s,SAMN03384129,SAMN03384138,SAMN03384140,SAMN03384141,SAMN03382545,SAMN03382545,SAMN03382546,SAMN03382546,SAMN03382547,SAMN03382547,SAMN03384128,SAMN03384128,SAMN03384129,SAMN03384129,SAMN03384138,SAMN03384138,SAMN03384139,SAMN03384139,SAMN03384139,SAMN03384139,SAMN03384140,SAMN03384140,SAMN03384141,SAMN03384141
+Experiment_s,SRX897032,SRX897035,SRX897038,SRX897040,SRX894593,SRX894593,SRX894622,SRX894622,SRX894623,SRX894623,SRX897015,SRX897015,SRX897016,SRX897016,SRX897019,SRX897019,SRX897022,SRX897022,SRX897022,SRX897022,SRX897025,SRX897025,SRX897027,SRX897027
+LibrarySelection_s,cDNA,cDNA,cDNA,cDNA,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection,Hybrid Selection
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC,GENOMIC
+LoadDate_s,2015-03-13,2015-03-13,2015-03-13,2015-03-14,2015-03-11,2015-03-11,2015-03-12,2015-03-11,2015-03-12,2015-03-12,2015-03-12,2015-03-12,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13,2015-03-13
+MBases_l,5614,5665,5550,5497,9845,9148,11618,11626,9278,9304,10517,10533,9716,9011,9418,8799,2112,2164,6802,6857,9026,8528,8911,8411
+MBytes_l,3764,4092,3661,3655,6839,6288,7903,7926,7219,7023,7168,7196,6730,6178,6513,6022,1160,1201,4470,4513,6288,5965,6244,5917
+Run_s,SRR1825690,SRR1825693,SRR1825695,SRR1825697,SRR1823052,SRR1823053,SRR1823085,SRR1825645,SRR1825651,SRR1825652,SRR1825664,SRR1825665,SRR1825667,SRR1825668,SRR1825670,SRR1825671,SRR1825674,SRR1825675,SRR1825677,SRR1825678,SRR1825680,SRR1825681,SRR1825683,SRR1825685
+SRA_Sample_s,SRS862547,SRS862549,SRS862556,SRS862557,SRS860443,SRS860443,SRS860471,SRS860471,SRS860472,SRS860472,SRS862546,SRS862546,SRS862547,SRS862547,SRS862549,SRS862549,SRS862553,SRS862553,SRS862553,SRS862553,SRS862556,SRS862556,SRS862557,SRS862557
+biomaterial_provider_s,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Chul-Kee Park,Chul-Kee Park,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital,Seoul National University Hospital
+BioProject_s,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922,PRJNA276922
+Center_Name_s,"SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE","SEOUL NATIONAL UNIVERSITY, COLLEGE OF MEDICINE"
+Consent_s,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public
+InsertSize_l,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Instrument_s,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000
+LibraryLayout_s,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+ReleaseDate_s,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26,2015-10-26
+SRA_Study_s,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730,SRP055730

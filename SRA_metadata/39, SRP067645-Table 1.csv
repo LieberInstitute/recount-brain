@@ -1,0 +1,48 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,,,,,,,,,,,,,,,,,,,,,
+Sex,,,,,,,,,,,,,,,,,,,,,
+Age,,,,,,,,,,,,,,,,,,,,,
+Age Units,,,,,,,,,,,,,,,,,,,,,
+Development,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult
+Race,,,,,,,,,,,,,,,,,,,,,
+Sample Origin,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord,Spinal cord
+Cell Line,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron,Motor neuron
+Tissue Site 1,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord,Lumbar spinal cord
+Tissue Site 2,,,,,,,,,,,,,,,,,,,,,
+Tissue Site 3,,,,,,,,,,,,,,,,,,,,,
+Brodmann Area,,,,,,,,,,,,,,,,,,,,,
+Hemisphere,,,,,,,,,,,,,,,,,,,,,
+Disease Status,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control
+Disease,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,,,,,,,,,,,,,
+Tumor Type,,,,,,,,,,,,,,,,,,,,,
+Clinical Stage 1,Sporadic amyotrophic lateral sclerosis,Sporadic amyotrophic lateral sclerosis,Sporadic amyotrophic lateral sclerosis,Sporadic amyotrophic lateral sclerosis,Sporadic amyotrophic lateral sclerosis,Sporadic amyotrophic lateral sclerosis,Sporadic amyotrophic lateral sclerosis,Sporadic amyotrophic lateral sclerosis,,,,,,,,,,,,,
+Clinical Stage 2,,,,,,,,,,,,,,,,,,,,,
+Pathology,,,,,,,,,,,,,,,,,,,,,
+Viability,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem
+Preparation,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen,Frozen
+PMI,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+PMI Units,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours,Hours
+RIN,,,,,,,,,,,,,,,,,,,,,
+Sequencing Kit,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+BioSample_s,SAMN04359416,SAMN04359417,SAMN04359418,SAMN04359419,SAMN04359420,SAMN04359421,SAMN04359422,SAMN04359423,SAMN04359424,SAMN04359425,SAMN04359426,SAMN04359427,SAMN04359428,SAMN04359429,SAMN04359430,SAMN04359431,SAMN04359432,SAMN04359433,SAMN04359434,SAMN04359435,SAMN04359436
+Experiment_s,SRX1494374,SRX1494375,SRX1494376,SRX1494377,SRX1494378,SRX1494379,SRX1494380,SRX1494381,SRX1494382,SRX1494383,SRX1494384,SRX1494385,SRX1494386,SRX1494387,SRX1494388,SRX1494389,SRX1494390,SRX1494391,SRX1494392,SRX1494393,SRX1494394
+MBases_l,1006,1441,1066,1687,1702,1720,1459,1066,1454,1523,1413,540,948,1657,1572,1721,1648,1473,1251,554,1559
+MBytes_l,511,766,531,1019,1028,1082,861,531,777,828,751,241,471,987,930,1043,981,884,722,299,946
+Run_s,SRR3038253,SRR3038254,SRR3038255,SRR3038256,SRR3038257,SRR3038258,SRR3038259,SRR3038260,SRR3038261,SRR3038262,SRR3038263,SRR3038264,SRR3038265,SRR3038266,SRR3038267,SRR3038268,SRR3038269,SRR3038270,SRR3038271,SRR3038272,SRR3038273
+SRA_Sample_s,SRS1217219,SRS1217218,SRS1217217,SRS1217216,SRS1217215,SRS1217214,SRS1217213,SRS1217212,SRS1217211,SRS1217210,SRS1217209,SRS1217208,SRS1217207,SRS1217206,SRS1217205,SRS1217204,SRS1217203,SRS1217202,SRS1217201,SRS1217200,SRS1217199
+Sample_Name_s,GSM1977027,GSM1977028,GSM1977029,GSM1977030,GSM1977031,GSM1977032,GSM1977033,GSM1977034,GSM1977035,GSM1977036,GSM1977037,GSM1977038,GSM1977039,GSM1977040,GSM1977041,GSM1977042,GSM1977043,GSM1977044,GSM1977045,GSM1977046,GSM1977047
+AvgSpotLen_l,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50
+BioProject_s,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659,PRJNA306659
+Center_Name_s,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO
+Consent_s,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public
+InsertSize_l,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Instrument_s,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II,Illumina Genome Analyzer II
+LibraryLayout_s,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE
+LibrarySelection_s,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+LoadDate_s,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21,2015-12-21
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+ReleaseDate_s,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01,2016-02-01
+SRA_Study_s,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645,SRP067645

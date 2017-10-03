@@ -1,0 +1,53 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,Biochain,Biochain,Biochain,Biochain,Biochain,Biochain,Biochain,Biochain
+Sex,Male,Male,Male,Male,Male,Male,Male,Male
+Age,23,27,27,29,23,27,27,29
+Age Units,Years,Years,Years,Years,Years,Years,Years,Years
+Development,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult
+Race,,,,,,,,
+Sample Origin,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain
+Cell Line,,,,,,,,
+Tissue Site 1,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebellum,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebellum
+Tissue Site 2,Temporal lobe,Occipital lobe,Frontal lobe,,Temporal lobe,Occipital lobe,Frontal lobe,
+Tissue Site 3,,,,,,,,
+Brodmann Area,,,,,,,,
+Hemisphere,,,,,,,,
+Disease Status,,,,,,,,
+Disease,,,,,,,,
+Tumor Type,,,,,,,,
+Clinical Stage 1,,,,,,,,
+Clinical Stage 2,,,,,,,,
+Pathology,,,,,,,,
+Viability,,,,,,,,
+Preparation,,,,,,,,
+PMI,,,,,,,,
+PMI Units,,,,,,,,
+RIN,,,,,,,,
+Sequencing Kit,,,,,,,,
+LibraryLayout_s,SINGLE,SINGLE,SINGLE,SINGLE,PAIRED,PAIRED,PAIRED,PAIRED
+LibraryPreparation_s,CAGE,CAGE,CAGE,CAGE,PolyA,PolyA,PolyA,PolyA
+Instrument_s,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+LibrarySelection_s,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA
+,,,,,,,,
+BioSampleModel_s,Human,Human,Human,Human,Human,Human,Human,Human
+isolate_s,"R1234078-50, lot B411020","R1234062-50, lot A505663","R1234051-50, lot A803160","R1234040-10, lot B402229","R1234078-50, lot B411020","R1234062-50, lot A505663","R1234051-50, lot A803160","R1234040-10, lot B402229"
+AvgSpotLen_l,30,31,30,30,95,95,95,95
+BioSample_s,SAMN03288812,SAMN03288811,SAMN03288810,SAMN03288809,SAMN03288808,SAMN03288807,SAMN03288806,SAMN03288805
+Experiment_s,SRX1060402,SRX1064158,SRX1064198,SRX1064199,SRX1064200,SRX1064209,SRX1065912,SRX1065933
+InsertSize_l,0,0,0,0,50,50,50,50
+Library_Name_s,CAGE_Temporal,CAGE_Occipital,CAGE_Frontal,CAGE_Cerebellum,RNAseq_Temporal,RNAseq_Occipital,RNAseq_Frontal,RNAseq_Cerebellum
+LoadDate_s,2015-12-06,2015-12-06,2015-12-06,2015-12-06,2015-06-18,2015-06-18,2015-06-19,2015-06-19
+MBases_l,318,1715,683,758,4656,4157,3872,4000
+MBytes_l,154,805,322,353,1956,1741,1606,1663
+ReleaseDate_s,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-07,2015-07-07,2015-07-07,2015-07-07
+Run_s,SRR2064837,SRR2068781,SRR2068818,SRR2068819,SRR2068820,SRR2068830,SRR2070628,SRR2070736
+SRA_Sample_s,SRS962749,SRS964273,SRS964312,SRS964313,SRS964314,SRS964324,SRS965761,SRS965781
+AssemblyName_s,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37
+BioProject_s,PRJNA273171,PRJNA273171,PRJNA273171,PRJNA273171,PRJNA273171,PRJNA273171,PRJNA273171,PRJNA273171
+Center_Name_s,UNSW,UNSW,UNSW,UNSW,UNSW,UNSW,UNSW,UNSW
+Consent_s,public,public,public,public,public,public,public,public
+SRA_Study_s,SRP059579,SRP059579,SRP059579,SRP059579,SRP059579,SRP059579,SRP059579,SRP059579
+biomaterial_provider_s,Biochain,Biochain,Biochain,Biochain,Biochain,Biochain,Biochain,Biochain

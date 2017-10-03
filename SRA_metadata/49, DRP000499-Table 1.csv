@@ -1,0 +1,51 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,,,,,,,,,,,,,,,,,,,,,
+Sex,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male,Male
+Age,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
+Age Units,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years
+Development,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult
+Race,,,,,,,,,,,,,,,,,,,,,
+Sample Origin,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain
+Library_Name_s,"Human ICESeq(-), template 1","Human ICESeq(+), template 1","Human ICESeq(++), template 2","Human ICESeq(++), template 1","Human ICESeq(+), template 2","Human ICESeq(-), template 2","Human ICESeq(++), template 3","Human ICESeq(+), template 3","Human ICESeq(-), template 3","Human ICESeq(-), template 3","Human ICESeq(-), template 3","Human ICESeq(+), template 3","Human ICESeq(+), template 3","Human ICESeq(++), template 3","Human ICESeq(++), template 3","Human ICESeq(++), template 3","Human ICESeq(++), template 3","Human ICESeq(-), template 3","Human ICESeq(++), template 3","Human ICESeq(+), template 3","Human ICESeq(+), template 3"
+Cell Line,,,,,,,,,,,,,,,,,,,,,
+sample_comment_s,"Total RNAs of a human adult brain (Male, Age 30) CE-","Total RNAs of a human adult brain (Male, Age 30) CE+","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE+","Total RNAs of a human adult brain (Male, Age 30) CE-","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE+","Total RNAs of a human adult brain (Male, Age 30) CE-","Total RNAs of a human adult brain (Male, Age 30) CE-","Total RNAs of a human adult brain (Male, Age 30) CE-","Total RNAs of a human adult brain (Male, Age 30) CE+","Total RNAs of a human adult brain (Male, Age 30) CE+","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE-","Total RNAs of a human adult brain (Male, Age 30) CE++","Total RNAs of a human adult brain (Male, Age 30) CE+","Total RNAs of a human adult brain (Male, Age 30) CE+"
+Tissue Site 1,,,,,,,,,,,,,,,,,,,,,
+Tissue Site 2,,,,,,,,,,,,,,,,,,,,,
+Tissue Site 3,,,,,,,,,,,,,,,,,,,,,
+Brodmann Area,,,,,,,,,,,,,,,,,,,,,
+Hemisphere,,,,,,,,,,,,,,,,,,,,,
+Disease Status,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control,Control
+Disease,,,,,,,,,,,,,,,,,,,,,
+Tumor Type,,,,,,,,,,,,,,,,,,,,,
+Clinical Stage 1,,,,,,,,,,,,,,,,,,,,,
+Clinical Stage 2,,,,,,,,,,,,,,,,,,,,,
+Pathology,,,,,,,,,,,,,,,,,,,,,
+Viability,,,,,,,,,,,,,,,,,,,,,
+Preparation,,,,,,,,,,,,,,,,,,,,,
+PMI,,,,,,,,,,,,,,,,,,,,,
+PMI Units,,,,,,,,,,,,,,,,,,,,,
+RIN,,,,,,,,,,,,,,,,,,,,,
+Sequencing Kit,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+BioSample_s,SAMD00015766,SAMD00015767,SAMD00015768,SAMD00015768,SAMD00015767,SAMD00015766,SAMD00015768,SAMD00015767,SAMD00015766,SAMD00015766,SAMD00015766,SAMD00015767,SAMD00015767,SAMD00015768,SAMD00015768,SAMD00015768,SAMD00015768,SAMD00015766,SAMD00015768,SAMD00015767,SAMD00015767
+Experiment_s,DRX001120,DRX001121,DRX001125,DRX001122,DRX001124,DRX001123,DRX001128,DRX001127,DRX001126,DRX001126,DRX001126,DRX001127,DRX001127,DRX001128,DRX001128,DRX001128,DRX001128,DRX001126,DRX001128,DRX001127,DRX001127
+MBases_l,2096,1392,1904,2130,1302,88,6244,9333,13535,7402,7183,7325,11485,8465,10250,6116,8615,8827,5617,6285,7309
+MBytes_l,1415,918,1273,1415,857,17,4100,5487,8558,4843,4709,4706,7462,5515,6630,3795,5493,5944,3624,4054,4829
+ReleaseDate_s,2012-06-03,2012-06-03,2012-06-03,2012-06-03,2012-06-03,2012-06-04,2012-06-04,2012-06-03,2012-06-03,2012-06-03,2012-06-04,2012-06-04,2012-06-04,2012-06-03,2012-06-04,2012-06-04,2012-06-05,2012-06-04,2012-06-04,2012-06-05,2012-06-04
+SRA_Sample_s,DRS001140,DRS001141,DRS001142,DRS001142,DRS001141,DRS001140,DRS001142,DRS001141,DRS001140,DRS001140,DRS001140,DRS001141,DRS001141,DRS001142,DRS001142,DRS001142,DRS001142,DRS001140,DRS001142,DRS001141,DRS001141
+Run_s,DRR001622,DRR001623,DRR001627,DRR001624,DRR001626,DRR001625,DRR001633,DRR001629,DRR001628,DRR001631,DRR001634,DRR001635,DRR001632,DRR001630,DRR001636,DRR001640,DRR001639,DRR001637,DRR001641,DRR001642,DRR001638
+Sample_Name_s,SAMD00015766,SAMD00015767,SAMD00015768,SAMD00015768,SAMD00015767,SAMD00015766,SAMD00015768,SAMD00015767,SAMD00015766,SAMD00015766,SAMD00015766,SAMD00015767,SAMD00015767,SAMD00015768,SAMD00015768,SAMD00015768,SAMD00015768,SAMD00015766,SAMD00015768,SAMD00015767,SAMD00015767
+sample_name_s,DRS001140,DRS001141,DRS001142,DRS001142,DRS001141,DRS001140,DRS001142,DRS001141,DRS001140,DRS001140,DRS001140,DRS001141,DRS001141,DRS001142,DRS001142,DRS001142,DRS001142,DRS001140,DRS001142,DRS001141,DRS001141
+AvgSpotLen_l,152,152,152,152,152,152,152,152,152,152,152,152,152,152,152,152,152,152,152,152,152
+BioProject_s,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549,PRJDA74549
+Center_Name_s,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG,NIG
+Consent_s,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public
+InsertSize_l,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Instrument_s,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx,Illumina Genome Analyzer IIx
+LibraryLayout_s,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED
+LibrarySelection_s,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+LoadDate_s,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31,2014-05-31
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+SRA_Study_s,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499,DRP000499

@@ -1,0 +1,48 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,University of Kentucky,University of Kentucky,University of Kentucky,University of Kentucky,University of Kentucky,University of Kentucky
+Sex,,,,,,,,,,,,,,,
+Age,,,,,,,,,,,,,,,
+Age Units,,,,,,,,,,,,,,,
+Development,,,,,,,,,,,,,,,
+Race,,,,,,,,,,,,,,,
+Sample Origin,,,,,,,,,,,,,,,
+Cell Line,,,,,,,,,,,,,,,
+Tissue Site 1,,,,,,,,,,,,,,,
+Tissue Site 2,,,,,,,,,,,,,,,
+Tissue Site 3,,,,,,,,,,,,,,,
+Brodmann Area,,,,,,,,,,,,,,,
+Hemisphere,,,,,,,,,,,,,,,
+Disease Status,Disease,Disease,Disease,Disease,Disease,Control,Control,Control,Control,Disease,Disease,Disease,Control,Control,Control
+,,,,,,,,,,,,,,,
+Disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,,,,,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,,,
+Tumor Type,,,,,,,,,,,,,,,
+Clinical Stage 1,,,,,,,,,,,,,,,
+Clinical Stage 2,,,,,,,,,,,,,,,
+Pathology,,,,,,,,,,,,,,,
+Viability,,,,,,,,,,,,,,,
+Preparation,,,,,,,,,,,,,,,
+PMI,,,,,,,,,,,,,,,
+PMI Units,,,,,,,,,,,,,,,
+RIN,,,,,,,,,,,,,,,
+Sequencing Kit,,,,,,,,,,,,,,,
+Sample_Name_s,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY)
+AvgSpotLen_l,180,180,180,180,180,180,180,180,180,202,202,202,202,202,202
+BioSample_s,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01797226,SAMN01797226,SAMN01797226,SAMN01797226,SAMN01797226,SAMN01797226
+Experiment_s,SRX201641,SRX201685,SRX201686,SRX201687,SRX201688,SRX201690,SRX201691,SRX201692,SRX201693,SRX201696,SRX201697,SRX201698,SRX201699,SRX201700,SRX201701
+InsertSize_l,200,0,0,200,200,200,200,200,200,200,200,200,200,200,200
+LoadDate_s,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2012-11-02,2012-11-02,2012-11-02,2012-11-02,2012-11-02,2012-11-02
+MBases_l,3766,3088,4080,4428,3666,2898,3828,3171,3165,8577,10393,9700,7768,7513,8181
+MBytes_l,2205,1807,2403,2667,2200,1762,2310,1945,1892,6455,7783,7319,5876,5661,6123
+ReleaseDate_s,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2013-08-27,2013-08-27,2013-08-27,2013-08-27,2013-08-27,2013-08-27
+Run_s,SRR609422,SRR609423,SRR609424,SRR609425,SRR609426,SRR609427,SRR609428,SRR609429,SRR609430,SRR611065,SRR611066,SRR611067,SRR611068,SRR611069,SRR611070
+SRA_Sample_s,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373308,SRS373308,SRS373308,SRS373308,SRS373308,SRS373308
+BioProject_s,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312
+Center_Name_s,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE
+Consent_s,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public
+Instrument_s,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000
+LibraryLayout_s,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED
+LibrarySelection_s,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+SRA_Study_s,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863

@@ -1,0 +1,52 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,,,,,,,,,,,,,,,,
+Sex,,,,,,,,,,,,,,,,
+Age,,,,,,,,,,,,,,,,
+Age Units,,,,,,,,,,,,,,,,
+Development,,,,,,,,,,,,,,,,
+Race,,,,,,,,,,,,,,,,
+Sample Origin,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs,iPSCs
+cell_type_s,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture
+Cell Line,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons,iPSC-derived motor neurons
+source_name_s,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture,iPSC derived motor neuron culture
+Tissue Site 1,,,,,,,,,,,,,,,,
+Tissue Site 2,,,,,,,,,,,,,,,,
+Tissue Site 3,,,,,,,,,,,,,,,,
+Brodmann Area,,,,,,,,,,,,,,,,
+Hemisphere,,,,,,,,,,,,,,,,
+Disease Status,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Control,Control,Control,Control,Control,Control,Control,Control
+disease_state_s,Normal control,Normal control,Normal control,Normal control,Normal control,Normal control,Normal control,Normal control,ALS,ALS,ALS,ALS,ALS,ALS,ALS,ALS
+Disease,,,,,,,,,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis,Amyotrophic lateral sclerosis
+Tumor Type,,,,,,,,,,,,,,,,
+Clinical Stage 1,,,,,,,,,Familial,Familial,Familial,Familial,Familial,Familial,Familial,Familial
+Clinical Stage 2,,,,,,,,,,,,,,,,
+Pathology,,,,,,,,,,,,,,,,
+Viability,,,,,,,,,,,,,,,,
+Preparation,,,,,,,,,,,,,,,,
+PMI,,,,,,,,,,,,,,,,
+PMI Units,,,,,,,,,,,,,,,,
+RIN,,,,,,,,,,,,,,,,
+Sequencing Kit,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+barcode_s,TGAGGTT,TGAGGTT,AGACTGA,AGACTGA,GCTTAGA,GCTTAGA,ATGACAG,ATGACAG,CACCTCC,CACCTCC,ATCGAGC,ATCGAGC,CTTGGAA,CTTGGAA,TACTCTA,TACTCTA
+BioSample_s,SAMN02400346,SAMN02400346,SAMN02400349,SAMN02400349,SAMN02400353,SAMN02400353,SAMN02400347,SAMN02400347,SAMN02400350,SAMN02400350,SAMN02400352,SAMN02400352,SAMN02400351,SAMN02400351,SAMN02400348,SAMN02400348
+Experiment_s,SRX375129,SRX375129,SRX375130,SRX375130,SRX375131,SRX375131,SRX375132,SRX375132,SRX375133,SRX375133,SRX375134,SRX375134,SRX375135,SRX375135,SRX375136,SRX375136
+MBases_l,833,833,868,868,724,724,771,770,598,597,679,678,994,991,876,874
+MBytes_l,580,582,605,607,506,507,539,540,418,419,474,475,692,693,609,610
+Run_s,SRR1027591,SRR1027592,SRR1027593,SRR1027594,SRR1027595,SRR1027596,SRR1027597,SRR1027598,SRR1027599,SRR1027600,SRR1027601,SRR1027602,SRR1027603,SRR1027604,SRR1027605,SRR1027606
+SRA_Sample_s,SRS500408,SRS500408,SRS500407,SRS500407,SRS500409,SRS500409,SRS500410,SRS500410,SRS500411,SRS500411,SRS500412,SRS500412,SRS500413,SRS500413,SRS500414,SRS500414
+Sample_Name_s,GSM1261105,GSM1261105,GSM1261106,GSM1261106,GSM1261107,GSM1261107,GSM1261108,GSM1261108,GSM1261109,GSM1261109,GSM1261110,GSM1261110,GSM1261111,GSM1261111,GSM1261112,GSM1261112
+AvgSpotLen_l,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50
+BioProject_s,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155,PRJNA227155
+Center_Name_s,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO
+Consent_s,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public
+InsertSize_l,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Instrument_s,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000
+LibraryLayout_s,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE
+LibrarySelection_s,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA,cDNA
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+LoadDate_s,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07,2013-11-07
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+ReleaseDate_s,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14,2013-11-14
+SRA_Study_s,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798,SRP032798

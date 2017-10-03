@@ -1,0 +1,54 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+molecule_subtype_s,microRNA,microRNA,microRNA,microRNA,microRNA,microRNA,microRNA,microRNA,microRNA,microRNA,microRNA,microRNA
+Brain Bank,,,,,,,,,,,,
+,,,,,,,,,,,,
+Sex,Male,Male,Female,Female,Male,Female,Male,Female,Male,Female,Female,Female
+,,,,,,,,,,,,
+Age,80,78,52,74,83,78,79,80,67,67,68,72
+Age Units,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years,Years
+Development,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult,Adult
+Race,,,,,,,,,,,,
+Sample Origin,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain,Brain
+tissue_s,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain,brain
+Cell Line,,,,,,,,,,,,
+Tissue Site 1,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex,Cerebral cortex
+source_name_s,early stage_prefrontal cortex,early stage_prefrontal cortex,early stage_prefrontal cortex,early stage_prefrontal cortex,early stage_prefrontal cortex,early stage_prefrontal cortex,late stage_prefrontal cortex,late stage_prefrontal cortex,late stage_prefrontal cortex,late stage_prefrontal cortex,late stage_prefrontal cortex,late stage_prefrontal cortex
+Tissue Site 2,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe,Frontal lobe
+region_s,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex,prefrontal cortex
+Tissue Site 3,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex,Prefrontal cortex
+Brodmann Area,,,,,,,,,,,,
+Hemisphere,,,,,,,,,,,,
+Disease Status,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease,Disease
+Disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease
+Tumor Type,,,,,,,,,,,,
+Clinical Stage 1,,,,,,,,,,,,
+Clinical Stage 2,,,,,,,,,,,,
+Pathology,,,,,,,,,,,,
+Viability,,,,,,,,,,,,
+Preparation,,,,,,,,,,,,
+PMI,,,,,,,,,,,,
+PMI Units,,,,,,,,,,,,
+RIN,,,,,,,,,,,,
+Sequencing Kit,,,,,,,,,,,,
+,,,,,,,,,,,,
+BioSample_s,SAMN02226046,SAMN02226047,SAMN02226048,SAMN02226049,SAMN02226050,SAMN02226051,SAMN02226052,SAMN02226057,SAMN02226053,SAMN02226054,SAMN02226055,SAMN02226056
+Experiment_s,SRX318167,SRX318168,SRX318169,SRX318170,SRX318171,SRX318172,SRX318173,SRX318174,SRX318175,SRX318176,SRX318177,SRX318178
+MBases_l,574,206,359,285,243,233,778,591,493,827,547,555
+MBytes_l,439,157,275,220,187,180,593,451,378,628,415,424
+Run_s,SRR1103937,SRR1103938,SRR1103939,SRR1103940,SRR1103941,SRR1103942,SRR1103943,SRR1103944,SRR1103945,SRR1103946,SRR1103947,SRR1103948
+SRA_Sample_s,SRS455103,SRS455104,SRS455105,SRS455106,SRS455107,SRS455108,SRS455109,SRS455110,SRS455111,SRS455112,SRS455113,SRS455114
+Sample_Name_s,GSM1180717,GSM1180718,GSM1180719,GSM1180720,GSM1180721,GSM1180722,GSM1180723,GSM1180724,GSM1180725,GSM1180726,GSM1180727,GSM1180728
+AvgSpotLen_l,36,36,36,36,36,36,36,36,36,36,36,36
+BioProject_s,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613,PRJNA210613
+Center_Name_s,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO,GEO
+Consent_s,public,public,public,public,public,public,public,public,public,public,public,public
+InsertSize_l,0,0,0,0,0,0,0,0,0,0,0,0
+Instrument_s,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000
+LibraryLayout_s,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE,SINGLE
+LibrarySelection_s,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation,size fractionation
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+LoadDate_s,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+ReleaseDate_s,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07,2014-01-07
+SRA_Study_s,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562,SRP026562

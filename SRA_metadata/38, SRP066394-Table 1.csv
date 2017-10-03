@@ -1,0 +1,52 @@
+Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
+Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
+Brain Bank,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health
+Sex,Female,Female,Female,Female,Female,Female
+Age,18,21,19,17,20,18
+Age Units,Years,Years,Years,Years,Years,Years
+Development,Adult,Adult,Adult,Adult,Adult,Adult
+Race,White,White,White,White,White,White
+Sample Origin,Brain,Brain,Brain,Brain,Brain,Brain
+Cell Line,,,,,,
+Tissue Site 1,,,,,,
+Tissue Site 2,,,,,,
+Tissue Site 3,,,,,,
+Brodmann Area,,,,,,
+Hemisphere,,,,,,
+Disease Status,Disease,Disease,Disease,Control,Control,Control
+Disease,Rett syndrome,Rett syndrome,Rett syndrome,,,
+Tumor Type,,,,,,
+Clinical Stage 1,,,,,,
+Clinical Stage 2,,,,,,
+Pathology,,,,,,
+Viability,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem
+Preparation,,,,,,
+PMI,,,,,,
+PMI Units,,,,,,
+RIN,,,,,,
+Sequencing Kit,,,,,,
+,,,,,,
+BioSampleModel_s,Human,Human,Human,Human,Human,Human
+AvgSpotLen_l,188,185,186,184,189,185
+BioSample_s,SAMN04277410,SAMN04277411,SAMN04277412,SAMN04277413,SAMN04277414,SAMN04277415
+Experiment_s,SRX1438200,SRX1438213,SRX1438215,SRX1438216,SRX1438218,SRX1438220
+LibrarySelection_s,DNase,other,other,other,other,other
+Library_Name_s,R1815,R4516,R4852,C1078,C1541,C1571
+MBases_l,5725,4425,4507,4848,5410,4613
+MBytes_l,2347,1777,1808,1954,2177,1866
+Run_s,SRR2924888,SRR2924894,SRR2924896,SRR2924897,SRR2924900,SRR2924901
+SRA_Sample_s,SRS1168871,SRS1168882,SRS1168884,SRS1168885,SRS1168886,SRS1168888
+Sample_Name_s,R1815,R4516,R4852,C1078,C1541,C1571
+AssemblyName_s,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37
+BioProject_s,PRJNA302685,PRJNA302685,PRJNA302685,PRJNA302685,PRJNA302685,PRJNA302685
+Center_Name_s,UNSW,UNSW,UNSW,UNSW,UNSW,UNSW
+Consent_s,public,public,public,public,public,public
+InsertSize_l,100,100,100,100,100,100
+Instrument_s,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500
+LibraryLayout_s,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED
+LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
+LoadDate_s,2015-11-19,2015-11-19,2015-11-19,2015-11-19,2015-11-19,2015-11-19
+Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
+ReleaseDate_s,2015-11-20,2015-11-20,2015-11-20,2015-11-20,2015-11-20,2015-11-20
+SRA_Study_s,SRP066394,SRP066394,SRP066394,SRP066394,SRP066394,SRP066394
+biomaterial_provider_s,NICHD,NICHD,NICHD,NICHD,NICHD,NICHD
