@@ -1,48 +1,16 @@
-Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
-Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
-Brain Bank,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,Emory University,University of Kentucky,University of Kentucky,University of Kentucky,University of Kentucky,University of Kentucky,University of Kentucky
-Sex,,,,,,,,,,,,,,,
-Age,,,,,,,,,,,,,,,
-Age Units,,,,,,,,,,,,,,,
-Development,,,,,,,,,,,,,,,
-Race,,,,,,,,,,,,,,,
-Sample Origin,,,,,,,,,,,,,,,
-Cell Line,,,,,,,,,,,,,,,
-Tissue Site 1,,,,,,,,,,,,,,,
-Tissue Site 2,,,,,,,,,,,,,,,
-Tissue Site 3,,,,,,,,,,,,,,,
-Brodmann Area,,,,,,,,,,,,,,,
-Hemisphere,,,,,,,,,,,,,,,
-Disease Status,Disease,Disease,Disease,Disease,Disease,Control,Control,Control,Control,Disease,Disease,Disease,Control,Control,Control
-,,,,,,,,,,,,,,,
-Disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,,,,,Alzheimer’s disease,Alzheimer’s disease,Alzheimer’s disease,,,
-Tumor Type,,,,,,,,,,,,,,,
-Clinical Stage 1,,,,,,,,,,,,,,,
-Clinical Stage 2,,,,,,,,,,,,,,,
-Pathology,,,,,,,,,,,,,,,
-Viability,,,,,,,,,,,,,,,
-Preparation,,,,,,,,,,,,,,,
-PMI,,,,,,,,,,,,,,,
-PMI Units,,,,,,,,,,,,,,,
-RIN,,,,,,,,,,,,,,,
-Sequencing Kit,,,,,,,,,,,,,,,
-Sample_Name_s,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,human RNAseq AD,Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY),Human AD RNAseq (UKY)
-AvgSpotLen_l,180,180,180,180,180,180,180,180,180,202,202,202,202,202,202
-BioSample_s,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01796023,SAMN01797226,SAMN01797226,SAMN01797226,SAMN01797226,SAMN01797226,SAMN01797226
-Experiment_s,SRX201641,SRX201685,SRX201686,SRX201687,SRX201688,SRX201690,SRX201691,SRX201692,SRX201693,SRX201696,SRX201697,SRX201698,SRX201699,SRX201700,SRX201701
-InsertSize_l,200,0,0,200,200,200,200,200,200,200,200,200,200,200,200
-LoadDate_s,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2015-09-25,2012-11-02,2012-11-02,2012-11-02,2012-11-02,2012-11-02,2012-11-02
-MBases_l,3766,3088,4080,4428,3666,2898,3828,3171,3165,8577,10393,9700,7768,7513,8181
-MBytes_l,2205,1807,2403,2667,2200,1762,2310,1945,1892,6455,7783,7319,5876,5661,6123
-ReleaseDate_s,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2015-07-22,2013-08-27,2013-08-27,2013-08-27,2013-08-27,2013-08-27,2013-08-27
-Run_s,SRR609422,SRR609423,SRR609424,SRR609425,SRR609426,SRR609427,SRR609428,SRR609429,SRR609430,SRR611065,SRR611066,SRR611067,SRR611068,SRR611069,SRR611070
-SRA_Sample_s,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373257,SRS373308,SRS373308,SRS373308,SRS373308,SRS373308,SRS373308
-BioProject_s,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312,PRJNA280312
-Center_Name_s,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE,STJUDE
-Consent_s,public,public,public,public,public,public,public,public,public,public,public,public,public,public,public
-Instrument_s,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000,Illumina HiSeq 2000
-LibraryLayout_s,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED
-LibrarySelection_s,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR,PCR
-LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
-Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
-SRA_Study_s,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863,SRP056863
+Assay_Type_s,Organism_s,Brain Bank,Sex,Age,Age Units,Development,Race,Sample Origin,Cell Line,Tissue Site 1,Tissue Site 2,Tissue Site 3,Brodmann Area,Hemisphere,Disease Status,,Disease,Tumor Type,Clinical Stage 1,Clinical Stage 2,Pathology,Viability,Preparation,PMI,PMI Units,RIN,Sequencing Kit,Sample_Name_s,AvgSpotLen_l,BioSample_s,Experiment_s,InsertSize_l,LoadDate_s,MBases_l,MBytes_l,ReleaseDate_s,Run_s,SRA_Sample_s,BioProject_s,Center_Name_s,Consent_s,Instrument_s,LibraryLayout_s,LibrarySelection_s,LibrarySource_s,Platform_s,SRA_Study_s
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201641,200,2015-09-25,3766,2205,2015-07-22,SRR609422,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201685,0,2015-09-25,3088,1807,2015-07-22,SRR609423,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201686,0,2015-09-25,4080,2403,2015-07-22,SRR609424,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201687,200,2015-09-25,4428,2667,2015-07-22,SRR609425,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201688,200,2015-09-25,3666,2200,2015-07-22,SRR609426,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Control,,,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201690,200,2015-09-25,2898,1762,2015-07-22,SRR609427,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Control,,,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201691,200,2015-09-25,3828,2310,2015-07-22,SRR609428,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Control,,,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201692,200,2015-09-25,3171,1945,2015-07-22,SRR609429,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,Emory University,,,,,,,,,,,,,Control,,,,,,,,,,,,,human RNAseq AD,180,SAMN01796023,SRX201693,200,2015-09-25,3165,1892,2015-07-22,SRR609430,SRS373257,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,University of Kentucky,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,Human AD RNAseq (UKY),202,SAMN01797226,SRX201696,200,2012-11-02,8577,6455,2013-08-27,SRR611065,SRS373308,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,University of Kentucky,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,Human AD RNAseq (UKY),202,SAMN01797226,SRX201697,200,2012-11-02,10393,7783,2013-08-27,SRR611066,SRS373308,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,University of Kentucky,,,,,,,,,,,,,Disease,,Alzheimer’s disease,,,,,,,,,,,Human AD RNAseq (UKY),202,SAMN01797226,SRX201698,200,2012-11-02,9700,7319,2013-08-27,SRR611067,SRS373308,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,University of Kentucky,,,,,,,,,,,,,Control,,,,,,,,,,,,,Human AD RNAseq (UKY),202,SAMN01797226,SRX201699,200,2012-11-02,7768,5876,2013-08-27,SRR611068,SRS373308,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,University of Kentucky,,,,,,,,,,,,,Control,,,,,,,,,,,,,Human AD RNAseq (UKY),202,SAMN01797226,SRX201700,200,2012-11-02,7513,5661,2013-08-27,SRR611069,SRS373308,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863
+RNA-Seq,Homo sapiens,University of Kentucky,,,,,,,,,,,,,Control,,,,,,,,,,,,,Human AD RNAseq (UKY),202,SAMN01797226,SRX201701,200,2012-11-02,8181,6123,2013-08-27,SRR611070,SRS373308,PRJNA280312,STJUDE,public,Illumina HiSeq 2000,PAIRED,PCR,TRANSCRIPTOMIC,ILLUMINA,SRP056863

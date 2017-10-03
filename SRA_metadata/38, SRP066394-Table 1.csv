@@ -1,52 +1,7 @@
-Assay_Type_s,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq,RNA-Seq
-Organism_s,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens,Homo sapiens
-Brain Bank,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health,Eunice Kennedy Shriver National Institute of Child Health
-Sex,Female,Female,Female,Female,Female,Female
-Age,18,21,19,17,20,18
-Age Units,Years,Years,Years,Years,Years,Years
-Development,Adult,Adult,Adult,Adult,Adult,Adult
-Race,White,White,White,White,White,White
-Sample Origin,Brain,Brain,Brain,Brain,Brain,Brain
-Cell Line,,,,,,
-Tissue Site 1,,,,,,
-Tissue Site 2,,,,,,
-Tissue Site 3,,,,,,
-Brodmann Area,,,,,,
-Hemisphere,,,,,,
-Disease Status,Disease,Disease,Disease,Control,Control,Control
-Disease,Rett syndrome,Rett syndrome,Rett syndrome,,,
-Tumor Type,,,,,,
-Clinical Stage 1,,,,,,
-Clinical Stage 2,,,,,,
-Pathology,,,,,,
-Viability,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem,Postmortem
-Preparation,,,,,,
-PMI,,,,,,
-PMI Units,,,,,,
-RIN,,,,,,
-Sequencing Kit,,,,,,
-,,,,,,
-BioSampleModel_s,Human,Human,Human,Human,Human,Human
-AvgSpotLen_l,188,185,186,184,189,185
-BioSample_s,SAMN04277410,SAMN04277411,SAMN04277412,SAMN04277413,SAMN04277414,SAMN04277415
-Experiment_s,SRX1438200,SRX1438213,SRX1438215,SRX1438216,SRX1438218,SRX1438220
-LibrarySelection_s,DNase,other,other,other,other,other
-Library_Name_s,R1815,R4516,R4852,C1078,C1541,C1571
-MBases_l,5725,4425,4507,4848,5410,4613
-MBytes_l,2347,1777,1808,1954,2177,1866
-Run_s,SRR2924888,SRR2924894,SRR2924896,SRR2924897,SRR2924900,SRR2924901
-SRA_Sample_s,SRS1168871,SRS1168882,SRS1168884,SRS1168885,SRS1168886,SRS1168888
-Sample_Name_s,R1815,R4516,R4852,C1078,C1541,C1571
-AssemblyName_s,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37,GRCh37
-BioProject_s,PRJNA302685,PRJNA302685,PRJNA302685,PRJNA302685,PRJNA302685,PRJNA302685
-Center_Name_s,UNSW,UNSW,UNSW,UNSW,UNSW,UNSW
-Consent_s,public,public,public,public,public,public
-InsertSize_l,100,100,100,100,100,100
-Instrument_s,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500,Illumina HiSeq 2500
-LibraryLayout_s,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED,PAIRED
-LibrarySource_s,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC,TRANSCRIPTOMIC
-LoadDate_s,2015-11-19,2015-11-19,2015-11-19,2015-11-19,2015-11-19,2015-11-19
-Platform_s,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA,ILLUMINA
-ReleaseDate_s,2015-11-20,2015-11-20,2015-11-20,2015-11-20,2015-11-20,2015-11-20
-SRA_Study_s,SRP066394,SRP066394,SRP066394,SRP066394,SRP066394,SRP066394
-biomaterial_provider_s,NICHD,NICHD,NICHD,NICHD,NICHD,NICHD
+Assay_Type_s,Organism_s,Brain Bank,Sex,Age,Age Units,Development,Race,Sample Origin,Cell Line,Tissue Site 1,Tissue Site 2,Tissue Site 3,Brodmann Area,Hemisphere,Disease Status,Disease,Tumor Type,Clinical Stage 1,Clinical Stage 2,Pathology,Viability,Preparation,PMI,PMI Units,RIN,Sequencing Kit,,BioSampleModel_s,AvgSpotLen_l,BioSample_s,Experiment_s,LibrarySelection_s,Library_Name_s,MBases_l,MBytes_l,Run_s,SRA_Sample_s,Sample_Name_s,AssemblyName_s,BioProject_s,Center_Name_s,Consent_s,InsertSize_l,Instrument_s,LibraryLayout_s,LibrarySource_s,LoadDate_s,Platform_s,ReleaseDate_s,SRA_Study_s,biomaterial_provider_s
+RNA-Seq,Homo sapiens,Eunice Kennedy Shriver National Institute of Child Health,Female,18,Years,Adult,White,Brain,,,,,,,Disease,Rett syndrome,,,,,Postmortem,,,,,,,Human,188,SAMN04277410,SRX1438200,DNase,R1815,5725,2347,SRR2924888,SRS1168871,R1815,GRCh37,PRJNA302685,UNSW,public,100,Illumina HiSeq 2500,PAIRED,TRANSCRIPTOMIC,2015-11-19,ILLUMINA,2015-11-20,SRP066394,NICHD
+RNA-Seq,Homo sapiens,Eunice Kennedy Shriver National Institute of Child Health,Female,21,Years,Adult,White,Brain,,,,,,,Disease,Rett syndrome,,,,,Postmortem,,,,,,,Human,185,SAMN04277411,SRX1438213,other,R4516,4425,1777,SRR2924894,SRS1168882,R4516,GRCh37,PRJNA302685,UNSW,public,100,Illumina HiSeq 2500,PAIRED,TRANSCRIPTOMIC,2015-11-19,ILLUMINA,2015-11-20,SRP066394,NICHD
+RNA-Seq,Homo sapiens,Eunice Kennedy Shriver National Institute of Child Health,Female,19,Years,Adult,White,Brain,,,,,,,Disease,Rett syndrome,,,,,Postmortem,,,,,,,Human,186,SAMN04277412,SRX1438215,other,R4852,4507,1808,SRR2924896,SRS1168884,R4852,GRCh37,PRJNA302685,UNSW,public,100,Illumina HiSeq 2500,PAIRED,TRANSCRIPTOMIC,2015-11-19,ILLUMINA,2015-11-20,SRP066394,NICHD
+RNA-Seq,Homo sapiens,Eunice Kennedy Shriver National Institute of Child Health,Female,17,Years,Adult,White,Brain,,,,,,,Control,,,,,,Postmortem,,,,,,,Human,184,SAMN04277413,SRX1438216,other,C1078,4848,1954,SRR2924897,SRS1168885,C1078,GRCh37,PRJNA302685,UNSW,public,100,Illumina HiSeq 2500,PAIRED,TRANSCRIPTOMIC,2015-11-19,ILLUMINA,2015-11-20,SRP066394,NICHD
+RNA-Seq,Homo sapiens,Eunice Kennedy Shriver National Institute of Child Health,Female,20,Years,Adult,White,Brain,,,,,,,Control,,,,,,Postmortem,,,,,,,Human,189,SAMN04277414,SRX1438218,other,C1541,5410,2177,SRR2924900,SRS1168886,C1541,GRCh37,PRJNA302685,UNSW,public,100,Illumina HiSeq 2500,PAIRED,TRANSCRIPTOMIC,2015-11-19,ILLUMINA,2015-11-20,SRP066394,NICHD
+RNA-Seq,Homo sapiens,Eunice Kennedy Shriver National Institute of Child Health,Female,18,Years,Adult,White,Brain,,,,,,,Control,,,,,,Postmortem,,,,,,,Human,185,SAMN04277415,SRX1438220,other,C1571,4613,1866,SRR2924901,SRS1168888,C1571,GRCh37,PRJNA302685,UNSW,public,100,Illumina HiSeq 2500,PAIRED,TRANSCRIPTOMIC,2015-11-19,ILLUMINA,2015-11-20,SRP066394,NICHD
