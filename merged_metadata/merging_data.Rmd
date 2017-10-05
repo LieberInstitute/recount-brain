@@ -20,7 +20,7 @@ table_files <- dir('../SRA_metadata', pattern = '.csv$', full.names = TRUE)
 names(table_files) <- sapply(strsplit(table_files, ', '), function(x) { strsplit(x[2], '-Table')[[1]][1] })
 
 ## Read the table files
-table_content <- lapply(table_files, read.csv, header = TRUE, stringsAsFactors = FALSE)
+table_content <- lapply(table_files, read.csv, header = TRUE, stringsAsFactors = FALSE, na.strings = c('NA', ''))
 
 ## Drop empty columns (they start with X)
 table_content <- lapply(table_content, function(tab) {
@@ -167,6 +167,8 @@ subset(recount_brain, development == 'Months')
 
 par(mar = c(18, 4, 4, 2) + 0.1)
 boxplot(age ~ disease, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], las = 2, ylab = 'Age (years)')
+
+table(recount_brain$disease[recount_brain$present_in_recount & recount_brain$age_units == 'Years'], useNA = 'ifany')
 ```
 
 
