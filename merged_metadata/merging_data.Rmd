@@ -1,6 +1,6 @@
 ---
 title: "Merging metadata"
-author: "Leo"
+author: "Leonardo Collado-Torres and Ashkaun Razmara"
 date: "10/3/2017"
 output: html_document
 ---
@@ -50,16 +50,13 @@ dim(table_cols)
 summary(table_cols)
 
 sort(table(table_cols$columns), decreasing = TRUE)
-subset(table_cols, columns == 'RNA.Seq.26')
 
-table_content[['ERP010930']]
-table_files['ERP010930']
-
-table_content[['SRP055730']]
-
-boxplot(percent_na ~ columns, data = table_cols, las = 2)
-
+#boxplot(percent_na ~ columns, data = table_cols, las = 2)
+hist(subset(table_cols, columns == 'Age')$percent_na)
 summary(subset(table_cols, columns == 'Age')$percent_na)
+
+summary(subset(table_cols, columns == 'Age')$percent_na[subset(table_cols, columns == 'Age')$percent_na != 100])
+table(subset(table_cols, columns == 'Age')$percent_na[subset(table_cols, columns == 'Age')$percent_na != 100])
 ```
 
 
@@ -67,16 +64,21 @@ summary(subset(table_cols, columns == 'Age')$percent_na)
 
 
 ```{r}
-
+## Get the unique columns
 unique_cols <- unique(table_cols$columns)
+## Don't sort, as requested by Ashkaun
+#unique_cols_sorted <- sort(tolower(unique_cols))
+unique_cols_sorted <- tolower(unique_cols)
 
+## Build a new set of tables by study with all the columns
 table_new <- lapply(table_content, function(tab) {
   missing_cols <- unique_cols[!unique_cols %in% colnames(tab)]
   if(length(missing_cols) > 0) {
     df_add <- as.data.frame(matrix(NA, nrow = nrow(tab), ncol = length(missing_cols)))
     colnames(df_add) <- missing_cols
     df_new <- cbind(tab, df_add)
-    res <- df_new[, match(unique_cols, colnames(df_new))]
+    colnames(df_new) <- tolower(colnames(df_new))
+    res <- df_new[, match(unique_cols_sorted, colnames(df_new))]
   } else {
     res <- tab
   }
@@ -84,29 +86,89 @@ table_new <- lapply(table_content, function(tab) {
 })
 
 recount_brain <- do.call(rbind, table_new)
+```
 
+## Merge with recount
 
+```{r}
+## Check which samples are in recount
 library(recount)
 m <- all_metadata('sra')
 
-map <- match(m$run, recount_brain$Run_s)
+map <- match(m$run, recount_brain$run_s)
 table(!is.na(map))
 
-map_r <- match(recount_brain$Run_s, m$run)
+map_r <- match(recount_brain$run_s, m$run)
 table(!is.na(map_r))
 
+## Add whether the sample is present in recount
 recount_brain$present_in_recount <- !is.na(map_r)
 
+## Sort alphabeitcally and change dots for underscores
+#recount_brain <- recount_brain[, sort(colnames(recount_brain))]
+colnames(recount_brain) <- gsub('\\.', '_', colnames(recount_brain))
+
+## Fix some issues
+recount_brain$sex <- tolower(recount_brain$sex)
+
+missing_na <- sort(sapply(recount_brain, function(x) {
+    sum(x == '', na.rm = TRUE)
+}))
+missing_na[missing_na > 0]
+
+subset(recount_brain, sex == '')
+
+for(i in seq_len(ncol(recount_brain))) {
+    if(sum(recount_brain[, i] == '', na.rm = TRUE) > 0) {
+        recount_brain[which(recount_brain[, i] == ''), i] <- NA
+    }
+}
+
+## Save the data
+save(recount_brain, file = 'recount_brain.Rdata')
 write.csv(recount_brain, file = 'recount_brain.csv', quote = TRUE, row.names = FALSE)
 
+## Explore why some samples are missing in recount but present in recount_brain
+table(recount_brain$organism_s[ is.na(map_r) ], useNA = 'ifany')
+table(recount_brain$organism_s[ is.na(map_r) ], recount_brain$platform_s[ is.na(map_r) ], useNA = 'ifany')
+table(recount_brain$sra_study_s[ is.na(map_r) ], recount_brain$platform_s[ is.na(map_r) ], useNA = 'ifany')
 
-table(recount_brain$Organism_s[ is.na(map_r) ])
-table(recount_brain$Organism_s[ is.na(map_r) ], recount_brain$Platform_s[ is.na(map_r) ])
-table(recount_brain$SRA_Study_s[ is.na(map_r) ], recount_brain$Platform_s[ is.na(map_r) ])
-
-table(recount_brain$Assay_Type)
-table(recount_brain$Assay_Type[ is.na(map_r) ])
+table(recount_brain$assay_type_s, recount_brain$assay_type, useNA = 'ifany')
+table(recount_brain$assay_type_s[ is.na(map_r) ], useNA = 'ifany')
 ```
+
+## Explore a bit
+
+```{r}
+table(recount_brain$disease, useNA = 'ifany')
+table(recount_brain$age_units, useNA = 'ifany')
+
+#subset(recount_brain, age_units == 'Child')
+
+
+##
+boxplot(age ~ age_units, data = recount_brain)
+boxplot(age ~ age_units, data = recount_brain[recount_brain$present_in_recount, ])
+
+table(recount_brain$pmi_units, recount_brain$present_in_recount, useNA = 'ifany')
+table(!is.na(recount_brain$pmi))
+boxplot(recount_brain$pmi, ylab = 'PMI (hours)')
+plot(age ~ pmi, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+
+boxplot(age ~ sex, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+
+boxplot(age ~ disease_status, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+boxplot(age ~ disease_status + sex, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+
+table(recount_brain$development, recount_brain$present_in_recount, useNA = 'ifany')
+
+subset(recount_brain, development == 'Months')
+## Study SRP045638 could have a problem
+
+par(mar = c(18, 4, 4, 2) + 0.1)
+boxplot(age ~ disease, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], las = 2, ylab = 'Age (years)')
+```
+
 
 
 ## Reproducibility
