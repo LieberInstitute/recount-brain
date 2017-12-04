@@ -365,6 +365,12 @@ See specific information and reproducible steps taken for inputting novel sample
 		- Development: Adult
 		- Race: White
 
+## 42, SRP043364
+[http://dx.doi.org/10.1016/j.neuron.2015.10.022](http://dx.doi.org/10.1016/j.neuron.2015.10.022)
+- Results
+	- Expression of Individual Genes Correlate with fMRI Signals: “For each brain region, three or more samples from left adult brain hemispheres were collected”
+		- Hemisphere: Left
+
 ## 47, ERP010930
 
 [http://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-3708/protocols/](#)
