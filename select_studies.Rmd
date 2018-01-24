@@ -1,6 +1,6 @@
 ---
 title: "Select brain studies"
-author: "Leo"
+author: "Leonardo Collado-Torres"
 date: "7/6/2017"
 output: html_document
 ---
