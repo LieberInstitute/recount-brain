@@ -209,6 +209,9 @@ write.csv(recount_brain, file = 'recount_brain_v1.csv', quote = TRUE, row.names 
 
 ## Check md5sum for the resulting files
 sapply(dir(pattern = 'recount_brain_v1'), tools::md5sum)
+
+## List of all variables
+colnames(recount_brain)
 ```
 
 # recount vs recount_brain
