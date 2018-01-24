@@ -1,41 +1,123 @@
 ---
-title: "Merging metadata"
-author: "Leonardo Collado-Torres and Ashkaun Razmara"
-date: "10/3/2017"
-output: html_document
+title: "Merging metadata and recount_brain"
+author: 
+  - name: Leonardo Collado-Torres
+    affiliation:
+    - &libd Lieber Institute for Brain Development, Johns Hopkins Medical Campus
+    - &ccb Center for Computational Biology, Johns Hopkins University
+    email: leo.collado@libd.org
+  - name: Ashkaun Razmara
+    affiliation:
+    - *libd
+output: 
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+date: "`r doc_date()`"
 ---
 
-## Setup
+This document contains the code that creates the `recount_brain` table by merging all the curated SRA metadata tables created by Ashkaun Razmara. 
 
-```{r}
+# Setup
+
+First, we need some packages.
+
+```{r 'load pkgs', warning = FALSE, message = FALSE}
 library('devtools')
+library('recount')
+library('knitcitations')
+library('BiocStyle')
+```
+
+Next we setup the citation information.
+
+```{r 'citation info', warning = FALSE, message = FALSE}
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+# Note links won't show for now due to the following issue
+# https://github.com/cboettig/knitcitations/issues/63
+
+## Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation('BiocStyle'),
+    devtools = citation('devtools'),
+    knitcitations = citation('knitcitations'),
+    knitr = citation('knitr')[3],
+	recount = citation('recount')[1],
+    rmarkdown = citation('rmarkdown')
+)
+
+write.bibtex(bib, file = 'merging_data.bib')
 ```
 
 
-## Read tables
+# Read tables
 
-```{r}
+This code finds all the SRA metadata tables and reads them into R. 
+
+```{r 'read data'}
 ## Find table files and name them by project id
 table_files <- dir('../SRA_metadata', pattern = '.csv$', full.names = TRUE)
-names(table_files) <- sapply(strsplit(table_files, ', '), function(x) { strsplit(x[2], '-Table')[[1]][1] })
+names(table_files) <- sapply(strsplit(table_files, ', '), function(x) {
+    strsplit(x[2], '-Table')[[1]][1] })
 
 ## Read the table files
-table_content <- lapply(table_files, read.csv, header = TRUE, stringsAsFactors = FALSE, na.strings = c('NA', ''))
+table_content <- lapply(table_files, read.csv, header = TRUE,
+    stringsAsFactors = FALSE, na.strings = c('NA', ''))
+```
 
-## Drop empty columns (they start with X)
-table_content <- lapply(table_content, function(tab) {
-  idx <- grep('^X', colnames(tab))
-#  colnames(tab)[idx]
-#  summary(is.na(tab[, idx]))
-  if(length(idx) > 0) {
-    return(tab[, -idx])
-  } else {
-    return(tab)
-  }
-  
+Having read the tables, we can check how frequent are some variables that we will ignore in `recount_brain`. Most of these variables are rare and just present in a handful of studies. Others like `Sequencing.Kit` are present frequently as column names but mostly made up of NAs due to how we constructed the SRA metadata tables.
+
+```{r 'check ignored vars'}
+## Define the main variables we want from all studies
+main_variables <- c('Center_Name_s', 'Library_Name_s', 'AvgSpotLen_l',
+    'BioSample_s', 'Experiment_s', 'MBases_l', 'MBytes_l', 'Run_s',
+    'SRA_Sample_s', 'Sample_Name_s', 'BioProject_s', 'Consent_s',
+    'InsertSize_l', 'Instrument_s', 'LibraryLayout_s', 'LibrarySelection_s',
+    'LibrarySource_s', 'LoadDate_s', 'Platform_s', 'ReleaseDate_s',
+    'SRA_Study_s', 'Assay_Type_s', 'Organism_s', 'Brain.Bank', 'Sex',
+    'Age.Units', 'Age', 'Development', 'Race', 'Sample.Origin', 'Cell.Line',
+    'Tissue.Site.1', 'Tissue.Site.2', 'Tissue.Site.3', 'Brodmann.Area',
+    'Hemisphere', 'Disease.Status', 'Disease', 'Tumor.Type',
+    'Clinical.Stage.1', 'Clinical.Stage.2', 'Pathology', 'Viability',
+    'Preparation', 'PMI', 'PMI.Units', 'RIN')
+
+## Check whether the variables are part of our set or extra variables
+## that we will ignore.
+check_vars <- lapply(table_content , function(tab) {
+    present <- tolower(colnames(tab))[tolower(colnames(tab)) %in%
+        tolower(main_variables)]
+    tobeignored <- tolower(colnames(tab))[!tolower(colnames(tab)) %in%
+        tolower(main_variables)]
+    return(list(present = present, tobeignored = tobeignored))
 })
+## Variables that will be ignored
+sort(table(unlist(sapply(check_vars, '[[', 'tobeignored'))), decreasing = TRUE)
 
+## Check that we are not missing any due to spelling issues
+stopifnot(all(
+    !names(table(unlist(sapply(check_vars, '[[', 'tobeignored')))) %in%
+    tolower(main_variables)))
+```
 
+Next we can keep just the main variables of interest.
+
+```{r 'keep main vars'}
+## Keep only the main variables
+table_content <- lapply(table_content , function(tab) {
+    tab[, colnames(tab) %in% main_variables]
+})
+```
+
+We can then compute some summary statistics per variable for each study, like what is the percent of missing observations.
+
+```{r 'explore main vars'}
+## Compute some statistics per variable and study
 table_cols <- do.call(rbind, lapply(seq_len(length(table_content)), function(i) {
   tab <- table_content[[i]]
   df <- data.frame(columns = colnames(tab), number_na = sapply(tab, function(var) { sum(is.na(var))}), n = nrow(tab), study = names(table_content)[i], stringsAsFactors = FALSE)
@@ -46,53 +128,60 @@ table_cols <- do.call(rbind, lapply(seq_len(length(table_content)), function(i) 
   return(df)
 }))
 
+## Explore the summary statistics
 dim(table_cols)
 summary(table_cols)
 
+## Most commonly observed variables accross all studies
 sort(table(table_cols$columns), decreasing = TRUE)
+## now in percent
+round(sort(table(table_cols$columns), decreasing = TRUE) /
+    length(table_content) * 100, 2)
 
+## Example of how we can explore the percent NA for the Age variable
 #boxplot(percent_na ~ columns, data = table_cols, las = 2)
-hist(subset(table_cols, columns == 'Age')$percent_na)
-summary(subset(table_cols, columns == 'Age')$percent_na)
-
-summary(subset(table_cols, columns == 'Age')$percent_na[subset(table_cols, columns == 'Age')$percent_na != 100])
-table(subset(table_cols, columns == 'Age')$percent_na[subset(table_cols, columns == 'Age')$percent_na != 100])
+#hist(subset(table_cols, columns == 'Age')$percent_na)
+table(subset(table_cols, columns == 'Age')$percent_na)
+#summary(subset(table_cols, columns == 'Age')$percent_na)
 ```
 
+# Merging tables
 
-## Merging tables
+Having read and filtered the tables, we can now proceed to merging them. This is how we create the `recount_brain` table.
 
-
-```{r}
+```{r 'merge tables'}
 ## Get the unique columns
 unique_cols <- unique(table_cols$columns)
-## Don't sort, as requested by Ashkaun
-#unique_cols_sorted <- sort(tolower(unique_cols))
-unique_cols_sorted <- tolower(unique_cols)
+## Sort by percent NA
+unique_cols_sorted <- tolower(names(sort(tapply(table_cols$percent_na,
+    table_cols$columns, mean))))
 
 ## Build a new set of tables by study with all the columns
 table_new <- lapply(table_content, function(tab) {
-  missing_cols <- unique_cols[!unique_cols %in% colnames(tab)]
-  if(length(missing_cols) > 0) {
-    df_add <- as.data.frame(matrix(NA, nrow = nrow(tab), ncol = length(missing_cols)))
-    colnames(df_add) <- missing_cols
-    df_new <- cbind(tab, df_add)
-    colnames(df_new) <- tolower(colnames(df_new))
-    res <- df_new[, match(unique_cols_sorted, colnames(df_new))]
-  } else {
-    res <- tab
-  }
-  return(res)
+    colnames(tab) <- tolower(colnames(tab))
+    missing_cols <- unique_cols[!unique_cols %in% colnames(tab)]
+    if(length(missing_cols) > 0) {
+        df_add <- as.data.frame(matrix(NA, nrow = nrow(tab), ncol = length(missing_cols)))
+        colnames(df_add) <- missing_cols
+        df_new <- cbind(tab, df_add)
+        colnames(df_new) <- tolower(colnames(df_new))
+        res <- df_new[, match(unique_cols_sorted, colnames(df_new))]
+    } else {
+        res <- tab
+    }
+    return(res)
 })
 
+## Finally merge them all
 recount_brain <- do.call(rbind, table_new)
 ```
 
-## Merge with recount
+# Merge with recount
 
-```{r}
+Now that we have the `recount_brain` table, we can now check if the samples are present in `recount` `r citep(bib[['recount']])` and save the data which can then be accessed easily thanks to `recount::add_metadata('recount_brain')`.
+
+```{r 'add recount info and save'}
 ## Check which samples are in recount
-library(recount)
 m <- all_metadata('sra')
 
 map <- match(m$run, recount_brain$run_s)
@@ -104,78 +193,157 @@ table(!is.na(map_r))
 ## Add whether the sample is present in recount
 recount_brain$present_in_recount <- !is.na(map_r)
 
-## Sort alphabeitcally and change dots for underscores
+## Sort alphabetically and change dots for underscores
 #recount_brain <- recount_brain[, sort(colnames(recount_brain))]
 colnames(recount_brain) <- gsub('\\.', '_', colnames(recount_brain))
 
 ## Fix some issues
 recount_brain$sex <- tolower(recount_brain$sex)
 
-missing_na <- sort(sapply(recount_brain, function(x) {
-    sum(x == '', na.rm = TRUE)
-}))
-missing_na[missing_na > 0]
-
-subset(recount_brain, sex == '')
-
-for(i in seq_len(ncol(recount_brain))) {
-    if(sum(recount_brain[, i] == '', na.rm = TRUE) > 0) {
-        recount_brain[which(recount_brain[, i] == ''), i] <- NA
-    }
-}
+## Final dimensions of recount_brain
+dim(recount_brain)
 
 ## Save the data
-save(recount_brain, file = 'recount_brain.Rdata')
-write.csv(recount_brain, file = 'recount_brain.csv', quote = TRUE, row.names = FALSE)
+save(recount_brain, file = 'recount_brain_v1.Rdata')
+write.csv(recount_brain, file = 'recount_brain_v1.csv', quote = TRUE, row.names = FALSE)
 
-## Explore why some samples are missing in recount but present in recount_brain
+## Check md5sum for the resulting files
+sapply(dir(pattern = 'recount_brain_v1'), tools::md5sum)
+```
+
+# recount vs recount_brain
+
+Not all the samples in `recount_brain` are present in `recount`. The following code explores why some samples are missing in `recount`.
+
+
+```{r 'compare vs recount'}
+## Number missing/present in recount
+table(is.na(map_r))
+
+## For the missing ones, what is their organism?
 table(recount_brain$organism_s[ is.na(map_r) ], useNA = 'ifany')
-table(recount_brain$organism_s[ is.na(map_r) ], recount_brain$platform_s[ is.na(map_r) ], useNA = 'ifany')
-table(recount_brain$sra_study_s[ is.na(map_r) ], recount_brain$platform_s[ is.na(map_r) ], useNA = 'ifany')
 
+## For the missing ones, check organism and platform
+table(recount_brain$organism_s[ is.na(map_r) ],
+    recount_brain$platform_s[ is.na(map_r) ], useNA = 'ifany')
+
+## For the missing ones, check sra_study and platform
+table(recount_brain$sra_study_s[ is.na(map_r) ],
+    recount_brain$platform_s[ is.na(map_r) ], useNA = 'ifany')
+
+## For all the ones in recount_brain, check assay type and assay_type_s
 table(recount_brain$assay_type_s, recount_brain$assay_type, useNA = 'ifany')
+
+## For the missing ones, check assay_type_s
 table(recount_brain$assay_type_s[ is.na(map_r) ], useNA = 'ifany')
 ```
 
-## Explore a bit
+# Brief exploration of `recount_brain`
 
-```{r}
+This section shows examples of how one can explore the data in `recount_brain`. It's up to the user to keep exploring the samples to identify questions of their interest and/or relevant studies.
+
+```{r 'explore recount_brain 1'}
+## Number of samples by disease
 table(recount_brain$disease, useNA = 'ifany')
+
+## Number of samples per age unit
 table(recount_brain$age_units, useNA = 'ifany')
 
-#subset(recount_brain, age_units == 'Child')
+## Development stage vs presence in recount
+table('Development stage' = recount_brain$development,
+ 'Present in recount' = recount_brain$present_in_recount, useNA = 'ifany')
 
+## Age by age units for all samples in recount_brain and then those
+## also present in recount
+par(mar = c(10, 4, 4, 2) + 0.1)
+boxplot(age ~ age_units, data = recount_brain, las = 2,
+    main = 'all recount_brain samples')
 
-##
-boxplot(age ~ age_units, data = recount_brain)
-boxplot(age ~ age_units, data = recount_brain[recount_brain$present_in_recount, ])
+boxplot(age ~ age_units, main = 'only samples present in recount',
+    data = recount_brain[recount_brain$present_in_recount, ], las = 2)
+    
+## Get the number of samples for each boxplot
+table(recount_brain$age_units[recount_brain$present_in_recount])
+```
 
-table(recount_brain$pmi_units, recount_brain$present_in_recount, useNA = 'ifany')
+## PMI
+
+Here is an example where we explore how many samples have the post mortem interval (PMI) information registered and the relationship with age for those that have age measured in years.
+
+```{r 'explore recount_brain 2'}
+## How many samples have a pmi unit?
+table('PMI units' = recount_brain$pmi_units,
+    'Present in recount' = recount_brain$present_in_recount, useNA = 'ifany')
+## How many samples have a pmi value?
 table(!is.na(recount_brain$pmi))
+
+## Check PMI overall
 boxplot(recount_brain$pmi, ylab = 'PMI (hours)')
-plot(age ~ pmi, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
 
-boxplot(age ~ sex, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+## Compare PMI vs age (in years) for the samples present in recount
+plot(age ~ pmi, data = recount_brain[recount_brain$present_in_recount &
+    recount_brain$age_units == 'Years', ], ylab = 'Age (years)',
+    xlab = 'PMI (hours)')
+```
 
-boxplot(age ~ disease_status, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
-boxplot(age ~ disease_status + sex, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+## Sex and other variables
 
-table(recount_brain$development, recount_brain$present_in_recount, useNA = 'ifany')
+Next we can explore the relationship between sex and other variables such as age and disease status.
 
-subset(recount_brain, development == 'Months')
-## Study SRP045638 could have a problem
+```{r 'explore recount_brain 3'}
+## Number of observations with sex recorded
+table(recount_brain$sex[recount_brain$present_in_recount], useNA = 'ifany')
 
+## Age vs sex for those that have age measured in years
+boxplot(age ~ sex, data = recount_brain[recount_brain$present_in_recount &
+    recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+
+## Check age vs disease status
+boxplot(age ~ disease_status,
+    data = recount_brain[recount_brain$present_in_recount &
+    recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+    
+## Check age disease status and sex
+boxplot(age ~ disease_status + sex,
+    data = recount_brain[recount_brain$present_in_recount &
+    recount_brain$age_units == 'Years', ], ylab = 'Age (years)')
+```
+
+```{r 'explore recount_brain 4', fig.height = 10}
+## Age vs the actual disease
 par(mar = c(18, 4, 4, 2) + 0.1)
-boxplot(age ~ disease, data = recount_brain[recount_brain$present_in_recount & recount_brain$age_units == 'Years', ], las = 2, ylab = 'Age (years)')
+boxplot(age ~ disease, data = recount_brain[recount_brain$present_in_recount &
+    recount_brain$age_units == 'Years', ], las = 2, ylab = 'Age (years)')
 
-table(recount_brain$disease[recount_brain$present_in_recount & recount_brain$age_units == 'Years'], useNA = 'ifany')
+table(recount_brain$disease[recount_brain$present_in_recount &
+    recount_brain$age_units == 'Years'], useNA = 'ifany')
 ```
 
 
 
-## Reproducibility
+# Reproducibility
 
-```{r}
+This document was made possible thanks to:
+
+* R `r citep(bib[['R']])`
+* `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+* `r CRANpkg('devtools')` `r citep(bib[['devtools']])`
+* `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
+* `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
+* `r Biocpkg('recount')` `r citep(bib[['recount']])`
+* `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+
+Code for creating this document
+
+```{r createVignette, eval=FALSE}
+## Create the vignette
+library('rmarkdown')
+system.time(render('merging_data.Rmd', 'BiocStyle::html_document'))
+```
+
+Reproducibility information for this document.
+
+```{r 'reproducibility info'}
 ## Reproducibility info
 proc.time()
 message(Sys.time())
@@ -183,3 +351,14 @@ options(width = 120)
 session_info()
 ```
 
+# Bibliography
+
+This document was generated using `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+with `r CRANpkg('knitr')` `r citep(bib[['knitr']])` and `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])` running behind the scenes.
+
+Citations made with `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])` and the bibliographical file is available [here](merging_data.bib).
+
+```{r biblio, results = 'asis', echo = FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+bibliography()
+```
