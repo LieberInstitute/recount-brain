@@ -1,0 +1,69 @@
+---
+output:
+  html_document:
+    theme: spacelab
+---
+
+```{r 'setup', echo = FALSE, warning = FALSE, message = FALSE}
+## Bib setup
+library('knitcitations')
+library('BiocStyle')
+
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+
+## Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation('BiocStyle'),
+    devtools = citation('devtools'),
+    downloader = citation('downloader'),
+    DT = citation('DT'),
+    knitcitations = citation('knitcitations'),
+    knitr = citation('knitr')[3],
+    phenopredict = citation('recount')[3],
+	recount = citation('recount')[1],
+    rmarkdown = citation('rmarkdown')
+)
+
+write.bibtex(bib, file = 'index.bib')
+```
+
+<a href="https://jhubiostatistics.shinyapps.io/recount/"><img src="https://raw.githubusercontent.com/leekgroup/recount-website/master/website/recount.png" align="center"></a>
+
+Code and results for the [recount-brain](https://github.com/LieberInstitute/recount-brain) project that enhances the [recount2 project](https://jhubiostatistics.shinyapps.io/recount/) project. The `recount_brain` table can be accessed via the `r Biocpkg('recount')` `r citep(bib[['recount']])` Bioconductor package.
+
+
+
+# Contents
+
+* [select_studies](select_studies.html) uses the predicted phenotype information by Shannon Ellis et al `r citep(bib[['phenopredict']])` version 0.0.03 to determine candidate studies for `recount_brain` from the Sequence Read Archive (SRA) that have at least 4 samples and over 70% of the samples are from the brain. It creates the list of candidate projects saved in [projects_lists.txt](projects_list.txt).
+* [SRA_run_selector_info](https://github.com/LieberInstitute/recount-brain/tree/master/SRA_run_selector_info) contains a table per study in [projects_lists.txt](projects_list.txt) with the data downloaded from the SRA Run Selector website https://www.ncbi.nlm.nih.gov/Traces/study/. 
+* [SRA_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/SRA_metadata) contains a CSV table with the curated metadata for each study. This is the data that is then used to create `recount_brain`. Note that not all candidate studies were brain studies so the final number of projects considered is 62.
+* [merged_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata) contains the `recount_brain` table that can be easily accessed via `r Biocpkg('recount')` `r citep(bib[['recount']])` using the `add_metadata()` function. The document [merging_data](merged_metadata/merging_data.html) describes how the `recount_brain` was created using the files from `SRA_metadata` and includes some brief examples on how to explore the `recount_brain` table.
+* [metadata_reproducibility](https://github.com/LieberInstitute/recount-brain/tree/master/metadata_reproducibility) contains a document describing how the metadata was processed for each SRA study. It is intended to be useful for reproducibility purposes.
+
+
+
+# References
+
+The analyses were made possible thanks to:
+
+* R `r citep(bib[['R']])`
+* `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+* `r CRANpkg('devtools')` `r citep(bib[['devtools']])`
+* `r CRANpkg('downloader')` `r citep(bib[['downloader']])`
+* `r CRANpkg('DT')` `r citep(bib[['DT']])`
+* `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
+* `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
+* `phenopredict` `r citep(bib[['phenopredict']])`
+* `r Biocpkg('recount')` `r citep(bib[['recount']])`
+* `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+
+[Bibliography file](index.bib)
+
+```{r bibliography, results='asis', echo=FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+bibliography()
+```
