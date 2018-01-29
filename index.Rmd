@@ -44,6 +44,18 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 * [merged_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata) contains the `recount_brain` table that can be easily accessed via `r Biocpkg('recount')` `r citep(bib[['recount']])` using the `add_metadata()` function. The document [merging_data](merged_metadata/merging_data.html) describes how the `recount_brain` was created using the files from `SRA_metadata` and includes some brief examples on how to explore the `recount_brain` table.
 * [metadata_reproducibility](https://github.com/LieberInstitute/recount-brain/tree/master/metadata_reproducibility) contains a document describing how the metadata was processed for each SRA study. It is intended to be useful for reproducibility purposes.
 
+# List of variables
+
+```{r 'list of vars', echo = FALSE, results = 'asis'}
+load('merged_metadata/recount_brain_v1.Rdata')
+cat(paste('1.', colnames(recount_brain), '\n'))
+```
+
+# List of SRA projects present in `recount_brain`
+
+```{r 'list of projects', echo = FALSE, results = 'asis'}
+cat(paste0('1. [', unique(recount_brain$sra_study_s), '](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=', unique(recount_brain$sra_study_s), ') \n'))
+```
 
 
 # References
