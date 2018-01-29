@@ -30,7 +30,7 @@ bib <- c(
 write.bibtex(bib, file = 'index.bib')
 ```
 
-<a href="https://jhubiostatistics.shinyapps.io/recount/"><img src="https://raw.githubusercontent.com/leekgroup/recount-website/master/website/recount.png" align="center"></a>
+<a href="https://jhubiostatistics.shinyapps.io/recount/"><img src="https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/recount_brain.png" align="center"></a>
 
 Code and results for the [recount-brain](https://github.com/LieberInstitute/recount-brain) project that enhances the [recount2 project](https://jhubiostatistics.shinyapps.io/recount/) project. The `recount_brain` table can be accessed via the `r Biocpkg('recount')` `r citep(bib[['recount']])` Bioconductor package.
 
