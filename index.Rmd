@@ -2,6 +2,9 @@
 output:
   html_document:
     theme: spacelab
+    toc: true
+    toc_depth: 2
+    toc_float: true
 ---
 
 ```{r 'setup', echo = FALSE, warning = FALSE, message = FALSE}
@@ -46,14 +49,60 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 
 # List of variables
 
-```{r 'list of vars', echo = FALSE, results = 'asis'}
-load('merged_metadata/recount_brain_v1.Rdata')
-cat(paste('1.', colnames(recount_brain), '\n'))
-```
+1. `age`: Age of donor
+1. `age_units`: Units of age - (Years / Months / Post Conception Weeks)
+1. `assay_type_s`: Sequencing technique - (RNA-Seq)
+1. ` avgspotlen_l`: Average length of sequenced read
+1. `bioproject_s`: NCBI BioProject ID
+1. `biosample_s`: NCBI BioSample ID
+1. `brain_bank`: Brain tissue repository source
+1. `brodmann_area`: Brodmann area for tissue from cerebral cortex - (1-52)
+1. `cell_line`: Cell line description
+1. `center_name_s`: Project center
+1. `clinical_stage_1`: Clinically relevant tissue sample information
+1. `clinical_stage_2`: Clinically relevant tissue sample information
+1. `consent_s`: Data availability - (Public)
+1. `development`: Stage of human development - (Fetus / Infant / Child / Adolescent / Adult)
+1. `disease`: Disease description
+1. `disease_status`: Nature of tissue - (Disease / Control)
+1. `experiment_s`: NCBI Experiment ID
+1. `hemisphere`: Cerebral hemisphere - (Left / Right)
+1. `insertsize_l`: Length of sequence between adaptors 
+1. `instrument_s`: High throughput sequencing system
+1. `library_name_s`: Internal sample ID used by original study
+1. `librarylayout_s`: Sequencing layout - (Single / Paired)
+1. `libraryselection_s`: Sequencing library - (cDNA)
+1. `librarysource_s`: Sequencing source - (Transcriptomic)
+1. `loaddate_s`: Sequencing load date
+1. `mbases_l`: Megabases
+1. `mbytes_l`: Megabytes
+1. `organism_s`: Organism - (Homo sapiens)
+1. `pathology`: Tissue pathology
+1. `platform_s`: Sequencing platform - (Illumina)
+1. `pmi`: Postmortem interval
+1. `pmi_units`: Units of postmortem interval - (Hours)
+1. `preparation`: Specimen preparation - (Frozen)
+1. `present_in_recount`: Expression data present in recount2
+1. `race`: Race of donor - (Asian / Black / Hispanic / White)
+1. `releasedate_s`: Sequencing release date
+1. `rin`: RNA integrity number
+1. `run_s`: NCBI Run ID
+1. `sample_name_s`: GEO Accession ID
+1. `sample_origin`: Tissue origin - (Brain / iPSC)
+1. `sex`: Sex of donor - (Female / Male)
+1. `sra_sample_s`: NCBI SRA Sample ID
+1. `sra_study_s`: NCBI SRA Study ID
+1. `tissue_site_1`: Anatomic site of tissue
+1. `tissue_site_2`: Anatomic site of tissue, further specified
+1. `tissue_site_3`: Anatomic site of tissue, further specified
+1. `tumor_type`: Type of tumor - (Glioblastoma / Astrocytoma / Ependymoma / Oligodendroglioma)
+1. `viability`: Tissue viability - (Postmortem / Biopsy)
+
 
 # List of SRA projects present in `recount_brain`
 
 ```{r 'list of projects', echo = FALSE, results = 'asis'}
+load('merged_metadata/recount_brain_v1.Rdata')
 cat(paste0('1. [', unique(recount_brain$sra_study_s), '](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=', unique(recount_brain$sra_study_s), ') \n'))
 ```
 
