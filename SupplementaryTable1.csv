@@ -1,0 +1,49 @@
+﻿Variable,Description
+age, Age of donor
+ age_units, Units of age - (Years / Months / Post Conception Weeks)
+ assay_type_s, Sequencing technique - (RNA-Seq)
+ avgspotlen_l, Average length of sequenced read
+ bioproject_s, NCBI BioProject ID
+ biosample_s, NCBI BioSample ID
+ brain_bank, Brain tissue repository source
+ brodmann_area, Brodmann area for tissue from cerebral cortex - (1-52)
+ cell_line, Cell line description
+ center_name_s, Project center
+ clinical_stage_1, Clinically relevant tissue sample information
+ clinical_stage_2, Clinically relevant tissue sample information
+ consent_s, Data availability - (Public)
+ development, Stage of human development - (Fetus / Infant / Child / Adolescent / Adult)
+ disease, Disease description
+ disease_status, Nature of tissue - (Disease / Control)
+ experiment_s, NCBI Experiment ID
+ hemisphere, Cerebral hemisphere - (Left / Right)
+ insertsize_l, Length of sequence between adaptors
+ instrument_s, High throughput sequencing system
+ library_name_s, Internal sample ID used by original study
+ librarylayout_s, Sequencing layout - (Single / Paired)
+ libraryselection_s, Sequencing library - (cDNA)
+ librarysource_s, Sequencing source - (Transcriptomic)
+ loaddate_s, Sequencing load date
+ mbases_l, Megabases
+ mbytes_l, Megabytes
+ organism_s, Organism - (Homo sapiens)
+ pathology, Tissue pathology
+ platform_s, Sequencing platform - (Illumina)
+ pmi, Postmortem interval
+ pmi_units, Units of postmortem interval - (Hours)
+ preparation, Specimen preparation - (Frozen)
+ present_in_recount, Expression data present in recount2
+ race, Race of donor - (Asian / Black / Hispanic / White)
+ releasedate_s, Sequencing release date
+ rin, RNA integrity number
+ run_s, NCBI Run ID
+ sample_name_s, GEO Accession ID
+ sample_origin, Tissue origin - (Brain / iPSC)
+ sex, Sex of donor - (Female / Male)
+ sra_sample_s, NCBI SRA Sample ID
+ sra_study_s, NCBI SRA Study ID
+ tissue_site_1, Anatomic site of tissue
+ tissue_site_2," Anatomic site of tissue, further specified"
+ tissue_site_3," Anatomic site of tissue, further specified"
+ tumor_type, Type of tumor - (Glioblastoma / Astrocytoma / Ependymoma / Oligodendroglioma)
+ viability, Tissue viability - (Postmortem / Biopsy)
