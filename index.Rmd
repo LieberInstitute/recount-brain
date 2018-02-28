@@ -47,6 +47,10 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 * [merged_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata) contains the `recount_brain` table that can be easily accessed via `r Biocpkg('recount')` `r citep(bib[['recount']])` using the `add_metadata()` function. The document [merging_data](merged_metadata/merging_data.html) describes how the `recount_brain` was created using the files from `SRA_metadata` and includes some brief examples on how to explore the `recount_brain` table.
 * [metadata_reproducibility](https://github.com/LieberInstitute/recount-brain/tree/master/metadata_reproducibility) contains a document describing how the metadata was processed for each SRA study. It is intended to be useful for reproducibility purposes.
 
+# Example analyses
+
+* We used the data from [SRP027383](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP027383) to show how `recount_brain` can be used for a gene differential expression analysis. See the full example for more information: [example_SRP027383](example_SRP027383/example_SRP027383.html).
+
 # List of variables
 
 1. `age`: Age of donor
