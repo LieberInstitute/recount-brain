@@ -69,9 +69,8 @@ Having loaded the package, we next download the gene-level data.
 ```{r 'getgene'}
 if(!file.exists(file.path('SRP027383', 'rse_gene.Rdata'))) {
     download_study('SRP027383')
-} else {
-    load(file.path('SRP027383', 'rse_gene.Rdata'), verbose = TRUE)
 }
+load(file.path('SRP027383', 'rse_gene.Rdata'), verbose = TRUE)
 ```
 
 ## Sample metadata included in `recount`
