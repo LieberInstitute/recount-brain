@@ -130,5 +130,5 @@ The analyses were made possible thanks to:
 
 ```{r bibliography, results='asis', echo=FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography
-bibliography()
+bibliography(style = 'html')
 ```

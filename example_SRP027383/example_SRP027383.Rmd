@@ -424,5 +424,5 @@ Full [bibliography file](example_SRP027383.bib).
 
 ```{r bibliography, results='asis', echo=FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography
-bibliography()
+bibliography(style = 'html')
 ```
