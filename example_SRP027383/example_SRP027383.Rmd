@@ -263,7 +263,7 @@ cleaned_expr <- cleaningY(gene_voom$E, mod, P = 3)
 ## gene plotting function
 plot_gene <- function(ii, type = 'cleaned', sign = 'any') {
     ## Keep the jitter reproducible
-set.seed(20180203)
+    set.seed(20180203)
     
     ## Order by FDR and subset by logFC sign if necessary
     if(sign == 'any') {
