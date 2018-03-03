@@ -2,12 +2,14 @@
 title: "recount_brain example with data from SRP027383"
 author:
 - name: Leonardo Collado-Torres
-  affiliation: Lieber Institute for Brain Development
+  affiliation:
+  - Lieber Institute for Brain Development, Johns Hopkins Medical Campus, Baltimore, MD, 21205, USA
+  - Center for Computational Biology, Johns Hopkins University, Baltimore, MD, 21205, USA
   email: leo.collado@libd.org
 output:
   BiocStyle::html_document
 abstract: |
-  Example on how to use recount_brain applied to the SRP027383 study. We show how to download data from recount2, add the sample metadata from recount_brain, explore the sample metadata and the gene expression data, and perform a gene expression analysis.
+  This is an example on how to use recount_brain applied to the SRP027383 study. We show how to download data from recount2, add the sample metadata from recount_brain, explore the sample metadata and the gene expression data, and perform a gene expression analysis.
 editor_options: 
   chunk_output_type: inline
 ---
@@ -285,6 +287,7 @@ set.seed(20180203)
         y <- dge$counts[i, ]
         ylab <- 'Raw Expr'
     }
+    ylim <- abs(range(y)) * c(0.95, 1.05) * sign(range(y))
     
     ## Plot components
     x <- ordered(has_patho$clinical_stage_1)
@@ -293,7 +296,7 @@ set.seed(20180203)
     
     ## Make the plot ^^
     plot(y ~ x, xlab = 'Tumor grade', ylab = ylab, outline = FALSE,
-        ylim = range(y) * c(0.95, 1.05), main = title)
+        ylim = ylim, main = title)
     points(y ~ jitter(as.integer(x), 0.6),
         bg = c("#E69F00", "#009E73", "#D55E00")[as.integer(x)], pch = 21)
     abline(lm(y ~ as.integer(x)), lwd = 3, col = "#CC79A7")
