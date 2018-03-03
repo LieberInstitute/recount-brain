@@ -174,10 +174,10 @@ From our earlier exploration, we noticed that not all samples have pathology inf
 has_patho <- rse_gene[, !is.na(rse_gene$pathology)]
 ```
 
-Next we will compute RPKM values and use `expression_cutoff()` from `r Githubpkg('LieberInstitute/jaffelab')` to get a suggested RPKM cutoff for dropping genes with low expression levels. Note that you can also use `r Biocpkg('genefilter')` or other packages for computing a low expression cutoff. Figure \@ref(fig:exprcut1) shows the relationship between the mean RPKM cutoff and the number of features above the given cutoff. Figure \@ref(fig:exprcut2) is the same information but in percent. Figure \@ref(fig:exprcut3) is a tad more complicated as it explore the relationship between the cutoff and the distribution of the number of non-zero samples. All three figures show estimated points where the curves bend and simply provide a guide for choosing a cutoff.
+Next we will compute RPKM values and use `expression_cutoff()` from `r Githubpkg('LieberInstitute/jaffelab')` to get a suggested RPKM cutoff for dropping genes with low expression levels. Note that you can also use `r Biocpkg('genefilter')` or other packages for computing a low expression cutoff. Figure \@ref(fig:exprcut)A shows the relationship between the mean RPKM cutoff and the number of features above the given cutoff. Figure \@ref(fig:exprcut)B is the same information but in percent. Figure \@ref(fig:exprcut)C is a tad more complicated as it explore the relationship between the cutoff and the distribution of the number of non-zero samples. All three figures show estimated points where the curves bend and simply provide a guide for choosing a cutoff.
 
 
-```{r 'exprcut', fig.cap = c('Number of genes expressed at given mean RPKM cutoff.', 'Percent of genes epxressed at a given mean RPKM cutoff.', 'Distribution of number of expressed samples across all genes at a given mean RPKM cutoff')}
+```{r 'exprcut', fig.cap = c('A. Number of genes expressed at given mean RPKM cutoff.', 'B. Percent of genes epxressed at a given mean RPKM cutoff.', 'C. Distribution of number of expressed samples across all genes at a given mean RPKM cutoff')}
 ## Compute RPKM and mean RPKM
 rpkm <- getRPKM(scale_counts(has_patho))
 rpkm_mean <- rowMeans(rpkm)
@@ -300,22 +300,33 @@ plot_gene <- function(ii, type = 'cleaned', sign = 'any') {
 
 Having built our plotting function, we can now visualize the top gene as shown in Figures \@ref(fig:topgene1), \@ref(fig:topgene2) and \@ref(fig:topgene3). In this case, there's not a large difference between the cleaned expression in Figure \@ref(fig:topgene3) and the normalized expression in Figure \@ref(fig:topgene2). From [GeneCards](http://www.genecards.org/) we can see that the [_SMC4_](http://www.genecards.org/cgi-bin/carddisp.pl?gene=SMC4) gene plays a role in the structural maintenance of chromosomes, which make sense in our context. Figure \@ref(fig:topgene4) shows the top DE gene with a decreasing expression trend across tumor grade progression. [_CCNI2_](http://www.genecards.org/cgi-bin/carddisp.pl?gene=CCNI2) is a paralog of [_CCNI_](http://www.genecards.org/cgi-bin/carddisp.pl?gene=CCNI) which has been implicated in mitosis.
 
-```{r 'topgene', fig.cap = c('Raw expression for the top DE gene.', 'Voom-normalized expression for the top DE gene.', 'Cleaned voom-normalized expression for the top DE gene.', 'Cleaned voom-normalized expression for the top DE gene with a decreasing trend.')}
-## Keep the jitter reproducible
-set.seed(20180203)
-
+```{r 'topgene1', fig.cap = 'Raw expression for the top DE gene.'}
 ## Visualize the top gene
 plot_gene(1, 'raw')
-plot_gene(1, 'norm')
-plot_gene(1)
+```
 
+```{r 'topgene2', fig.cap = 'Voom-normalized expression for the top DE gene.'}
+plot_gene(1, 'norm')
+```
+
+
+```{r 'topgene3', fig.cap = 'Cleaned voom-normalized expression for the top DE gene.'}
+plot_gene(1)
+```
+
+
+```{r 'topgene4', fig.cap = 'Cleaned voom-normalized expression for the top DE gene with a decreasing trend.'}
 ## Visualize top gene with a downward trend
 plot_gene(1, sign = '-1')
 ```
 
+
 We are not experts in gliomas, but maybe your colleagues are and might recognize important genes. You can use the following code to make plots of some of the top DE genes in both directions and share the images with them to get feedback. Check the [top50_increasing](top50_increasing.pdf) and [top50_decreasing](top50_decreasing.pdf) genes in the linked PDF files.
 
 ```{r 'toppdf'}
+## Keep the jitter reproducible
+set.seed(20180203)
+
 ## Plot the top 50 increasing and decreasing genes
 pdf('top50_increasing.pdf')
 for(i in seq_len(50)) plot_gene(i, sign = '1')
@@ -374,9 +385,9 @@ names(go_comp) <- c('Biological Process', 'Molecular Function',
     'Cellular Component')
 ```
 
-Now that we have the data for each of the ontologies we can visualize the results using `clusterProfiler::plot()`. Figure \@ref(fig:goplot1) shows the enriched biological process terms where we see terms enriched for DNA replication and chromosome segregation in the genes with an increasing expression relationship with grade tumor progression. Intuitively this makes sense since gliomas are a type of cancer. The enriched molecular function ontology terms showin in Figure \@ref(fig:goplot2) reflect the same picture with transmembrane transporters enriched in the genes with a decreasing expression association with grade tumor progression. Figure \@ref(fig:goplot3) shows the enriched cellular components with chromosome-releated terms related with the genes that have a higher expression as tumor progression advances. This is related to the findings in the original study where they focused in gene fusions `r citep(bib[['original']])`. 
+Now that we have the data for each of the ontologies we can visualize the results using `clusterProfiler::plot()`. Figure \@ref(fig:goplot)A shows the enriched biological process terms where we see terms enriched for DNA replication and chromosome segregation in the genes with an increasing expression relationship with grade tumor progression. Intuitively this makes sense since gliomas are a type of cancer. The enriched molecular function ontology terms show in Figure \@ref(fig:goplot)B reflect the same picture with transmembrane transporters enriched in the genes with a decreasing expression association with grade tumor progression. Figure \@ref(fig:goplot)C shows the enriched cellular components with chromosome-releated terms related with the genes that have a higher expression as tumor progression advances. This is related to the findings in the original study where they focused in gene fusions `r citep(bib[['original']])`. 
 
-```{r 'goplot', fig.cap = c('Enriched biological process ontology terms.', 'Enriched molecular function ontology terms.', 'Enriched cellular component ontology terms.'), fig.wide = TRUE}
+```{r 'goplot', fig.cap = c('A. Enriched biological process ontology terms.', 'B. Enriched molecular function ontology terms.', 'C. Enriched cellular component ontology terms.'), fig.wide = TRUE}
 ## Visualize enriched GO terms
 xx <- lapply(names(go_comp), function(bp) {
     print(plot(go_comp[[bp]], title = paste(bp, 'ontology'), font.size = 15))
