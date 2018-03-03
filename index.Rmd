@@ -52,7 +52,7 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 # Example analyses
 
 * We used the data from [SRP027383](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP027383) `r citep(bib[['srp']])` to show how `recount_brain` can be used for a gene differential expression analysis. See the full example for more information: [example_SRP027383](example_SRP027383/example_SRP027383.html). You can also access the [pdf version](example_SRP027383/example_SRP027383.pdf) if you prefer over the HTML version.
-* We used the data from ten studies to replicate some of the analyses by Ferreira _et al._ `r citep(bib[['gtex']])` that explore the relationship between post-mortem interval and gene expresion. See the full example for more information: [example_PMI](example_PMI/example_PMI.html). You can also access the [pdf version](example_PMI/example_PMI.pdf) if you prefer it over the HTML version.
+* We used the data from ten studies to replicate some of the analyses by Ferreira _et al._ `r citep(bib[['gtex']])` that explore the relationship between post-mortem interval and gene expression. See the full example for more information: [example_PMI](example_PMI/example_PMI.html). You can also access the [pdf version](example_PMI/example_PMI.pdf) if you prefer it over the HTML version.
 
 # List of variables
 
