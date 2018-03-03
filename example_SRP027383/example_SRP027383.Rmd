@@ -260,6 +260,8 @@ cleaned_expr <- cleaningY(gene_voom$E, mod, P = 3)
 
 ## gene plotting function
 plot_gene <- function(ii, type = 'cleaned', sign = 'any') {
+    ## Keep the jitter reproducible
+set.seed(20180203)
     
     ## Order by FDR and subset by logFC sign if necessary
     if(sign == 'any') {
@@ -324,9 +326,6 @@ plot_gene(1, sign = '-1')
 We are not experts in gliomas, but maybe your colleagues are and might recognize important genes. You can use the following code to make plots of some of the top DE genes in both directions and share the images with them to get feedback. Check the [top50_increasing](top50_increasing.pdf) and [top50_decreasing](top50_decreasing.pdf) genes in the linked PDF files.
 
 ```{r 'toppdf'}
-## Keep the jitter reproducible
-set.seed(20180203)
-
 ## Plot the top 50 increasing and decreasing genes
 pdf('top50_increasing.pdf')
 for(i in seq_len(50)) plot_gene(i, sign = '1')
