@@ -301,6 +301,9 @@ plot_gene <- function(ii, type = 'cleaned', sign = 'any') {
 Having built our plotting function, we can now visualize the top gene as shown in Figures \@ref(fig:topgene1), \@ref(fig:topgene2) and \@ref(fig:topgene3). In this case, there's not a large difference between the cleaned expression in Figure \@ref(fig:topgene3) and the normalized expression in Figure \@ref(fig:topgene2). From [GeneCards](http://www.genecards.org/) we can see that the [_SMC4_](http://www.genecards.org/cgi-bin/carddisp.pl?gene=SMC4) gene plays a role in the structural maintenance of chromosomes, which make sense in our context. Figure \@ref(fig:topgene4) shows the top DE gene with a decreasing expression trend across tumor grade progression. [_CCNI2_](http://www.genecards.org/cgi-bin/carddisp.pl?gene=CCNI2) is a paralog of [_CCNI_](http://www.genecards.org/cgi-bin/carddisp.pl?gene=CCNI) which has been implicated in mitosis.
 
 ```{r 'topgene', fig.cap = c('Raw expression for the top DE gene.', 'Voom-normalized expression for the top DE gene.', 'Cleaned voom-normalized expression for the top DE gene.', 'Cleaned voom-normalized expression for the top DE gene with a decreasing trend.')}
+## Keep the jitter reproducible
+set.seed(20180203)
+
 ## Visualize the top gene
 plot_gene(1, 'raw')
 plot_gene(1, 'norm')
