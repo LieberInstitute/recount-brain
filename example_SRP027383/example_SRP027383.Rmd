@@ -7,7 +7,7 @@ author:
   - Center for Computational Biology, Johns Hopkins University, Baltimore, MD, 21205, USA
   email: leo.collado@libd.org
 output:
-  BiocStyle::html_document
+  BiocStyle::pdf_document
 abstract: |
   This is an example on how to use recount_brain applied to the SRP027383 study. We show how to download data from recount2, add the sample metadata from recount_brain, explore the sample metadata and the gene expression data, and perform a gene expression analysis.
 editor_options: 
@@ -51,7 +51,7 @@ write.bibtex(bib, file = 'example_SRP027383.bib')
 
 This document is an example of how you can use `recount_brain`. We will use the data from the SRA study [SRP027383](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP027383) which is described in "RNA-seq of 272 gliomas revealed a novel, recurrent PTPRZ1-MET fusion transcript in secondary glioblastomas" `r citep(bib[['original']])`. As you can see in Figure \@ref(fig:runselector) a lot of the metadata for these samples is missing from the SRA Run Selector which makes it a great case for using `recount_brain`. We will show how to add the `recount_brain` metadata and perform a gene differential expression analysis using this information.
 
-```{r 'runselector', fig.cap="SRA Run Selector information for study SRP027383. Screenshot from 2018-02-26.", echo=FALSE}
+```{r 'runselector', fig.cap="SRA Run Selector information for study SRP027383. Screenshot from 2018-02-26.", echo=FALSE, out.width = '1.1\\linewidth'}
 knitr::include_graphics('run_selector.png')
 ```
 
@@ -176,10 +176,10 @@ From our earlier exploration, we noticed that not all samples have pathology inf
 has_patho <- rse_gene[, !is.na(rse_gene$pathology)]
 ```
 
-Next we will compute RPKM values and use `expression_cutoff()` from `r Githubpkg('LieberInstitute/jaffelab')` to get a suggested RPKM cutoff for dropping genes with low expression levels. Note that you can also use `r Biocpkg('genefilter')` or other packages for computing a low expression cutoff. Figure \@ref(fig:exprcut)A shows the relationship between the mean RPKM cutoff and the number of features above the given cutoff. Figure \@ref(fig:exprcut)B is the same information but in percent. Figure \@ref(fig:exprcut)C is a tad more complicated as it explore the relationship between the cutoff and the distribution of the number of non-zero samples. All three figures show estimated points where the curves bend and simply provide a guide for choosing a cutoff.
+Next we will compute RPKM values and use `expression_cutoff()` from `r Githubpkg('LieberInstitute/jaffelab')` to get a suggested RPKM cutoff for dropping genes with low expression levels. Note that you can also use `r Biocpkg('genefilter')` or other packages for computing a low expression cutoff. Figure \@ref(fig:exprcut1) shows the relationship between the mean RPKM cutoff and the number of features above the given cutoff. Figure \@ref(fig:exprcut2) is the same information but in percent. Figure \@ref(fig:exprcut3) is a tad more complicated as it explore the relationship between the cutoff and the distribution of the number of non-zero samples. All three figures show estimated points where the curves bend and simply provide a guide for choosing a cutoff.
 
 
-```{r 'exprcut', fig.cap = c('A. Number of genes expressed at given mean RPKM cutoff.', 'B. Percent of genes epxressed at a given mean RPKM cutoff.', 'C. Distribution of number of expressed samples across all genes at a given mean RPKM cutoff')}
+```{r 'exprcut', fig.cap = c('Number of genes expressed at given mean RPKM cutoff.', 'Percent of genes epxressed at a given mean RPKM cutoff.', 'Distribution of number of expressed samples across all genes at a given mean RPKM cutoff')}
 ## Compute RPKM and mean RPKM
 rpkm <- getRPKM(scale_counts(has_patho))
 rpkm_mean <- rowMeans(rpkm)
@@ -387,9 +387,9 @@ names(go_comp) <- c('Biological Process', 'Molecular Function',
     'Cellular Component')
 ```
 
-Now that we have the data for each of the ontologies we can visualize the results using `clusterProfiler::plot()`. Figure \@ref(fig:goplot)A shows the enriched biological process terms where we see terms enriched for DNA replication and chromosome segregation in the genes with an increasing expression relationship with grade tumor progression. Intuitively this makes sense since gliomas are a type of cancer. The enriched molecular function ontology terms show in Figure \@ref(fig:goplot)B reflect the same picture with transmembrane transporters enriched in the genes with a decreasing expression association with grade tumor progression. Figure \@ref(fig:goplot)C shows the enriched cellular components with chromosome-releated terms related with the genes that have a higher expression as tumor progression advances. This is related to the findings in the original study where they focused in gene fusions `r citep(bib[['original']])`. 
+Now that we have the data for each of the ontologies we can visualize the results using `clusterProfiler::plot()`. Figure \@ref(fig:goplot1) shows the enriched biological process terms where we see terms enriched for DNA replication and chromosome segregation in the genes with an increasing expression relationship with grade tumor progression. Intuitively this makes sense since gliomas are a type of cancer. The enriched molecular function ontology terms show in Figure \@ref(fig:goplot2) reflect the same picture with transmembrane transporters enriched in the genes with a decreasing expression association with grade tumor progression. Figure \@ref(fig:goplot3) shows the enriched cellular components with chromosome-releated terms related with the genes that have a higher expression as tumor progression advances. This is related to the findings in the original study where they focused in gene fusions `r citep(bib[['original']])`. 
 
-```{r 'goplot', fig.cap = c('A. Enriched biological process ontology terms.', 'B. Enriched molecular function ontology terms.', 'C. Enriched cellular component ontology terms.'), fig.wide = TRUE}
+```{r 'goplot', fig.cap = c('Enriched biological process ontology terms.', 'Enriched molecular function ontology terms.', 'Enriched cellular component ontology terms.'), fig.wide = TRUE}
 ## Visualize enriched GO terms
 xx <- lapply(names(go_comp), function(bp) {
     print(plot(go_comp[[bp]], title = paste(bp, 'ontology'), font.size = 15))

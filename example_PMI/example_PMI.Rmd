@@ -7,7 +7,7 @@ author:
   - Center for Computational Biology, Johns Hopkins University, Baltimore, MD, 21205, USA
   email: leo.collado@libd.org
 output:
-  BiocStyle::html_document
+  BiocStyle::pdf_document
 abstract: |
   This is an example of how you can use recount_brain to check if some results from another study are replicated in brain samples from the SRA present in recount2. This example also shows how you can quantify the percent of mitochondrial transcription and options for comparing two sets of SRA studies.
 editor_options: 
@@ -115,7 +115,7 @@ summary(recount_brain$pmi)
 
 In Figure \@ref(fig:pmidist) we plot the distribution of PMI in hours across all the samples of interest from the `r length(unique(recount_brain$sra_study_s))` studies. There are a few peaks which could be due to some tissues having less diverse PMI values.
 
-```{r 'pmidist', fig.cap = 'Distribution of PMI in hours for all SRA studies with PMI information present in recount_brain.', message = FALSE}
+```{r 'pmidist', fig.cap = 'Distribution of PMI in hours for all SRA studies with PMI information present in recount\\_brain.', message = FALSE}
 library('ggplot2')
 
 ## Used code from
@@ -144,7 +144,7 @@ dim(recount_brain)
 We can now remake Figure \@ref(fig:pmidist) having dropped the two studies with no PMI variability as shown in Figure \@ref(fig:pmidistsub). There's still a peak at low PMI values, most likely from the 8 samples from study [SRP056604](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP056604).
 
 
-```{r 'pmidistsub', fig.cap = 'Distribution of PMI in hours for all SRA studies with PMI information present in recount_brain and that have PMI variability.', message = FALSE}
+```{r 'pmidistsub', fig.cap = 'Distribution of PMI in hours for all SRA studies with PMI information present in recount\\_brain and that have PMI variability.', message = FALSE}
 ggplot(recount_brain, aes(x = pmi)) +
     geom_histogram(aes(y=..density..),
         colour="black", fill="white") +
@@ -334,7 +334,7 @@ plot_gene <- function(symb, type = 'cleaned', study) {
 }
 ```
 
-In Figure \@ref(fig:keygenes) we check if there's a relationship in the gene expression of _RNASE2_, _EGR3_, _HBA1_ and _CXCL2_ with the 4 PMI intervals (in hours) that are present in our data. The directions of the trends match those in [Figure 2d](https://www.nature.com/articles/s41467-017-02772-x/figures/2) of the original study across the same 4 PMI intervals. In particular, _CXCL2_ initially has a higher expression in artery (tibial) for I1, but it tends to increase across intervals I2 to I4 similar to what we observe in Figure \@ref(fig:keygenes). In Figure \@ref(fig:keygenes) we see a significant decrease (p < 0.05) in _RNASE2_ expression as the PMI interval increases.
+In Figures \@ref(fig:keygenes1), \@ref(fig:keygenes2), \@ref(fig:keygenes3) and \@ref(fig:keygenes4) we check if there's a relationship in the gene expression of _RNASE2_, _EGR3_, _HBA1_ and _CXCL2_ with the 4 PMI intervals (in hours) that are present in our data. The directions of the trends match those in [Figure 2d](https://www.nature.com/articles/s41467-017-02772-x/figures/2) of the original study across the same 4 PMI intervals. In particular, _CXCL2_ initially has a higher expression in artery (tibial) for I1, but it tends to increase across intervals I2 to I4 similar to what we observe in Figure \@ref(fig:keygenes4). In Figure \@ref(fig:keygenes1) we see a significant decrease (p < 0.05) in _RNASE2_ expression as the PMI interval increases.
 
 ```{r 'keygenes', fig.cap = paste('Normalized expression adjusted for disease status and project across PMI intervals for gene', c('RNASE2', 'EGR3', 'HBA1', 'CXCL2'))}
 ## Now make the plots
@@ -344,7 +344,7 @@ plot_gene('HBA1')
 plot_gene('CXCL2')
 ```
 
-Ferreira _et al._ `r citep(bib[['original']])` found the same negative trend in _RNASE2_ expression through PMI interval progression for 13 tissues that they show in their [Figure 2d](https://www.nature.com/articles/s41467-017-02772-x/figures/2), but not in the brain. From Figure \@ref(fig:pmistudy) we know that not all the studies we are using span all PMI intervals. Using those studies that span at least 3 PMI intervals we explore the relationship between _RNASE2_ expression and PMI interval progression as shown in Figure \@ref(fig:rnase2). Three out of the four studies show a negative trend although it's not significant in any of them. SRP019762 shows an increase in _RNASE2_ expression but it also has no PMIs in the second interval and only two in the fifth interval.
+Ferreira _et al._ `r citep(bib[['original']])` found the same negative trend in _RNASE2_ expression through PMI interval progression for 13 tissues that they show in their [Figure 2d](https://www.nature.com/articles/s41467-017-02772-x/figures/2), but not in the brain. From Figure \@ref(fig:pmistudy) we know that not all the studies we are using span all PMI intervals. Using those studies that span at least 3 PMI intervals we explore the relationship between _RNASE2_ expression and PMI interval progression as shown in Figures \@ref(fig:rnase21), \@ref(fig:rnase22), \@ref(fig:rnase23) and \@ref(fig:rnase24). Three out of the four studies show a negative trend although it's not significant in any of them. SRP019762 shows an increase in _RNASE2_ expression but it also has no PMIs in the second interval and only two in the fifth interval.
 
 ```{r 'rnase2studies'}
 ## Plot RNASE2 by study
@@ -358,7 +358,7 @@ study_nint <- names(study_nint)[study_nint >= 3]
 for(s in study_nint) plot_gene('RNASE2', type = 'norm', study = s)
 ```
 
-The variability across studies shown in Figure \@ref(fig:rnase2) as well as the variability in brain regions these studies represent could explain why Ferreira _et al._ didn't see a significant relationship between _RNASE2_ expression and PMI interval in their study.
+The variability across studies shown in Figures \@ref(fig:rnase21), \@ref(fig:rnase22), \@ref(fig:rnase23) and \@ref(fig:rnase24) as well as the variability in brain regions these studies represent could explain why Ferreira _et al._ didn't see a significant relationship between _RNASE2_ expression and PMI interval in their study.
 
 ```{r 'study_nint_subtissue'}
 with(colData(rse_gene[, rse_gene$project %in% study_nint]),
