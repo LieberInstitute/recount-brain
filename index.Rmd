@@ -125,7 +125,7 @@ The analyses were made possible thanks to:
 * `r CRANpkg('DT')` `r citep(bib[['DT']])`
 * `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
 * `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
-* `phenopredict` `r citep(bib[['phenopredict']])`
+* `r Githubpkg('leekgroup/phenopredict')` `r citep(bib[['phenopredict']])`
 * `r Biocpkg('recount')` `r citep(bib[['recount']])`
 * `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
 
