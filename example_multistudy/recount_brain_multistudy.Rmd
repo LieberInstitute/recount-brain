@@ -6,7 +6,7 @@ author:
   email: sellis18@jhmi.edu
 output:
   BiocStyle::html_document:
-      code_folding: hide
+      code_folding: show
 abstract: |
   Example on how to use recount_brain metadata across multiple studies. We show how to download data from recount2, add the sample metadata from recount_brain, explore the sample metadata and the gene expression data, and perform a cross-study analysis.
 editor_options: 
@@ -27,14 +27,16 @@ bib <- c(
     R = citation(),
    # BiocStyle = citation('BiocStyle'),
     devtools = citation('devtools'),
+    downloader = citation('downloader'),
+    dplyr = citation('dplyr'),
+    jaffelab = citation('jaffelab'),
+    janitor = citation('janitor'),
     knitcitations = citation('knitcitations'),
     knitr = citation('knitr')[3],
 	  recount = citation('recount')[1],
     recountWorkflow = citation('recount')[2],
     rmarkdown = citation('rmarkdown'),
-    original = bib_metadata('10.1101/gr.165126.113'),
-    limma = citation('limma'),
-    voom = RefManageR::BibEntry('article', key = 'voom', author = 'CW Law and Y Chen and W Shi and GK Smyth', year = '2014', title = 'Voom: precision weights unlock linear model analysis tools for RNA-seq read counts', journal = 'Genome Biology', volume = '15', pages = 'R29')
+    original = bib_metadata('10.1101/gr.165126.113')
 )
 
 write.bibtex(bib, file = 'example_multistudy.bib')
@@ -61,22 +63,20 @@ This document is an example of how you can use `recount_brain`. We will first ex
 
 Since we will be using many functions from the `recount` package, let's load it first^[If you are a first time `recount` user, we recommend first reading the package vignette at [bioconductor.org/packages/recount](http://bioconductor.org/packages/recount).]. We'll also download all of the other 
 
-```{r 'load-packages', echo=FALSE, warning = FALSE, message = FALSE}
+```{r 'load-packages', warning = FALSE, message = FALSE}
 library(recount) # version >1.5.9
 library(dplyr)
 library(downloader)
 library(janitor)
 # install_github('LieberInstitute/jaffelab')
 library(jaffelab)
-library(ggplot2)
-library(sva)
 ```
 
 # The Data
 
 ## Sample metadata
 
-To explore the samples available, we'll first search among TCGA samples and available samples in `recount-brain` to determine which samples and which studies we'll use for our analysis. We'll similarly load the TCGA meta data. We will use samples from TCGA and from `recount-brain` in our analysis.
+To explore the samples available, we'll first search among TCGA samples `r citep("10.1038/nature07385")` and available samples in `recount-brain` to determine which samples and which studies we'll use for our analysis. We'll similarly load the TCGA meta data. We will use samples from TCGA and from `recount-brain` in our analysis.
 
 ```{r 'metadata', message = FALSE}
 ## get recount_brain metadata
@@ -89,7 +89,7 @@ tcga <- as.data.frame(recount::all_metadata('TCGA'))
 
 ## Identifying studies 
 
-Among the TCGA samples, there are 707 samples with either Glioma or Glioblastoma Multiforme (GBM). There are four `recount_brain` studies with at least 20 cancer samples. Of these four studies, three studies have Glioblastoma samples. Two of these three studies have more than 20 samples. We'll use these two studies (`SRP027383` and `SRP044668`) to look for variability in expression across studies. 
+Among the TCGA samples, there are 707 samples with either Glioma or Glioblastoma Multiforme (GBM) `r citep("10.1016/j.cell.2013.09.034")`. There are four `recount_brain` studies with at least 20 cancer samples. Of these four studies, three studies have Glioblastoma samples. Two of these three studies have more than 20 samples. We'll use these two studies -- `SRP027383` (`r citep("10.1101/gr.165126.113")` and `SRP044668` `r citep("10.1073/pnas.1405839111")` -- to look for variability in expression across studies. 
 
 ## TCGA brain cancer samples
 ```{r}
@@ -162,7 +162,8 @@ After loading the expression data from our studies of interest, we filter to onl
 rse_gene_SRA <- cbind(rse_gene_SRP027383,rse_gene_SRP044668)
 
 ## just 15 Primary Tumor GBM samples in TCGA
-tokeep <- (colData(rse_gene_TCGA)$gdc_cases.project.name=="Glioblastoma Multiforme" & colData(rse_gene_TCGA)$cgc_sample_sample_type=="Primary Tumor")
+tokeep <- (colData(rse_gene_TCGA)$gdc_cases.project.name=="Glioblastoma Multiforme" &
+             colData(rse_gene_TCGA)$cgc_sample_sample_type=="Primary Tumor")
 rse_gene_TCGA<-rse_gene_TCGA[,tokeep]
 
 # get metadata 
@@ -176,7 +177,8 @@ SRP044668_md <- as.data.frame(colData(rse_gene_SRP044668)) %>%
   mutate(dataset='SRP044668')
 
 ## make sure that same metadata columns are present so that RSEs can be merged
-cols_to_bind <- colnames(colData(rse_gene_TCGA))[colnames(colData(rse_gene_TCGA)) %in% colnames(colData(rse_gene_SRA))]
+cols_to_bind <- colnames(colData(rse_gene_TCGA))[colnames(colData(rse_gene_TCGA)) %in% 
+                                                   colnames(colData(rse_gene_SRA))]
 colData(rse_gene_SRA)  <- colData(rse_gene_SRA)[,cols_to_bind]
 colData(rse_gene_TCGA)  <- colData(rse_gene_TCGA)[,cols_to_bind]
 
@@ -214,29 +216,81 @@ Here, we have scale the data and caclulate RPKM for all genes in the data set (N
 
 ## Run PCA
 
+Fist, we'll write a few functions to run PCA, plot the results, and assess the percent of variance explained. These functions will be used throughout. 
+
+```{r 'pca-functions', warning=FALSE}
+## Run PCA
+pc_function <- function(exp){
+  svd(exp - rowMeans(exp))
+}
+
+## Plot PCA
+pc_plot <- function(pca,legend=NULL, color=NULL, main=NULL,
+                    type=NULL,
+                    ptsize=1.5,position="bottomright"){
+  par(mfrow=c(2,2))
+  
+  if(type=='character'){
+    color = colors
+    c2 = names(table(color))
+  }else{
+    color = as.factor(color)
+    c2 = 1:length(unique(as.factor(color)))
+  }
+    
+  par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
+  plot(pca$v[, 1], pca$v[, 2], col= color,
+       pch = 19, cex = ptsize,
+       xlab = 'PC1', ylab = 'PC2',
+       main = main)
+  
+  par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
+  plot(pca$v[, 3], pca$v[, 4], col= color,
+       pch = 19, cex = ptsize,
+       xlab = 'PC3', ylab = 'PC4',
+       main = main)
+  
+  par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
+  plot(pca$v[, 5], pca$v[, 6], col= color , 
+       pch = 19, cex = ptsize,
+       xlab = 'PC5', ylab = 'PC6',
+       main = main)
+  
+  par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
+  plot(pca$v[, 7], pca$v[, 8], col= color, 
+       pch = 19, cex = ptsize,
+       xlab = 'PC7', ylab = 'PC8',
+       main = main)
+  legend(position, pch = 19, col= c2,
+         names(summary(as.factor(legend))),bty="n")
+}
+
+## Plot Variance Explained
+var_plot <- function(pca){
+  par(mfrow=c(1,1))
+  plot((pca$d^2/sum(pca$d^2))*100, xlim = c(0, 15), type = "b",
+      pch = 16, xlab = "principal components", 
+      ylab = "variance explained (%)")
+}
+```
+
 Having filtered out lowly-expressed genes, we now run a principal component analysis (PCA) to look at global expression patterns across this data set. Below we see that, as expected, samples are clustering by study. This is something we will have to correct for before carrying out our analysis. 
 
-```{r 'pca', cache=TRUE, warning=FALSE}
+```{r 'pca', cache=TRUE, warning=FALSE, fig.height=9}
 ## Look at mean variance relationship
 ## Calculate PCs with svd function
-expr.pca.rpkm.log2 <- svd(rpkm_log2 - rowMeans(rpkm_log2))
+expr.pca.rpkm.log2 <- pc_function(rpkm_log2)
 
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.rpkm.log2$v[, 1], expr.pca.rpkm.log2$v[, 2], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC1', ylab = 'PC2',
-     main = 'PC (gene level) : log2(RPKM + 0.5)')
-legend('bottomright', pch = 19, col=c(1:3),
-       names(summary(as.factor(md$dataset))))
+## plot by dataset
+pc_plot(pca=expr.pca.rpkm.log2,legend=md$dataset, color=md$dataset, 
+        main="PC (gene level) : log2(RPKM + 0.5)", 
+        position="bottomleft", type='variable')
 
-## Are healthy sample clustered?
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-cols <- c(bright[c(1)],"grey48")
-plot(expr.pca.rpkm.log2$v[, 1], expr.pca.rpkm.log2$v[, 2], col= cols[as.factor(md$disease_status)] , pch = 19, cex = 1.5,
-     xlab = 'PC1', ylab = 'PC2',
-     main = 'PC (gene level) : log2(RPKM + 0.5) colored by Disease Status')
-legend('bottomright', pch = 19, col=c(1:2),
-       names(summary(as.factor(md$disease_status))))
-#dev.off()
+## check to see if healthy samples are clustering  
+pc_plot(pca=expr.pca.rpkm.log2,legend=md$disease_status, color=md$disease_status, 
+        main="PC (gene level) : log2(RPKM + 0.5)", 
+        position="bottomleft", type='variable')
+
 ```
 
 
@@ -245,7 +299,7 @@ legend('bottomright', pch = 19, col=c(1:2),
 Given the fact that control samples are clustering in the PCA plot above, we'll remove these from the analysis prior to normalizing the data to remove dataset specific effects. After removing these control samples from analysis, we see that the data still cluster by data set.
 
 
-```{r data-pca, warning=FALSE, cache=TRUE, fig.height=8}
+```{r data-pca, warning=FALSE, cache=TRUE, fig.height=9}
 ## remove 19 control samples and just include GBM samples
 rpkm_log2 <- rpkm_log2[,(md$tumor_type=="Glioblastoma" & !is.na(md$tumor_type))]
 md <- md[(md$tumor_type=="Glioblastoma" & !is.na(md$tumor_type)),]
@@ -253,43 +307,22 @@ md <- md[(md$tumor_type=="Glioblastoma" & !is.na(md$tumor_type)),]
 tabyl(md$dataset)
 
 ## Run pca
-expr.pca.counts.log2 <- svd(rpkm_log2 - rowMeans(rpkm_log2))
+expr.pca.counts.log2 <- pc_function(rpkm_log2)
 
 ## visualize
-par(mfrow=c(2,2))
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.counts.log2$v[, 1], expr.pca.counts.log2$v[, 2], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC1', ylab = 'PC2',
-     main = 'PC (gene level) : log2(scaled counts + 0.5)')
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.counts.log2$v[, 3], expr.pca.counts.log2$v[, 4], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC3', ylab = 'PC4',
-     main = 'PC (gene level) : log2(scaled counts + 0.5)')
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.counts.log2$v[, 5], expr.pca.counts.log2$v[, 6], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC5', ylab = 'PC6',
-     main = 'PC (gene level) : log2(scaled counts + 0.5)')
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.counts.log2$v[, 7], expr.pca.counts.log2$v[, 8], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC7', ylab = 'PC8',
-     main = 'PC (gene level) : log2(scaled counts + 0.5)')
-legend('bottomright', pch = 19, col=c(1:3),
-       names(summary(as.factor(md$dataset))))
+pc_plot(pca=expr.pca.counts.log2,legend=md$dataset, color=md$dataset, 
+        main="PC (gene level) : log2(RPKM + 0.5)",
+        position="topleft", type='variable')
 
 #Plot Variance Explained
-par(mfrow=c(1,1))
-plot(expr.pca.counts.log2$d^2/sum(expr.pca.counts.log2$d^2), xlim = c(0, 15), type = "b", pch = 16, xlab = "principal components", 
-    ylab = "variance explained")
+var_plot(pca=expr.pca.counts.log2)
 ```
 
 ## Normalize for Dataset
 
 To remove effects of TCGA vs SRA data sets (as they separate out in initial PCA), we first adjust the expression data and remove the effects of dataset. As TCGA is separating out in PC1 above while the two SRA samples are not, we code dataset as 1 if TGCA and 0 otherwise. 
 
-```{r data-normalization, warning=FALSE, cache=TRUE, fig.height=8}
+```{r data-normalization, warning=FALSE, cache=TRUE, fig.height=9}
 
 ## code dataset where SRA dataset is 0 and TCGA is 1
 dataset <- md$dataset
@@ -303,7 +336,6 @@ normalize <- function(x){
   #run model
   lmfit <- lm(x ~ dataset)
   #adjust data
-  #note: for quantitative, you have to subtract person's age from the average age of the group; for binary traits, you don't have to worry about this
   out <- x -  (coef(lmfit)["dataset"]*(dataset)) 
   return(out)
 }
@@ -311,37 +343,14 @@ normalize <- function(x){
 df <- apply(rpkm_log2,1,normalize)
 rpkm_normalized <- t(df)
 
-expr.pca.normalized <- svd(rpkm_normalized - rowMeans(rpkm_normalized))
+expr.pca.normalized <- pc_function(rpkm_normalized)
 
-par(mfrow=c(2,2))
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized$v[, 1], expr.pca.normalized$v[, 2], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC1', ylab = 'PC2',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
+pc_plot(pca=expr.pca.normalized,legend=md$dataset, color=md$dataset, 
+        main="PC (gene level) : log2(normalized(RPKM) + 0.5)",
+        type='variable')
 
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized$v[, 3], expr.pca.normalized$v[, 4], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC3', ylab = 'PC4',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized$v[, 5], expr.pca.normalized$v[, 6], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC5', ylab = 'PC6',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized$v[, 7], expr.pca.normalized$v[, 8], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC7', ylab = 'PC8',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-legend('bottomright', pch = 19, col=c(1:3),
-       names(summary(as.factor(md$dataset))))
-
-#Plot Variance Explained
-par(mfrow=c(1,1))
-plot(expr.pca.normalized$d^2/sum(expr.pca.normalized$d^2), xlim = c(0, 15), type = "b", pch = 16, xlab = "principal components", 
-    ylab = "variance explained")
+## Plot Variance Explained
+var_plot(pca=expr.pca.normalized)
 ```
 
 
@@ -349,7 +358,7 @@ plot(expr.pca.normalized$d^2/sum(expr.pca.normalized$d^2), xlim = c(0, 15), type
 
 Above we see that removing the effects of dataset is helpful, however, the data do not completely overlap. To address this, we then remove the effects of the first 6 PCs from the expression data. After running PCA on these normalized expression data, we see that the effects of dataset have been removed and cross-study comparisons are now possible.
 
-```{r pca-adjust, warning=FALSE, cache=TRUE, fig.height=8}
+```{r pca-adjust, warning=FALSE, cache=TRUE, fig.height=9}
 PC1 <- expr.pca.normalized$v[, 1]
 PC2 <- expr.pca.normalized$v[, 2]
 PC3 <- expr.pca.normalized$v[, 3]
@@ -361,38 +370,25 @@ normalize_PC <- function(x){
   #run model
   lmfit <- lm(x ~  + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 )
   #adjust data
-  #note: for quantitative, you have to subtract person's age from the average age of the group; for binary traits, you don't have to worry about this
-  out <- x - (coef(lmfit)["PC1"]*(PC1-mean(PC1))) - (coef(lmfit)["PC2"]*(PC2-mean(PC2))) - (coef(lmfit)["PC3"]*(PC3-mean(PC3))) - (coef(lmfit)["PC4"]*(PC4-mean(PC4))) - (coef(lmfit)["PC5"]*(PC5-mean(PC5))) - (coef(lmfit)["PC6"]*(PC6-mean(PC6))) 
+  out <- x - (coef(lmfit)["PC1"]*(PC1-mean(PC1))) - (coef(lmfit)["PC2"]*(PC2-mean(PC2))) -
+    (coef(lmfit)["PC3"]*(PC3-mean(PC3))) - (coef(lmfit)["PC4"]*(PC4-mean(PC4))) - 
+    (coef(lmfit)["PC5"]*(PC5-mean(PC5))) - (coef(lmfit)["PC6"]*(PC6-mean(PC6))) 
   return(out)
 }
 
 df <- apply(rpkm_normalized,1,normalize_PC)
 rpkm_normalized_PC <- t(df)
 
-expr.pca.normalized.pc <- svd(rpkm_normalized_PC - rowMeans(rpkm_normalized_PC))
+## Run PCA
+expr.pca.normalized.pc <- pc_function(rpkm_normalized_PC)
 
-par(mfrow=c(2,2))
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.pc$v[, 1], expr.pca.normalized.pc$v[, 2], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC1', ylab = 'PC2',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
+## Plot PCA
+pc_plot(pca=expr.pca.normalized.pc,legend=md$dataset, color=md$dataset, 
+        main="PC (gene level) : log2(normalized(RPKM) + 0.5)", 
+        type='variable')
 
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.pc$v[, 3], expr.pca.normalized.pc$v[, 4], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC3', ylab = 'PC4',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.pc$v[, 5], expr.pca.normalized.pc$v[, 6], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC5', ylab = 'PC6',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.pc$v[, 7], expr.pca.normalized.pc$v[, 8], col= as.factor(md$dataset) , pch = 19, cex = 1.5,
-     xlab = 'PC7', ylab = 'PC8',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-legend('bottomright', pch = 19, col=c(1:3),
-       names(summary(as.factor(md$dataset))))
+## Plot Variance Explained
+var_plot(pca=expr.pca.normalized.pc)
 
 ```
 
@@ -435,12 +431,11 @@ names(SRP044668_vars) <- names(SRP027383_vars) <- names(TCGA_vars) <- colnames(d
 
 Having calculated within-study variance, we can then look at concordance at the top (CAT) plots to assess the results. To generate a CAT plot, we sort each study's genes by variance. Then, we compare the genes found in cross-study comparison to one another. If the analyses find the same genes, the line in the CAT plot will fall along the 45 degree (grey) line. The less concordant the results are, the furter from this 45 degree line, the results will fall.
 
-```{r variable-concordance, cache=TRUE, warning=FALSE}
+```{r variable-concordance, cache=TRUE, warning=FALSE, fig.height=8, fig.width=8}
 ## sort by variance
 p.mod1.sort <- SRP044668_vars[order(SRP044668_vars,decreasing=TRUE)]
 p.mod2.sort <- SRP027383_vars[order(SRP027383_vars,decreasing=TRUE)]
 p.mod3.sort <- TCGA_vars[order(TCGA_vars,decreasing=TRUE)]
-
 
 conc <- NULL
 conc_TCGA <- NULL
@@ -469,8 +464,9 @@ abline(coef=c(0,1),col="grey48")
 lines(seq(1:length(p.mod2.sort)), conc, col = bright[2], lwd = 3)
 lines(seq(1:length(p.mod3.sort)), conc_TCGA, col = bright[5], lwd = 3)
 lines(seq(1:length(p.mod3.sort)), conc_TCGA2, col = bright[8], lwd = 3)
-legend('topleft', col = bright[c(2,5,8)], c("SRP044668_SRP027383",  "SRP027383_TCGA","SRP044668_TCGA"),lty=1,lwd=5, bg="white",bty="n")
-
+legend('topleft', col = bright[c(2,5,8)], 
+       c("SRP044668_SRP027383",  "SRP027383_TCGA","SRP044668_TCGA"),
+       lty=1,lwd=5, bg="white",bty="n")
 
 ## top 1000 genes
 par(mfrow = c(1, 1), font.lab = 1.5, cex.lab = 1.2, font.axis = 1.5, cex.axis = 1.2)
@@ -489,7 +485,9 @@ abline(coef=c(0,1),col="grey48")
 lines(seq(1:1000), conc[1:1000], col = bright[2], lwd = 3)
 lines(seq(1:1000), conc_TCGA[1:1000], col = bright[5], lwd = 3)
 lines(seq(1:1000), conc_TCGA2[1:1000], col = bright[8], lwd = 3)
-legend('topleft', col = bright[c(2,5,8)], c("SRP027383_SRP044668", "SRP027383_TCGA","SRP044668_TCGA"),lty=1,lwd=5, bg="white",bty="n")
+legend('topleft', col = bright[c(2,5,8)], 
+       c("SRP027383_SRP044668", "SRP027383_TCGA","SRP044668_TCGA"),
+       lty=1,lwd=5, bg="white",bty="n")
 
 ## most variable genes overlap across datasets?
 
@@ -513,7 +511,9 @@ tcga %>% group_by(gdc_cases.project.primary_site,cgc_sample_sample_type) %>%
   filter(cgc_sample_sample_type=="Solid Tissue Normal") %>% 
   arrange(-n)
 
-# can see that there are a lot of kidney healthy and kidney tumor. Will compare these to GBM with hypothesis that GBM most similar to kidney and less similar to healthy but overall less similar to GBM comparison
+# can see that there are a lot of kidney healthy and kidney tumor. 
+# Will compare these to GBM with hypothesis that GBM most similar 
+# to kidney and less similar to healthy but overall less similar to GBM comparison
 
 if(!file.exists(file.path('TCGA', 'rse_gene_kidney.Rdata'))) {
   downloader::download('http://duffel.rail.bio/recount/v2/TCGA/rse_gene_kidney.Rdata', destfile = 
@@ -525,13 +525,15 @@ if(!file.exists(file.path('TCGA', 'rse_gene_kidney.Rdata'))) {
   assign('rse_gene_TCGA_kidney', rse_gene)
 }
 
-rse_gene_TCGA_kidney <- rse_gene_TCGA_kidney[,(colData(rse_gene_TCGA_kidney)$cgc_sample_sample_type=="Primary Tumor")]
+use <- colData(rse_gene_TCGA_kidney)$cgc_sample_sample_type=="Primary Tumor"
+rse_gene_TCGA_kidney <- rse_gene_TCGA_kidney[,use]
 
 load(file.path('TCGA','rse_gene_brain.Rdata'))
 md_t <- colData(rse_gene)
 
 rse_combine_TCGA <- rse_gene_TCGA
-tokeep2 <- (md_t$gdc_cases.project.name=="Glioblastoma Multiforme" & md_t$cgc_sample_sample_type=="Primary Tumor")
+tokeep2 <- (md_t$gdc_cases.project.name=="Glioblastoma Multiforme" &
+              md_t$cgc_sample_sample_type=="Primary Tumor")
 md_t<-md_t[tokeep,]
 colData(rse_combine_TCGA) <- md_t
 
@@ -556,33 +558,24 @@ rpkm_log2_tcga <- log2(rpkm_tcga+0.5)
 
 We again assess global gene expression patterns using PCA. We see that samples are clustering by tissue, as expected.
 
-```{r 'pca-tcga', cache=TRUE, warning=FALSE}
-## Look at mean variance relationship
-## Calculate PCs with svd function
-expr.pca.rpkm.log2.tcga <- svd(rpkm_log2_tcga - rowMeans(rpkm_log2_tcga))
+```{r 'pca-tcga', cache=TRUE, warning=FALSE, fig.height=9}
+## Run PCA
+expr.pca.rpkm.log2.tcga <- pc_function(rpkm_log2_tcga)
 
-par(mfrow=c(2,2))
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.rpkm.log2.tcga$v[, 1], expr.pca.rpkm.log2.tcga$v[, 2], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC1', ylab = 'PC2',
-     main = 'PC (gene level) : log2(RPKM + 0.5)')
+## Plot PCA
 
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.rpkm.log2.tcga$v[, 3], expr.pca.rpkm.log2.tcga$v[, 4], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC3', ylab = 'PC4',
-     main = 'PC (gene level) : log2(RPKM + 0.5)')
+colors <- rep("green" , length(md_TCGA$gdc_cases.project.primary_site))
+colors[md_TCGA$gdc_cases.project.primary_site=="Brain"] <- bright["purple"]
 
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.rpkm.log2.tcga$v[, 5], expr.pca.rpkm.log2.tcga$v[, 6], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC5', ylab = 'PC6',
-     main = 'PC (gene level) : log2(RPKM + 0.5)')
+pc_plot(pca=expr.pca.rpkm.log2.tcga,legend=md_TCGA$gdc_cases.project.primary_site, 
+        color=colors, 
+        main="PC (gene level) : log2(RPKM + 0.5)",
+        ptsize=0.9, position="topright",
+        type='character')
 
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.rpkm.log2.tcga$v[, 7], expr.pca.rpkm.log2.tcga$v[, 8], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC7', ylab = 'PC8',
-     main = 'PC (gene level) : log2(RPKM + 0.5)')
-legend('topleft', pch = 19, col=c(1:2),
-       names(summary(as.factor(md_TCGA$gdc_cases.project.primary_site))))
+## Plot Variance Explained
+var_plot(pca=expr.pca.rpkm.log2.tcga)
+
 
 ```
 
@@ -591,7 +584,7 @@ legend('topleft', pch = 19, col=c(1:2),
 Looking at the separation across PCs1-4 above, we remove the effects of these PCs from the expression data before proceeding. 
 
 
-```{r 'Cancer-healthy-variability', cache=TRUE, warning=FALSE}
+```{r 'Cancer-healthy-variability', cache=TRUE, warning=FALSE, fig.height=9}
 
 PC1 <- expr.pca.rpkm.log2.tcga$v[, 1]
 PC2 <- expr.pca.rpkm.log2.tcga$v[, 2]
@@ -603,47 +596,28 @@ normalize_kidney <- function(x){
   #run model
   lmfit <- lm(x ~  PC1 + PC2+ PC3 + PC4)
   #adjust data
-  #note: for quantitative, you have to subtract person's age from the average age of the group; for binary traits, you don't have to worry about this
-  out <- x - (coef(lmfit)["PC1"]*(PC1-mean(PC1))) - (coef(lmfit)["PC2"]*(PC2-mean(PC2))) - (coef(lmfit)["PC3"]*(PC3-mean(PC3))) - (coef(lmfit)["PC4"]*(PC4-mean(PC4))) 
+  out <- x - (coef(lmfit)["PC1"]*(PC1-mean(PC1))) - 
+    (coef(lmfit)["PC2"]*(PC2-mean(PC2))) - (coef(lmfit)["PC3"]*(PC3-mean(PC3))) -
+    (coef(lmfit)["PC4"]*(PC4-mean(PC4))) 
   return(out)
 }
-
-
 df <- apply(rpkm_log2_tcga,1,normalize_kidney)
 rpkm_normalized_tcga <- t(df)
 
-expr.pca.normalized.tcga <- svd(rpkm_normalized_tcga - rowMeans(rpkm_normalized_tcga))
 
-par(mfrow=c(2,2))
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.tcga$v[, 1], expr.pca.normalized.tcga$v[, 2], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC1', ylab = 'PC2',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.tcga$v[, 3], expr.pca.normalized.tcga$v[, 4], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC3', ylab = 'PC4',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
+## Run PCA
+expr.pca.normalized.tcga <- pc_function(rpkm_normalized_tcga)
 
 
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.tcga$v[, 5], expr.pca.normalized.tcga$v[, 6], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC5', ylab = 'PC6',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
+## Plot PCA
+pc_plot(pca=expr.pca.normalized.tcga,legend=md_TCGA$gdc_cases.project.primary_site, 
+        color=colors, 
+        main="PC (gene level) : log2(RPKM + 0.5)",
+        ptsize=0.9, position="topright",
+        type='character')
 
-
-par(font.lab = 2, cex.lab = 1.2, font.axis = 2, cex.axis = 1.2)
-plot(expr.pca.normalized.tcga$v[, 7], expr.pca.normalized.tcga$v[, 8], col= as.factor(md_TCGA$gdc_cases.project.primary_site) , pch = 19, cex = 1.5,
-     xlab = 'PC7', ylab = 'PC8',
-     main = 'PC (gene level) : log2(normzlized counts + 0.5)')
-legend('bottomright', pch = 19, col=c(1:3),
-       names(summary(as.factor(md_TCGA$gdc_cases.project.primary_site))))
-
-#Plot Variance Explained
-par(mfrow=c(1,1))
-plot(expr.pca.normalized$d^2/sum(expr.pca.normalized$d^2), xlim = c(0, 15), type = "b", pch = 16, xlab = "principal components", 
-    ylab = "variance explained")
-    
+## Plot Variance Explained
+var_plot(pca=expr.pca.normalized.tcga)
 ```
 
 ## Variable Expression Analysis
@@ -676,7 +650,7 @@ names(kidney_vars)  <- names(brain_vars) <- colnames(df)
 
 Again, we look at concordance between teh studies. Here, we're comaring TCGA's GBM data to TCGA's kidney tumor data. Concordance between these studies is included along with the previous concordance estimates.
 
-```{r variable-concordance-kidney, cache=TRUE, warning=FALSE}
+```{r variable-concordance-kidney, cache=TRUE, warning=FALSE, fig.height=8, fig.width=8}
 ## sort by variance
 p.mod4.sort <- kidney_vars[order(kidney_vars,decreasing=TRUE)]
 p.mod5.sort <- brain_vars[order(brain_vars,decreasing=TRUE)]
@@ -686,10 +660,9 @@ for(i in 1:length(p.mod2.sort)){
     conc_kidney[i] <- sum(names(p.mod5.sort)[1:i] %in% names(p.mod4.sort)[1:i])
 }
 
-
-
 ## top 1000 genes
-par(mfrow = c(1, 1), font.lab = 1.5, cex.lab = 1.2, font.axis = 1.5, cex.axis = 1.2)
+par(mfrow = c(1, 1), font.lab = 1.5, cex.lab = 1.2, 
+    font.axis = 1.5, cex.axis = 1.2)
 plot(seq(1:1000), conc[1:1000], 
      type = 'l', las = 0,
      xlim = c(0, 1000),
@@ -706,12 +679,17 @@ lines(seq(1:1000), conc[1:1000], col = bright[2], lwd = 3)
 lines(seq(1:1000), conc_TCGA[1:1000], col = bright[5], lwd = 3)
 lines(seq(1:1000), conc_TCGA2[1:1000], col = bright[8], lwd = 3)
 lines(seq(1:1000), conc_kidney[1:1000], col = bright[6], lwd = 3)
-legend('topleft', col = bright[c(2,5,8,6)], c("SRP027383_SRP044668", "SRP027383_TCGA","SRP044668_TCGA", "brain_kidney"),lty=1,lwd=5, bg="white",bty="n")
+legend('topleft', col = bright[c(2,5,8,6)], 
+       c("SRP027383_SRP044668", "SRP027383_TCGA","SRP044668_TCGA", "brain_kidney"),
+       lty=1,lwd=5, bg="white",bty="n")
 
 ```
 
 As expected, lower concordance is found between kidney and GBM data sets, suggesting that genes variable across GBM datasets are likely specific to GBM pathology. 
 
+# Conclusions
+
+Here, we demonstrate the utility of having well-curated metadata available from the `recount-brain` project. With confidence, we are able to identify three studies with relatively large sample sizes (N>=20) with samples whose disease pathology is overlapping. With three independent studies of samples from individuals with glioblastoma, we are able to normalize the data and then look to see if the same genes are found to be variable across the different studies. Additionally, we are able to assess whether overlap is lower among a different cancer type (kidney). Using this as a negative control, we see that, in fact, concordance across variable genes in glioblastoma appears to be consistent across studies. Following up on these concordantly variable genes could provide insight into glioblastoma pathology.
 
 # Reproducibility {.unnumbered}
 
@@ -734,7 +712,6 @@ The analyses were made possible thanks to:
 * `r CRANpkg('devtools')` `r citep(bib[['devtools']])`
 * `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
 * `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
-* `r Biocpkg('limma')` `r citep(bib[[c('limma', 'voom')]])`
 * `r Biocpkg('recount')` `r citep(bib[[c('recount', 'recountWorkflow')]])`
 * `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
 
