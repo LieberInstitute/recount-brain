@@ -93,6 +93,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -224,7 +227,7 @@ div.tocify {
 <div id="contents" class="section level1">
 <h1>Contents</h1>
 <ul>
-<li><a href="select_studies.html">select_studies</a> uses the predicted phenotype information by Shannon Ellis <em>et al.</em> <a id="cite-Ellis_2017"></a>(<a href="https://www.biorxiv.org/content/early/2017/06/03/145656">Ellis, Collado-Torres, Jaffe, and Leek, 2017</a>) version 0.0.03 to determine candidate studies for <code>recount_brain</code> from the Sequence Read Archive (SRA) that have at least 4 samples and over 70% of the samples are from the brain. It creates the list of candidate projects saved in <a href="projects_list.txt">projects_lists.txt</a>.</li>
+<li><a href="select_studies.html">select_studies</a> uses the predicted phenotype information by Shannon Ellis <em>et al.</em> <a id="cite-Ellis_2018"></a>(<a href="https://doi.org/10.1093/nar/gky102">Ellis, Collado-Torres, Jaffe, and Leek, 2018</a>) version 0.0.03 to determine candidate studies for <code>recount_brain</code> from the Sequence Read Archive (SRA) that have at least 4 samples and over 70% of the samples are from the brain. It creates the list of candidate projects saved in <a href="projects_list.txt">projects_lists.txt</a>.</li>
 <li><a href="https://github.com/LieberInstitute/recount-brain/tree/master/SRA_run_selector_info">SRA_run_selector_info</a> contains a table per study in <a href="projects_list.txt">projects_lists.txt</a> with the data downloaded from the SRA Run Selector website <a href="https://www.ncbi.nlm.nih.gov/Traces/study/" class="uri">https://www.ncbi.nlm.nih.gov/Traces/study/</a>.</li>
 <li><a href="https://github.com/LieberInstitute/recount-brain/tree/master/SRA_metadata">SRA_metadata</a> contains a CSV table with the curated metadata for each study. This is the data that is then used to create <code>recount_brain</code>. Note that not all candidate studies were brain studies so the final number of projects considered is 62.</li>
 <li><a href="https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata">merged_metadata</a> contains the <code>recount_brain</code> table that can be easily accessed via <em><a href="http://bioconductor.org/packages/recount">recount</a></em> (<a href="http://www.nature.com/nbt/journal/v35/n4/full/nbt.3838.html">Collado-Torres, Nellore, Kammers, Ellis, et al., 2017</a>) using the <code>add_metadata()</code> function. The document <a href="merged_metadata/merging_data.html">merging_data</a> describes how the <code>recount_brain</code> was created using the files from <code>SRA_metadata</code> and includes some brief examples on how to explore the <code>recount_brain</code> table.</li>
@@ -236,6 +239,7 @@ div.tocify {
 <ul>
 <li>We used the data from <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP027383">SRP027383</a> <a id="cite-Bao_2014"></a>(<a href="https://doi.org/10.1101/gr.165126.113">Bao, Chen, Yang, Zhang, et al., 2014</a>) to show how <code>recount_brain</code> can be used for a gene differential expression analysis. See the full example for more information: <a href="example_SRP027383/example_SRP027383.html">example_SRP027383</a>. You can also access the <a href="example_SRP027383/example_SRP027383.pdf">pdf version</a> if you prefer over the HTML version.</li>
 <li>We used the data from ten studies to replicate some of the analyses by Ferreira <em>et al.</em> <a id="cite-Ferreira_2018"></a>(<a href="https://doi.org/10.1038/s41467-017-02772-x">Ferreira, Muñoz-Aguirre, Reverter, Godinho, et al., 2018</a>) that explore the relationship between post-mortem interval and gene expression. See the full example for more information: <a href="example_PMI/example_PMI.html">example_PMI</a>. You can also access the <a href="example_PMI/example_PMI.pdf">pdf version</a> if you prefer it over the HTML version.</li>
+<li>We also illustrate how to perform an analysis across multiple studies present in <code>recount_brain</code> and combining them with specific tissue data from The Cancer Genome Atlas (TCGA). See the full example for more information: <a href="example_multistudy/recount_brain_multistudy.html">example_multistudy</a>. You can also access the <a href="example_multistudy/recount_brain_multistudy.pdf">pdf version</a> if you prefer it over the HTML version.</li>
 </ul>
 </div>
 <div id="list-of-variables" class="section level1">
@@ -362,23 +366,23 @@ div.tocify {
 <h1>References</h1>
 <p>The analyses were made possible thanks to:</p>
 <ul>
-<li>R <a id="cite-R_Core_Team_2017"></a>(<a href="https://www.R-project.org/">R Core Team, 2017</a>)</li>
-<li><em><a href="http://bioconductor.org/packages/BiocStyle">BiocStyle</a></em> <a id="cite-Oles_2017"></a>(<a href="https://github.com/Bioconductor/BiocStyle">Oleś, Morgan, and Huber, 2017</a>)</li>
+<li>R <a id="cite-R_Core_Team_2018"></a>(<a href="https://www.R-project.org/">R Core Team, 2018</a>)</li>
+<li><em><a href="http://bioconductor.org/packages/BiocStyle">BiocStyle</a></em> <a id="cite-Oles_2018"></a>(<a href="https://github.com/Bioconductor/BiocStyle">Oleś, Morgan, and Huber, 2018</a>)</li>
 <li><em><a href="https://CRAN.R-project.org/package=devtools">devtools</a></em> <a id="cite-Wickham_2018"></a>(<a href="https://CRAN.R-project.org/package=devtools">Wickham, Hester, and Chang, 2018</a>)</li>
 <li><em><a href="https://CRAN.R-project.org/package=downloader">downloader</a></em> <a id="cite-Chang_2015"></a>(<a href="https://CRAN.R-project.org/package=downloader">Chang, 2015</a>)</li>
 <li><em><a href="https://CRAN.R-project.org/package=DT">DT</a></em> <a id="cite-Xie_2018"></a>(<a href="https://CRAN.R-project.org/package=DT">Xie, 2018</a>)</li>
 <li><em><a href="https://CRAN.R-project.org/package=knitcitations">knitcitations</a></em> <a id="cite-Boettiger_2017"></a>(<a href="https://CRAN.R-project.org/package=knitcitations">Boettiger, 2017</a>)</li>
 <li><em><a href="https://CRAN.R-project.org/package=knitr">knitr</a></em> <a id="cite-Xie_2014"></a>(<a href="http://www.crcpress.com/product/isbn/9781466561595">Xie, 2014</a>)</li>
-<li><em><a href="https://github.com/leekgroup/phenopredict">phenopredict</a></em> (<a href="https://www.biorxiv.org/content/early/2017/06/03/145656">Ellis, Collado-Torres, Jaffe, and Leek, 2017</a>)</li>
+<li><em><a href="https://github.com/leekgroup/phenopredict">phenopredict</a></em> (<a href="https://doi.org/10.1093/nar/gky102">Ellis, Collado-Torres, Jaffe, and Leek, 2018</a>)</li>
 <li><em><a href="http://bioconductor.org/packages/recount">recount</a></em> (<a href="http://www.nature.com/nbt/journal/v35/n4/full/nbt.3838.html">Collado-Torres, Nellore, Kammers, Ellis, et al., 2017</a>)</li>
 <li><em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> <a id="cite-Allaire_2018"></a>(<a href="https://CRAN.R-project.org/package=rmarkdown">Allaire, Xie, McPherson, Luraschi, et al., 2018</a>)</li>
 </ul>
 <p><a href="index.bib">Bibliography file</a></p>
 <p>
-<a id="bib-Allaire_2018"></a><a href="#cite-Allaire_2018">[1]</a><cite> J. Allaire, Y. Xie, J. McPherson, J. Luraschi, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 1.9. 2018. URL: <a href="https://CRAN.R-project.org/package=rmarkdown">https://CRAN.R-project.org/package=rmarkdown</a>.</cite>
+<a id="bib-Allaire_2018"></a><a href="#cite-Allaire_2018">[1]</a><cite> J. Allaire, Y. Xie, J. McPherson, J. Luraschi, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 1.10. 2018. URL: <a href="https://CRAN.R-project.org/package=rmarkdown">https://CRAN.R-project.org/package=rmarkdown</a>.</cite>
 </p>
 <p>
-<a id="bib-Bao_2014"></a><a href="#cite-Bao_2014">[2]</a><cite> Z. Bao, H. Chen, M. Yang, C. Zhang, et al. “RNA-seq of 272 gliomas revealed a novel, recurrentPTPRZ1-METfusion transcript in secondary glioblastomas”. In: <em>Genome Research</em> 24.11 (Aug. 2014), pp. 1765–1773. DOI: <a href="http://dx.doi.org/10.1101/gr.165126.113">10.1101/gr.165126.113</a>. URL: <a href="https://doi.org/10.1101/gr.165126.113">https://doi.org/10.1101/gr.165126.113</a>.</cite>
+<a id="bib-Bao_2014"></a><a href="#cite-Bao_2014">[2]</a><cite> Z. Bao, H. Chen, M. Yang, C. Zhang, et al. “RNA-seq of 272 gliomas revealed a novel, recurrentPTPRZ1-METfusion transcript in secondary glioblastomas”. In: <em>Genome Research</em> 24.11 (Aug. 2014), pp. 1765–1773. DOI: <a href="https://doi.org/10.1101/gr.165126.113">10.1101/gr.165126.113</a>. URL: <a href="https://doi.org/10.1101/gr.165126.113">https://doi.org/10.1101/gr.165126.113</a>.</cite>
 </p>
 <p>
 <a id="bib-Boettiger_2017"></a><a href="#cite-Boettiger_2017">[3]</a><cite> C. Boettiger. <em>knitcitations: Citations for ‘Knitr’ Markdown Files</em>. R package version 1.0.8. 2017. URL: <a href="https://CRAN.R-project.org/package=knitcitations">https://CRAN.R-project.org/package=knitcitations</a>.</cite>
@@ -387,19 +391,19 @@ div.tocify {
 <a id="bib-Chang_2015"></a><a href="#cite-Chang_2015">[4]</a><cite> W. Chang. <em>downloader: Download Files over HTTP and HTTPS</em>. R package version 0.4. 2015. URL: <a href="https://CRAN.R-project.org/package=downloader">https://CRAN.R-project.org/package=downloader</a>.</cite>
 </p>
 <p>
-<a id="bib-Collado-Torres_2017"></a><a href="#cite-Collado-Torres_2017">[5]</a><cite> L. Collado-Torres, A. Nellore, K. Kammers, S. E. Ellis, et al. “Reproducible RNA-seq analysis using recount2”. In: <em>Nature Biotechnology</em> (2017). DOI: <a href="http://dx.doi.org/10.1038/nbt.3838">10.1038/nbt.3838</a>. URL: <a href="http://www.nature.com/nbt/journal/v35/n4/full/nbt.3838.html">http://www.nature.com/nbt/journal/v35/n4/full/nbt.3838.html</a>.</cite>
+<a id="bib-Collado-Torres_2017"></a><a href="#cite-Collado-Torres_2017">[5]</a><cite> L. Collado-Torres, A. Nellore, K. Kammers, S. E. Ellis, et al. “Reproducible RNA-seq analysis using recount2”. In: <em>Nature Biotechnology</em> (2017). DOI: <a href="https://doi.org/10.1038/nbt.3838">10.1038/nbt.3838</a>. URL: <a href="http://www.nature.com/nbt/journal/v35/n4/full/nbt.3838.html">http://www.nature.com/nbt/journal/v35/n4/full/nbt.3838.html</a>.</cite>
 </p>
 <p>
-<a id="bib-Ellis_2017"></a><a href="#cite-Ellis_2017">[6]</a><cite> S. E. Ellis, L. Collado-Torres, A. E. Jaffe and J. T. Leek. “Improving the value of public RNA-seq expression data by phenotype prediction”. In: <em>bioRxiv</em> (2017). DOI: <a href="http://dx.doi.org/10.1101/145656">10.1101/145656</a>. URL: <a href="https://www.biorxiv.org/content/early/2017/06/03/145656">https://www.biorxiv.org/content/early/2017/06/03/145656</a>.</cite>
+<a id="bib-Ellis_2018"></a><a href="#cite-Ellis_2018">[6]</a><cite> S. E. Ellis, L. Collado-Torres, A. E. Jaffe and J. T. Leek. “Improving the value of public RNA-seq expression data by phenotype prediction”. In: <em>Nucl. Acids Res.</em> (2018). DOI: <a href="https://doi.org/10.1093/nar/gky102">10.1093/nar/gky102</a>. URL: <a href="https://doi.org/10.1093/nar/gky102">https://doi.org/10.1093/nar/gky102</a>.</cite>
 </p>
 <p>
-<a id="bib-Ferreira_2018"></a><a href="#cite-Ferreira_2018">[7]</a><cite> P. G. Ferreira, M. Muñoz-Aguirre, F. Reverter, C. P. S. Godinho, et al. “The effects of death and post-mortem cold ischemia on human tissue transcriptomes”. In: <em>Nature Communications</em> 9.1 (Feb. 2018). DOI: <a href="http://dx.doi.org/10.1038/s41467-017-02772-x">10.1038/s41467-017-02772-x</a>. URL: <a href="https://doi.org/10.1038/s41467-017-02772-x">https://doi.org/10.1038/s41467-017-02772-x</a>.</cite>
+<a id="bib-Ferreira_2018"></a><a href="#cite-Ferreira_2018">[7]</a><cite> P. G. Ferreira, M. Muñoz-Aguirre, F. Reverter, C. P. S. Godinho, et al. “The effects of death and post-mortem cold ischemia on human tissue transcriptomes”. In: <em>Nature Communications</em> 9.1 (Feb. 2018). DOI: <a href="https://doi.org/10.1038/s41467-017-02772-x">10.1038/s41467-017-02772-x</a>. URL: <a href="https://doi.org/10.1038/s41467-017-02772-x">https://doi.org/10.1038/s41467-017-02772-x</a>.</cite>
 </p>
 <p>
-<a id="bib-Oles_2017"></a><a href="#cite-Oles_2017">[8]</a><cite> A. Oleś, M. Morgan and W. Huber. <em>BiocStyle: Standard styles for vignettes and other Bioconductor documents</em>. R package version 2.6.1. 2017. URL: <a href="https://github.com/Bioconductor/BiocStyle">https://github.com/Bioconductor/BiocStyle</a>.</cite>
+<a id="bib-Oles_2018"></a><a href="#cite-Oles_2018">[8]</a><cite> A. Oleś, M. Morgan and W. Huber. <em>BiocStyle: Standard styles for vignettes and other Bioconductor documents</em>. R package version 2.8.2. 2018. URL: <a href="https://github.com/Bioconductor/BiocStyle">https://github.com/Bioconductor/BiocStyle</a>.</cite>
 </p>
 <p>
-<a id="bib-R_Core_Team_2017"></a><a href="#cite-R_Core_Team_2017">[9]</a><cite> R Core Team. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. Vienna, Austria, 2017. URL: <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</cite>
+<a id="bib-R_Core_Team_2018"></a><a href="#cite-R_Core_Team_2018">[9]</a><cite> R Core Team. <em>R: A Language and Environment for Statistical Computing</em>. R Foundation for Statistical Computing. Vienna, Austria, 2018. URL: <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</cite>
 </p>
 <p>
 <a id="bib-Wickham_2018"></a><a href="#cite-Wickham_2018">[10]</a><cite> H. Wickham, J. Hester and W. Chang. <em>devtools: Tools to Make Developing R Packages Easier</em>. R package version 1.13.5. 2018. URL: <a href="https://CRAN.R-project.org/package=devtools">https://CRAN.R-project.org/package=devtools</a>.</cite>
