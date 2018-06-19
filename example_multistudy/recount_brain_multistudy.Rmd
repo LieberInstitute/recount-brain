@@ -57,7 +57,7 @@ write.bibtex(bib, file = 'example_multistudy.bib')
 
 # Introduction
 
-This document is an example of how you can use `recount_brain`. We will first explore what samples are available in `recount_brain`. After determining what samples are of most interest to us, we will download the expression data for the studies from which these samples were generated. We will remove batch effects across studies. Finally, we will show how to add the `recount_brain` metadata and perform a gene differential expression analysis using this information to assess replicability across studies. Specifically, we'll be looking to see if the same genes are most variable across different glioblastoma datasets. We'll use a kidney cancer data set as our negative control data set. We'll use concordance across varible genes between datasets as our measure of interest.
+This document is an example of how you can use `recount_brain`. We will first explore what samples are available in `recount_brain`. After determining what samples are of most interest to us, we will download the expression data for the studies from which these samples were generated. We will remove batch effects across studies. Finally, we will show how to add the `recount_brain` metadata and perform a gene differential expression analysis using this information to assess replicability across studies. Specifically, we'll be looking to see if the same genes are most variable across different glioblastoma datasets. We'll use a kidney cancer data set as our negative control data set. We'll use concordance across variable genes between datasets as our measure of interest.
 
 ## Load libraries
 
@@ -122,7 +122,7 @@ tcga %>%
 
 ## Download expression data
 
-Just like any study in `recount2` `r citep(bib[['recount']])`, we first need to download the gene count data using `recount::download_study()`. We'll additionally use the `add_metadata()` function to include the `recount-brain` metadata information for these two studies. Addiitonally, below, we read in the TCGA gene expression data from brain samples.
+Just like any study in `recount2` `r citep(bib[['recount']])`, we first need to download the gene count data using `recount::download_study()`. We'll additionally use the `add_metadata()` function to include the `recount-brain` metadata information for these two studies. Additionally, below, we read in the TCGA gene expression data from brain samples.
 
 ```{r 'getgene', message=FALSE}
 # SRA (recount-brain) expression data
@@ -133,8 +133,8 @@ for(i in 1:length(todownload)){
       download_study(todownload[i])
   } else {
       load(file.path(todownload[i], 'rse_gene.Rdata'), verbose = TRUE)
-      assign(paste0("rse_gene_", todownload[i]), rse_gene)
   }
+  assign(paste0("rse_gene_", todownload[i]), rse_gene)
 }
 
 # add recount-brain metadata
@@ -143,12 +143,14 @@ rse_gene_SRP044668 <- recount::add_metadata(rse_gene_SRP044668)
 
 # TCGA brain expression data 
 if(!file.exists(file.path('TCGA', 'rse_gene_brain.Rdata'))) {
-  downloader::download('http://duffel.rail.bio/recount/v2/TCGA/rse_gene_brain.Rdata', destfile = 
-                'rse_gene_brain.Rdata', mode = 'wb')
-} else {
-  load(file.path('TCGA','rse_gene_brain.Rdata'))
-  assign('rse_gene_TCGA', rse_gene)
+ 
+ dir.create('TCGA', showWarnings = FALSE)
+ downloader::download('http://duffel.rail.bio/recount/v2/TCGA/rse_gene_brain.Rdata', destfile = 
+                'TCGA/rse_gene_brain.Rdata', mode = 'wb')
 }
+
+load(file.path('TCGA','rse_gene_brain.Rdata'))
+assign('rse_gene_TCGA', rse_gene)
 
 ```
 
@@ -212,7 +214,7 @@ expr_cuts <- expression_cutoff(rse_rpkm)
 rpkm <- rse_rpkm[rpkm_mean > round(mean(expr_cuts), 2),]
 rpkm_log2 <- log2(rpkm+0.5)
 ```
-Here, we have scale the data and caclulate RPKM for all genes in the data set (N = `r nrow(rse_gene_total)`. We then remove lowly expressed genes, defining lowly expressed genes is a mean expression across samples < `r round(mean(expr_cuts), 2)`. This leaves `r nrow(rpkm_log2)` genes for downstream analysis. 
+Here, we have scale the data and calculate RPKM for all genes in the data set (N = `r nrow(rse_gene_total)`. We then remove lowly expressed genes, defining lowly expressed genes is a mean expression across samples < `r round(mean(expr_cuts), 2)`. This leaves `r nrow(rpkm_log2)` genes for downstream analysis. 
 
 ## Run PCA
 
@@ -310,7 +312,8 @@ tabyl(md$dataset)
 expr.pca.counts.log2 <- pc_function(rpkm_log2)
 
 ## visualize
-pc_plot(pca=expr.pca.counts.log2,legend=md$dataset, color=md$dataset, 
+pc_plot(pca=expr.pca.counts.log2, legend=md$dataset,
+        color=md$dataset, 
         main="PC (gene level) : log2(RPKM + 0.5)",
         position="topleft", type='variable')
 
@@ -429,7 +432,7 @@ names(SRP044668_vars) <- names(SRP027383_vars) <- names(TCGA_vars) <- colnames(d
 
 ## Concordance across studies
 
-Having calculated within-study variance, we can then look at concordance at the top (CAT) plots to assess the results. To generate a CAT plot, we sort each study's genes by variance. Then, we compare the genes found in cross-study comparison to one another. If the analyses find the same genes, the line in the CAT plot will fall along the 45 degree (grey) line. The less concordant the results are, the furter from this 45 degree line, the results will fall.
+Having calculated within-study variance, we can then look at concordance at the top (CAT) plots to assess the results. To generate a CAT plot, we sort each study's genes by variance. Then, we compare the genes found in cross-study comparison to one another. If the analyses find the same genes, the line in the CAT plot will fall along the 45 degree (grey) line. The less concordant the results are, the further from this 45 degree line, the results will fall.
 
 ```{r variable-concordance, cache=TRUE, warning=FALSE, fig.height=8, fig.width=8}
 ## sort by variance
@@ -493,7 +496,7 @@ legend('topleft', col = bright[c(2,5,8)],
 
 ```
 
-Here, wee see that each cross-study comparsion shows a similar level of concordance between studies.
+Here, wee see that each cross-study comparison shows a similar level of concordance between studies.
 
 # Overlap with non-GBM samples
 
@@ -501,7 +504,7 @@ To compare these results to a non-GBM cancer study, we download TCGA kidney canc
 
 ## Data
 
-The data here are kindey primary tumor samples. We chose kidney because there are a relatively large number of available samples and because this tissue is biologically dissimilar from brain.
+The data here are kidney primary tumor samples. We chose kidney because there are a relatively large number of available samples and because this tissue is biologically dissimilar from brain.
 
 ```{r non-GBM-data, cache=TRUE, warning=FALSE}
 
@@ -516,14 +519,13 @@ tcga %>% group_by(gdc_cases.project.primary_site,cgc_sample_sample_type) %>%
 # to kidney and less similar to healthy but overall less similar to GBM comparison
 
 if(!file.exists(file.path('TCGA', 'rse_gene_kidney.Rdata'))) {
+ 
+dir.create('TCGA', showWarnings = FALSE)
   downloader::download('http://duffel.rail.bio/recount/v2/TCGA/rse_gene_kidney.Rdata', destfile = 
-                'TCGA/rse_gene_kidney.Rdata', mode = 'wb')
-  load(file.path('TCGA','rse_gene_kidney.Rdata'))
-  assign('rse_gene_TCGA_kidney', rse_gene)
-} else {
-  load(file.path('TCGA','rse_gene_kidney.Rdata'))
-  assign('rse_gene_TCGA_kidney', rse_gene)
+                'TCGA/rse_gene_kidney.Rdata', mode = 'wb') 
 }
+load(file.path('TCGA','rse_gene_kidney.Rdata'))
+assign('rse_gene_TCGA_kidney', rse_gene)
 
 use <- colData(rse_gene_TCGA_kidney)$cgc_sample_sample_type=="Primary Tumor"
 rse_gene_TCGA_kidney <- rse_gene_TCGA_kidney[,use]
@@ -648,7 +650,7 @@ names(kidney_vars)  <- names(brain_vars) <- colnames(df)
 
 ## Concordance across studies
 
-Again, we look at concordance between teh studies. Here, we're comaring TCGA's GBM data to TCGA's kidney tumor data. Concordance between these studies is included along with the previous concordance estimates.
+Again, we look at concordance between the studies. Here, we're comparing TCGA's GBM data to TCGA's kidney tumor data. Concordance between these studies is included along with the previous concordance estimates.
 
 ```{r variable-concordance-kidney, cache=TRUE, warning=FALSE, fig.height=8, fig.width=8}
 ## sort by variance
