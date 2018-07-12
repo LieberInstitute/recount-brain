@@ -1,0 +1,134 @@
+---
+title: "Merging recount_brain metadata with GTEx and TCGA metadata"
+author: 
+  - name: Dustin Sokolowski
+    affiliation:
+    - &ggb Genetics and Genome Biology, Hospital for Sick Children, Toronto M5G 0A4, Canada
+    - &dmg Department of Molecular Genetics, University of Toronto, Toronto M5S 1A8, Canada
+    email: djsokolowski95@gmail.com
+  - name: Michael D Wilson
+    affiliation:
+    - *ggb
+    - *dmg
+    - Heart and Stroke Richard Lewar Centre of Excellence in Cardiovascular Research, Toronto M5S 3H2, Canada
+output: 
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+date: "`r doc_date()`"
+---
+
+This document contains the code that creates the `recount_brain` version 2 table by merging `recount-brain` version 1 with the metadata in GTEx and TCGA.
+
+# Setup
+
+First, we need some packages.
+
+```{r 'load pkgs', warning = FALSE, message = FALSE}
+library('devtools')
+library('recount')
+library('knitcitations')
+library('BiocStyle')
+```
+
+Next we setup the citation information.
+
+```{r 'citation info', warning = FALSE, message = FALSE}
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+# Note links won't show for now due to the following issue
+# https://github.com/cboettig/knitcitations/issues/63
+
+## Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation('BiocStyle'),
+    devtools = citation('devtools'),
+    knitcitations = citation('knitcitations'),
+    knitr = citation('knitr')[3],
+	recount = citation('recount')[1],
+    rmarkdown = citation('rmarkdown')
+)
+
+write.bibtex(bib, file = 'merging_data.bib')
+```
+
+
+# Merging with `recount-brain`
+
+
+Create a data.frame that has all the new columns (from `Sokolowski recount_brain TCGA_brain GTEx_brain index.csv`) as well as the sample id column for matching later. Include all of recount-brain v1 (all 4,431 rows) as well as all the GTEx and TCGA brain samples. Ideally, if we find a typo or something, we should be able to update the v1 table (see `merged_metadata` folder) and then the v2 table by running this Rmd. Include external files used in this folder (even if we can also download them automatically) so that we can re-run this code anywhere.
+
+We'll also need to include `Sokolowski recount_brain TCGA_brain GTEx_brain index.csv` in the paper as a supplementary table. If you can clean it a bit that'd be great.
+
+
+```{r 'create_recount_brain_v2'}
+recount_brain <- add_metadata(source = 'recount_brain_v1')
+
+## your magic here =)
+
+## Final dimensions of recount_brain
+dim(recount_brain)
+
+## Save the data
+save(recount_brain, file = 'recount_brain_v2.Rdata')
+write.csv(recount_brain, file = 'recount_brain_v2.csv', quote = TRUE, row.names = FALSE)
+
+## Check md5sum for the resulting files
+sapply(dir(pattern = 'recount_brain_v2'), tools::md5sum)
+
+## List of all variables
+colnames(recount_brain)
+```
+
+
+# Exploring `recount-brain` v2
+
+Add some code for exploring the new table a little bit. Some of these numbers will be mentioned in the paper.
+
+
+# Reproducibility
+
+This document was made possible thanks to:
+
+* R `r citep(bib[['R']])`
+* `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+* `r CRANpkg('devtools')` `r citep(bib[['devtools']])`
+* `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
+* `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
+* `r Biocpkg('recount')` `r citep(bib[['recount']])`
+* `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+
+Code for creating this document
+
+```{r createVignette, eval=FALSE}
+## Create the vignette
+library('rmarkdown')
+system.time(render('cross_studies_metadata.Rmd', 'BiocStyle::html_document'))
+```
+
+Reproducibility information for this document.
+
+```{r 'reproducibility info'}
+## Reproducibility info
+proc.time()
+message(Sys.time())
+options(width = 120)
+session_info()
+```
+
+# Bibliography
+
+This document was generated using `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+with `r CRANpkg('knitr')` `r citep(bib[['knitr']])` and `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])` running behind the scenes.
+
+Citations made with `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])` and the bibliographical file is available [here](merging_data.bib).
+
+```{r biblio, results = 'asis', echo = FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+bibliography()
+```
