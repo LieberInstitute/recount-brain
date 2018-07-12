@@ -200,12 +200,6 @@ colnames(recount_brain) <- gsub('\\.', '_', colnames(recount_brain))
 ## Fix some issues
 recount_brain$sex <- tolower(recount_brain$sex)
 
-for(i in which(sapply(recount_brain, class) == 'character')) {
-    if(any(grepl('[[:space:]]+$', recount_brain[, i]))) {
-        recount_brain[, i] <- gsub('[[:space:]]+$', '', recount_brain[, i])
-    }
-}
-
 ## Final dimensions of recount_brain
 dim(recount_brain)
 

@@ -27,9 +27,7 @@ bib <- c(
     knitr = citation('knitr')[3],
     phenopredict = citation('recount')[3],
 	recount = citation('recount')[1],
-    rmarkdown = citation('rmarkdown'),
-    srp = bib_metadata('10.1101/gr.165126.113'),
-    gtex = bib_metadata('10.1038/s41467-017-02772-x')
+    rmarkdown = citation('rmarkdown')
 )
 
 write.bibtex(bib, file = 'index.bib')
@@ -43,17 +41,11 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 
 # Contents
 
-* [select_studies](select_studies.html) uses the predicted phenotype information by Shannon Ellis _et al._ `r citep(bib[['phenopredict']])` version 0.0.03 to determine candidate studies for `recount_brain` from the Sequence Read Archive (SRA) that have at least 4 samples and over 70% of the samples are from the brain. It creates the list of candidate projects saved in [projects_lists.txt](projects_list.txt).
+* [select_studies](select_studies.html) uses the predicted phenotype information by Shannon Ellis et al `r citep(bib[['phenopredict']])` version 0.0.03 to determine candidate studies for `recount_brain` from the Sequence Read Archive (SRA) that have at least 4 samples and over 70% of the samples are from the brain. It creates the list of candidate projects saved in [projects_lists.txt](projects_list.txt).
 * [SRA_run_selector_info](https://github.com/LieberInstitute/recount-brain/tree/master/SRA_run_selector_info) contains a table per study in [projects_lists.txt](projects_list.txt) with the data downloaded from the SRA Run Selector website https://www.ncbi.nlm.nih.gov/Traces/study/. 
 * [SRA_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/SRA_metadata) contains a CSV table with the curated metadata for each study. This is the data that is then used to create `recount_brain`. Note that not all candidate studies were brain studies so the final number of projects considered is 62.
 * [merged_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata) contains the `recount_brain` table that can be easily accessed via `r Biocpkg('recount')` `r citep(bib[['recount']])` using the `add_metadata()` function. The document [merging_data](merged_metadata/merging_data.html) describes how the `recount_brain` was created using the files from `SRA_metadata` and includes some brief examples on how to explore the `recount_brain` table.
 * [metadata_reproducibility](https://github.com/LieberInstitute/recount-brain/tree/master/metadata_reproducibility) contains a document describing how the metadata was processed for each SRA study. It is intended to be useful for reproducibility purposes.
-
-# Example analyses
-
-* We used the data from [SRP027383](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP027383) `r citep(bib[['srp']])` to show how `recount_brain` can be used for a gene differential expression analysis. See the full example for more information: [example_SRP027383](example_SRP027383/example_SRP027383.html). You can also access the [pdf version](example_SRP027383/example_SRP027383.pdf) if you prefer over the HTML version.
-* We used the data from ten studies to replicate some of the analyses by Ferreira _et al._ `r citep(bib[['gtex']])` that explore the relationship between post-mortem interval and gene expression. See the full example for more information: [example_PMI](example_PMI/example_PMI.html). You can also access the [pdf version](example_PMI/example_PMI.pdf) if you prefer it over the HTML version.
-* We also illustrate how to perform an analysis across multiple studies present in `recount_brain` and combining them with specific tissue data from The Cancer Genome Atlas (TCGA). See the full example for more information: [example_multistudy](example_multistudy/recount_brain_multistudy.html). You can also access the [pdf version](example_multistudy/recount_brain_multistudy.pdf) if you prefer it over the HTML version.
 
 # List of variables
 
@@ -126,7 +118,7 @@ The analyses were made possible thanks to:
 * `r CRANpkg('DT')` `r citep(bib[['DT']])`
 * `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
 * `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
-* `r Githubpkg('leekgroup/phenopredict')` `r citep(bib[['phenopredict']])`
+* `phenopredict` `r citep(bib[['phenopredict']])`
 * `r Biocpkg('recount')` `r citep(bib[['recount']])`
 * `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
 
@@ -134,5 +126,5 @@ The analyses were made possible thanks to:
 
 ```{r bibliography, results='asis', echo=FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography
-bibliography(style = 'html')
+bibliography()
 ```
