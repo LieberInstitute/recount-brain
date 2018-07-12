@@ -98,9 +98,13 @@ See specific information and reproducible steps taken for each individual study 
 
 ## 7, SRP020661
 
-[https://www.ncbi.nlm.nih.gov/biosample/SAMN02028514](https://www.ncbi.nlm.nih.gov/biosample/SAMN02028514)
-- Attributes: “development stage: Adult”
-	- Development: Adult
+[https://doi.org/10.1016/j.neuron.2015.11.013](https://doi.org/10.1016/j.neuron.2015.11.013)
+- Supplementary Materials:
+	- Table S1. Patient information 
+		- Age:
+		- Disease:
+		- Disease Status:
+		- Tissue Site:
 
 ## 8, SRP021924
 
