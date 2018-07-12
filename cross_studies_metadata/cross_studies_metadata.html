@@ -264,14 +264,14 @@ bib &lt;- c(
     rmarkdown = citation('rmarkdown')
 )
 
-write.bibtex(bib, file = 'merging_data.bib')</code></pre>
+write.bibtex(bib, file = 'cross_studies_metadata.bib')</code></pre>
 </div>
 <div id="merging-with-recount-brain" class="section level1">
 <h1><span class="header-section-number">2</span> Merging with <code>recount-brain</code></h1>
 <p>Create a data.frame that has all the new columns (from <code>Sokolowski recount_brain TCGA_brain GTEx_brain index.csv</code>) as well as the sample id column for matching later. Include all of recount-brain v1 (all 4,431 rows) as well as all the GTEx and TCGA brain samples. Ideally, if we find a typo or something, we should be able to update the v1 table (see <code>merged_metadata</code> folder) and then the v2 table by running this Rmd. Include external files used in this folder (even if we can also download them automatically) so that we can re-run this code anywhere.</p>
 <p>We’ll also need to include <code>Sokolowski recount_brain TCGA_brain GTEx_brain index.csv</code> in the paper as a supplementary table. If you can clean it a bit that’d be great.</p>
 <pre class="r"><code>recount_brain &lt;- add_metadata(source = 'recount_brain_v1')</code></pre>
-<pre><code>## 2018-07-12 15:36:22 downloading the recount_brain metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp31HSqN/recount_brain_v1.Rdata</code></pre>
+<pre><code>## 2018-07-12 15:43:47 downloading the recount_brain metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmpE6GZDy/recount_brain_v1.Rdata</code></pre>
 <pre><code>## Loading objects:
 ##   recount_brain</code></pre>
 <pre class="r"><code>## your magic here =)
@@ -332,9 +332,9 @@ system.time(render('cross_studies_metadata.Rmd', 'BiocStyle::html_document'))</c
 <pre class="r"><code>## Reproducibility info
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  11.371   0.761  15.237</code></pre>
+##  12.570   0.918  16.566</code></pre>
 <pre class="r"><code>message(Sys.time())</code></pre>
-<pre><code>## 2018-07-12 15:36:24</code></pre>
+<pre><code>## 2018-07-12 15:43:49</code></pre>
 <pre class="r"><code>options(width = 120)
 session_info()</code></pre>
 <pre><code>## Session info ----------------------------------------------------------------------------------------------------------</code></pre>
@@ -484,7 +484,7 @@ session_info()</code></pre>
 <div id="bibliography" class="section level1">
 <h1><span class="header-section-number">5</span> Bibliography</h1>
 <p>This document was generated using <em><a href="http://bioconductor.org/packages/BiocStyle">BiocStyle</a></em> (<a href="https://github.com/Bioconductor/BiocStyle">Oleś, Morgan, and Huber, 2018</a>) with <em><a href="https://CRAN.R-project.org/package=knitr">knitr</a></em> (<a href="http://www.crcpress.com/product/isbn/9781466561595">Xie, 2014</a>) and <em><a href="https://CRAN.R-project.org/package=rmarkdown">rmarkdown</a></em> (<a href="https://CRAN.R-project.org/package=rmarkdown">Allaire, Xie, McPherson, Luraschi, et al., 2018</a>) running behind the scenes.</p>
-<p>Citations made with <em><a href="https://CRAN.R-project.org/package=knitcitations">knitcitations</a></em> (<a href="https://CRAN.R-project.org/package=knitcitations">Boettiger, 2017</a>) and the bibliographical file is available <a href="merging_data.bib">here</a>.</p>
+<p>Citations made with <em><a href="https://CRAN.R-project.org/package=knitcitations">knitcitations</a></em> (<a href="https://CRAN.R-project.org/package=knitcitations">Boettiger, 2017</a>) and the bibliographical file is available <a href="cross_studies_metadata.bib">here</a>.</p>
 <p>
 <a id="bib-Allaire_2018"></a><a href="#cite-Allaire_2018">[1]</a><cite> J. Allaire, Y. Xie, J. McPherson, J. Luraschi, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 1.10. 2018. URL: <a href="https://CRAN.R-project.org/package=rmarkdown">https://CRAN.R-project.org/package=rmarkdown</a>.</cite>
 </p>

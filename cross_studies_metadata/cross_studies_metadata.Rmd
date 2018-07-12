@@ -54,7 +54,7 @@ bib <- c(
     rmarkdown = citation('rmarkdown')
 )
 
-write.bibtex(bib, file = 'merging_data.bib')
+write.bibtex(bib, file = 'cross_studies_metadata.bib')
 ```
 
 
@@ -126,7 +126,7 @@ session_info()
 This document was generated using `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
 with `r CRANpkg('knitr')` `r citep(bib[['knitr']])` and `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])` running behind the scenes.
 
-Citations made with `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])` and the bibliographical file is available [here](merging_data.bib).
+Citations made with `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])` and the bibliographical file is available [here](cross_studies_metadata.bib).
 
 ```{r biblio, results = 'asis', echo = FALSE, warning = FALSE, message = FALSE}
 ## Print bibliography
