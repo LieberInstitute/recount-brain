@@ -13,8 +13,8 @@ Brodmann area for tissue from cerebral cortex - (1-52),brodmann_area,NA,smtsd,no
 "
 Cell line description,cell_line,NA,NA,none,NA,NA
 Project center,center_name_s,gdc_center.name,"""Laboratory, Data Analysis and Coordinating Center (LDACC)""",none,none,none
-Clinically relevant tissue sample information 1,clinical_stage_1,xml_neoplasm_histologic_grade,DTHHRDY,none,none,none
-clinically relevant tissue sample information 2,clinical_stage_2,gdc_cases.samples.sample_type,NA,none,none,NA
+Clinically relevant tissue sample information 1,clinical_stage_1,xml_neoplasm_histologic_grade_adjusted,NA,none,Format of the primary histological grade changed to match recount_brain,none
+clinically relevant tissue sample information 2,clinical_stage_2,gdc_cases.samples.sample_type,NA,none,Format sample type to fit that of recount_brain,NA
 data availability - (Public),consent_s,gdc_metadata_files.access.analysis,"""public""",none,none,none
 State of human development - (Fetus/Infant/Child/Adulescent/Adult),development,"development_cgc_case_age_at_diagnosis
 ","""adult""",none,"The youngest GBM/LGG individual is 14, therefore individuals can be adult or adolescent. Developmental stage is based on age","The youngest individual is older than 20, therefore everyone is an adult"
@@ -32,7 +32,7 @@ Sequencing load date,loaddate_s,cgc_file_upload_date,smnabtchd,none,none,none
 Megabases,mbases_l,NA,NA,none,NA,NA
 Megabytes,mbytes_l,gdc_file_size_adjusted,NA,none,number of bytes / 1e6,NA
 Organism - Homo sapiens,organism_s,"""Homo sapiens""","""Homo sapiens""",none,none,none
-Tissue pathology,pathology,xml_ldh1_mutation_found,NA,none,none,NA
+Tissue pathology,pathology,xml_ldh1_mutation_found_adjusted,NA,none,Presence of ldh1 mutation adjusted to fit recount_brain_v1 format,NA
 Sequencing platform - (Illumina),platform_s,"""Illumina""","""Illumina""",none,none,none
 postmortem interval,pmi,NA,smtsish,none,NA,The amount of time until the sample was on ice is used as a rough estimate for PMI
 Units of postmortem interval,pmi_units,NA,"""mins""",none,NA,none
@@ -60,3 +60,4 @@ drug name,NA,cgc_drug_therapy_drug_name adjusted,NA,NA,manually corrected for ty
 drug_info_T,NA,xml_has_drugs_information,NA,NA,none,NA
 drug_therapy_type,NA,cgc_drug_therapy_pharmaceutical_therapy_type,NA,NA,none,NA
 count_identifier,run_s,rownames,run,none,none,none
+Dataset or origin,Dataset,"""recount_brain_v1""","""TCGA""","""GTEX""",,
