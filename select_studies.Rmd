@@ -7,12 +7,12 @@ output: html_document
 
 # Required R packages
 
-If you want to reproduce this document, you will need the following R packages installed. It's best if you install R 3.4 from [CRAN](https://cran.r-project.org/) and maybe even [RStudio](https://www.rstudio.com/).
+If you want to reproduce this document, you will need the following R packages installed. It's best if you install R 3.5 from [CRAN](https://cran.r-project.org/) and maybe even [RStudio](https://www.rstudio.com/).
 
 ```{r install, eval = FALSE}
-## Install R 3.4 
-source('http://bioconductor.org/biocLite.R')
-biocLite(c('recount', 'downloader', 'devtools', 'DT'))
+## Install R 3.5 
+install.packages('BiocManager')
+BiocManager::install(c('recount', 'downloader', 'devtools', 'DT'))
 ```
 
 # Get the predictions data

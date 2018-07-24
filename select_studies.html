@@ -130,10 +130,10 @@ $(document).ready(function () {
 
 <div id="required-r-packages" class="section level1">
 <h1>Required R packages</h1>
-<p>If you want to reproduce this document, you will need the following R packages installed. It’s best if you install R 3.4 from <a href="https://cran.r-project.org/">CRAN</a> and maybe even <a href="https://www.rstudio.com/">RStudio</a>.</p>
-<pre class="r"><code>## Install R 3.4 
-source('http://bioconductor.org/biocLite.R')
-biocLite(c('recount', 'downloader', 'devtools', 'DT'))</code></pre>
+<p>If you want to reproduce this document, you will need the following R packages installed. It’s best if you install R 3.5 from <a href="https://cran.r-project.org/">CRAN</a> and maybe even <a href="https://www.rstudio.com/">RStudio</a>.</p>
+<pre class="r"><code>## Install R 3.5 
+install.packages('BiocManager')
+BiocManager::install(c('recount', 'downloader', 'devtools', 'DT'))</code></pre>
 </div>
 <div id="get-the-predictions-data" class="section level1">
 <h1>Get the predictions data</h1>
