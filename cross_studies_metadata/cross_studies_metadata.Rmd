@@ -1,17 +1,68 @@
 ---
-title: "combine_metadata"
-author: "Dustin Sokolowski"
-date: "July 22, 2018"
-output: html_document
+title: "Merging recount_brain metadata with GTEx and TCGA metadata"
+author: 
+  - name: Dustin Sokolowski
+    affiliation:
+    - &ggb Program in Genetics and Genome Biology, Hospital for Sick Children, Toronto M5G 0A4, Canada
+    - &dmg Department of Molecular Genetics, University of Toronto, Toronto M5S 1A8, Canada
+    email: djsokolowski95@gmail.com
+  - name: Leonardo Collado-Torres
+    affiliation:
+    - &libd Lieber Institute for Brain Development, Johns Hopkins Medical Campus
+    - &ccb Center for Computational Biology, Johns Hopkins University
+    email: leo.collado@libd.org
+  - name: Michael D Wilson
+    affiliation:
+    - *ggb
+    - *dmg
+    - Heart and Stroke Richard Lewar Centre of Excellence in Cardiovascular Research, Toronto M5S 3H2, Canada
+output: 
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+date: "`r doc_date()`"
 ---
 
-Load packages and files. Here, there are two categories of files being loaded. Firstly, the recount_brain, TCGA, and GTEx data from recount are being downloaded using the add_metadata and all_metadata functions respectively. Secondly, some additional information about GTEx samples are added. Specifically, sample age, sex, and Hardy-Death classification are taked from the gtex_pheno.csv. Information in regards to to sample fixing and sample freezing are found in gtex_sampinfo.csv. These two files can be downloaded from https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata/GTEx_extra. Furthermore, they are csv files adapted from links within chunk-1.
+This document contains the code that creates the `recount_brain` version 2 table by merging `recount-brain` version 1 with the metadata in GTEx and TCGA. Dustin Sokolowski created the `recount_brain_v2` analysis with supervision from Michael D Wilson. Leonardo Collado-Torres edited this document.
+
+
+
+# Load packages and files. 
+
+Here, there are two categories of files being loaded. Firstly, the `recount_brain`, TCGA, and GTEx data from `recount` are being downloaded using the `add_metadata()` and `all_metadata()` functions respectively. Secondly, some additional information about GTEx samples are added. Specifically, sample age, sex, and Hardy-Death classification are taken from the `gtex_pheno.csv`. Information in regards to to sample fixing and sample freezing are found in `gtex_sampinfo.csv`. These two files can be downloaded from https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata/GTEx_extra. Furthermore, they are csv files adapted from links documented in the code.
+
+```{r 'load pkgs', warning = FALSE, message = FALSE}
+library('recount')
+```
+
+```{r 'citation info', warning = FALSE, message = FALSE, echo = FALSE}
+library('devtools')
+library('knitcitations')
+library('BiocStyle')
+
+
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+# Note links won't show for now due to the following issue
+# https://github.com/cboettig/knitcitations/issues/63
+ ## Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation('BiocStyle'),
+    devtools = citation('devtools'),
+    knitcitations = citation('knitcitations'),
+    knitr = citation('knitr')[3],
+	recount = citation('recount')[1],
+    rmarkdown = citation('rmarkdown')
+)
+write.bibtex(bib, file = 'cross_studies_metadata.bib')
+```
 
 ```{r}
-
-library("recount")
-source("add_metadata.R") # This will likely not need to be around. Even when I re-install recount the add metadata function isn't available. As a result, I downloaded/source it.
-
 # below are the files required to combine datasets
 
 #GTEx & TCGA metadata from recount
@@ -19,32 +70,36 @@ recount_brain <- add_metadata(source = "recount_brain_v1")
 GTEx <-  recount::all_metadata("gtex")
 tcga <- recount::all_metadata("tcga")
 # Read txt file downloaded from:
-# "https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SubjectPhenotypesDS.txt?GoogleAccessId=786075537258-compute@developer.gserviceaccount.com&Expires=1531939844&Signature=CI2k4/kGI01vYodB6FGvDcF8k4CBYJzOO/aLDQo9iNBCM8bpt3W40t5tpgI7tyLZCHDDCJsC8YQ9kf4erUITEvs6z6bAhJIriAibAMLoAA8bBgNg%2Bm3FSQDq3pRWqZiEKQGgK1tOiOZ6xHs7Po7TSzcBL08AnLeGGmPQ9bnJR9pOog3%2BuELeoZ0zyeXL7sAc0dduo6eTvXb8UAYlhVSjWMtQBdIcc1QCMvMwxxs5OI1tI%2BFdziE/fLgbvM29bgnhCwTfsH6Oa68To1IWdQylf4kqcKsoCY6vRWUYwifieP%2BqSDBKDP18HMGuTB3qzulNJdWU2H2fN2UOZvJA4UFnpw%3D%3D"
+# "https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SubjectPhenotypesDS.txt"
 # this dataset was also converted into a csv before being loaded into R
 
-gtex_pheno <- read.csv("gtex_pheno.csv", header = T, as.is = T) # In gitHub Repo - we can tell people to download or source it?
+gtex_pheno <- read.csv("https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/cross_studies_metadata/GTEx_extra/gtex_pheno.csv",
+    header = T, as.is = T)
 
 # Remaining phenotype information that may be useful for GTEx metadata
-# https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SampleAttributesDS.txt?GoogleAccessId=786075537258-compute@developer.gserviceaccount.com&Expires=1531947197&Signature=bkJrUN4hIpL47/jInPR25pkEmBI8/ls0lWHhlS%2Bta0S6nDWWQuMIy4uRbB1BxiGHQtQsnMkCO6EujPfNGumSI/ptRnHKf4fiPzZCO8JuWCfb4XAMAFEk9UNEki9KZAFWZJA1%2B2PUX3k/BfpQU9p5%2BnHixCFK4GBDaR0b3OijSLfoMNYGdHMvQVbEAmuoSlLWaBLyM5VCijbVUkHZxilaPKPpALV4EfwMoLpI9lyxH3qEtc4fL11TodDoJKf4m%2BeIGNoFTgPmDg6qwkNee5hoFZdDYG8IkAFWSxvML4P31Vu2pkgbQ%2BQGPqHyyV%2B66WioiDqFeWaiSx2BWj/x4HMx2Q%3D%3D
+# https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SampleAttributesDS.txt
 # This dataset was converted into a csv before being loaded into R
-gtexSampinfo <- read.csv("gtex_sampinfo.csv", header = T, as.is = T) # In gitHub Repo - we can tell people to download or source it?
-
+gtexSampinfo <- read.csv("https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/cross_studies_metadata/GTEx_extra/gtex_sampinfo.csv",
+    header = T, as.is = T)
 
 # Supplementary table 4 to re-order columns
-notes <- read.csv("SupplementaryTable4.csv", header= T, as.is = T) # In gitHub Repo - we can tell people to download or source it?
+notes <- read.csv("https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/SupplementaryTable4.csv",
+    header= T, as.is = T)
 
-tochr <- function(x) return(as.character(levels(x))[x]) # Generic funciton to convert factor into character vector
-
+# Generic funciton to convert factor into character vector
+tochr <- function(x) return(as.character(levels(x))[x]) 
 ```
 
-The chunk below extracts brain samples from GTEx using the "sms" column. Secondly, the sample id's are adjusted such that GTEx metadata from recount can be easily merged with GTEx metadata from the phenotype and sample file. Finally, these files are merged.
+# Process GTEx metadata
+
+The code chunk below extracts brain samples from GTEx using the `sms` column. Secondly, the sample id's are adjusted such that GTEx metadata from recount can be easily merged with GTEx metadata from the phenotype and sample file. Finally, these files are merged.
 
 ```{r}
 
 
 GTEX_brain <- GTEx[GTEx$smts == "Brain",] # brain samples in gtex
 
-# Change the sample id of the "sampid" column to the first 9 or 10 characters so that the GTEX_brin and gtex_pheno columns can be merged
+# Change the sample id of the "sampid" column to the first 9 or 10 characters so that the GTEX_brain and gtex_pheno columns can be merged
 s <- substr(GTEX_brain$sampid, 1,10) 
 s1 <- c()
 for(i in s) {
@@ -65,14 +120,16 @@ gtexSampinfo_brain <- intersect(GTEx_brain_merge$sampid, gtexSampinfo$SAMPID)
 
 ```
 
+## Tissue location
 
-The code below processes the columns important to tissue location. Specifically, tissue location is found from smtsd, and an locations are extracted from the same column. Finally, GTEx contains samples within the putamen, which is in the right hemisphere. Other sample regions are bilateral. 
+The code below processes the columns important to tissue location. Specifically, tissue location is found from `smtsd`, and locations are extracted from the same column. Finally, GTEx contains samples within the putamen, which is in the right hemisphere. Other sample regions are bilateral. 
 
 ```{r}
 
 
 #Tissue location
-tissue_1_gtex <- substr(GTEx_brain_merge$smtsd, 9, nchar(GTEx_brain_merge$smtsd))
+tissue_1_gtex <- substr(GTEx_brain_merge$smtsd, 9,
+    nchar(GTEx_brain_merge$smtsd))
 
 # broadman locations
 broadman_gtex <- c()
@@ -86,8 +143,6 @@ for(i in 1:nrow(GTEx_brain_merge)) {
     next
   } 
   broadman_gtex[i] <- NA
-    
-  
 }
 
 # mapping putamen to right hemisphere
@@ -99,16 +154,14 @@ for(i in GTEx_brain_merge$smtsd) {
     hemisphere_gtex <- c(hemisphere_gtex, "bilateral")
   }
 }
-
-
 ```
 
-The code below looks at age, sex, and disease. In terms of age, every brain sample is older than 20, therefore development is only adult. Disease is organized by the Hardy scale, where fast but natural and ventilator deaths make it difficult to determine disease. Otherwise, controls are violent/fast deaths and "disease" is individuals who were previously ill. Finally, recount_brain_v2 only uses public data and more in-depth information is private.
+## Age, sex, disease
+
+The code below looks at age, sex, and disease. In terms of age, every brain sample is older than 20, therefore development is only adult. Disease is organized by the Hardy scale, where fast but natural and ventilator deaths make it difficult to determine disease. Otherwise, controls are violent/fast deaths and "disease" is individuals who were previously ill. Finally, `recount_brain_v2` only uses public data and more in-depth information is private.
 
 
 ```{r}
-
-
 #developmental stage
 development <- "adult"
 
@@ -136,17 +189,18 @@ sex_character <- c("male", "female")
 sex <- c()
 for(i in GTEx_brain_merge$SEX) sex <- c(sex, sex_character[i])
 
-# 
-technique <- paste0("RNA Seq, ", GTEx_brain_merge$smnabtcht) #RNA isolation type
+#RNA isolation type
+technique <- paste0("RNA Seq, ", GTEx_brain_merge$smnabtcht)
 
-gtex_sampleInfo_brain_merged <- merge(GTEx_brain_merge, gtexSampinfo, by.x = "sampid", by.y = "SAMPID", all = F)
+gtex_sampleInfo_brain_merged <- merge(GTEx_brain_merge, gtexSampinfo,
+    by.x = "sampid", by.y = "SAMPID", all = F)
 rownames(gtex_sampleInfo_brain_merged) <- gtex_sampleInfo_brain_merged$sampid
 rownames(gtexSampinfo) <- gtexSampinfo$SAMPID
-
-
 ```
 
-Sample isolation, fixed and frozed samples. These data were originally acquired from the pheno_sampid column. Time after isolation was taken from the SMTSISCH function and is currently being used as a rough proxy for Post-mortem interval. Afterwards, samples with SMTSPAX > 0 were fixed, SMTSISH < 0 were frozen. Otherwise it's tough to tell.
+## Sample isolation
+
+Sample isolation, fixed and frozen samples. These data were originally acquired from the pheno_sampid column. Time after isolation was taken from the `SMTSISCH` function and is currently being used as a rough proxy for Post-mortem interval. Afterwards, samples with `SMTSPAX > 0` were fixed, `SMTSISH < 0` were frozen. Otherwise it's tough to tell.
 
 ```{r}
 
@@ -183,62 +237,73 @@ names(prep_use) <- GTEx_brain_merge$sampid
 for(i in names(prep_use)){
   prep_use[i] <- prep[i]
 }
-
-
 ```
 
-Combine metadata in the order of recount_brain_v1. Some columns (e.g. age units, sample location, public availability...) were consistant across all samples, are these columns are a consistant character vector.
+## Combine
+
+Combine metadata in the order of `recount_brain_v1`. Some columns (e.g. age units, sample location, public availability...) were consistent across all samples, are these columns are a consistent character vector.
 
 ```{r}
-
-
 GTEX_combn <- cbind(GTEx_brain_merge$AGE, "Years", technique, GTEx_brain_merge$avg_read_length,
-                    NA, NA, "Laboratory, Data Analysis and Coordinating Center (LDACC)", broadman_gtex, NA, 
-                    "Laboratory, Data Analysis and Coordinating Center (LDACC)", NA,
-                    NA, "Public", "Adult", gtex_disease, gtex_disease_status,  GTEx_brain_merge$experiment,
-                    hemisphere_gtex, NA, "Illumina TruSeq RNA sequencing", NA, "paired", "cDNA", paste0("transcriptomic - ", GTEx_brain_merge$smcenter),
-                    GTEx_brain_merge$smnabtchd, NA,  NA, "Homo sapiens", NA, "Illumina",  unlist(isoTime),
-                    "mins", unlist(prep_use), TRUE, "not public", GTEx_brain_merge$smnabtch, GTEx_brain_merge$smrin,
-                    GTEx_brain_merge$run, NA, GTEx_brain_merge$smts, sex, GTEx_brain_merge$sample, GTEx_brain_merge$project, tissue_1_gtex,
-                    NA, NA, NA, "Postmortem")
+    NA, NA, "Laboratory, Data Analysis and Coordinating Center (LDACC)",
+    broadman_gtex, NA, 
+    "Laboratory, Data Analysis and Coordinating Center (LDACC)", NA,
+    NA, "Public", "Adult", gtex_disease, gtex_disease_status, 
+    GTEx_brain_merge$experiment,
+    hemisphere_gtex, NA, "Illumina TruSeq RNA sequencing", NA, "paired",
+    "cDNA", paste0("transcriptomic - ", GTEx_brain_merge$smcenter),
+    GTEx_brain_merge$smnabtchd, NA,  NA, "Homo sapiens", NA, "Illumina",
+    unlist(isoTime),
+    "mins", unlist(prep_use), TRUE, "not public", GTEx_brain_merge$smnabtch,
+    GTEx_brain_merge$smrin,
+    GTEx_brain_merge$run, NA, GTEx_brain_merge$smts, sex,
+    GTEx_brain_merge$sample, GTEx_brain_merge$project, tissue_1_gtex,
+    NA, NA, NA, "Postmortem")
 
 
 ```
 
-The code below makes the adjustments to tcga. This chunk extracts the brain (i.e. Lower Grade Glioma and Glioblastoma) samples from TCGA.
+# TCGA
+
+The code below makes the adjustments to TCGA. This code chunk extracts the brain (i.e. Lower Grade Glioma and Glioblastoma) samples from TCGA.
 
 ```{r}
-
 # filter for brain samples 
-tcga_brain_nums <- which(tcga$gdc_cases.project.project_id %in% c("TCGA-LGG", "TCGA-GBM"))
+tcga_brain_nums <- which(tcga$gdc_cases.project.project_id %in%
+    c("TCGA-LGG", "TCGA-GBM"))
 cd_brain.ol <- tcga[tcga_brain_nums,]
-
 ```
 
-RNAseq file information. Average read length was calculated using the formula below: avg_read_length = auc / (mapped_read_count * number_ends). I.e. if RNA-seq was paired end the average read length was halved from auc/mapped_read_count. File size (mega bytes) is file size (bytes) / 1e6 
+RNAseq file information. Average read length was calculated using the formula below:
+
+$$ avgReadLength = auc / (mappedReadCount * numberEnds) $$
+
+I.e. if RNA-seq was paired end the average read length was halved from
+
+$$ auc/mappedReadCount$$
+
+File size (mega bytes) is file size
+
+$$ bytes / 1,000,000 $$
+
 
 ```{r}
-
-
 #Avg read length
 TCGA_readlength <- cd_brain.ol$auc / cd_brain.ol$mapped_read_count * ifelse(cd_brain.ol$paired_end, 2, 1)
 #file size in megabytes
 mb_tcga <- cd_brain.ol$gdc_file_size / 1e6
 
-
 ```
 
-Age and disease information. 
+## Age and disease information
 
-Age at diagnosis is used for age instead of age of treatment/death. These information can still be acquired from the TCGA metadata information. merge these data with "toupper(cd_brain.ol$gdc_file_id)", which is the identifier that maps to the row names of the TCGA countdata. The youngest individual in the TCGA_brain dataset is 14, so for development samples are split into adolescent/adult. 
+Age at diagnosis is used for age instead of age of treatment/death. These information can still be acquired from the TCGA metadata information. merge these data with `toupper(cd_brain.ol$gdc_file_id)`, which is the identifier that maps to the row names of the TCGA count data. The youngest individual in the TCGA_brain dataset is 14, so for development samples are split into adolescent/adult. 
 
-Disease is information from "gdc_cases.samples.sample_type". disease status is binary from if the tissue was disease or normal tissues (5 samples). Also tumour-cDNA or cDNA is split the same way.
+Disease is information from `gdc_cases.samples.sample_type`. disease status is binary from if the tissue was disease or normal tissues (5 samples). Also tumour-cDNA or cDNA is split the same way.
 
 
 
 ```{r}
-
-
 #age at diagnosis
 age_at_diag <- cd_brain.ol$cgc_case_age_at_diagnosis
 
@@ -305,35 +370,41 @@ for(i in 1:length(path)) {
 table(pathology_comp)
 
 # LGG or GBM
-cancer_type <- substr(x = cd_brain.ol$gdc_cases.project.project_id, 6, nchar(cd_brain.ol$gdc_cases.project.project_id))
-
-
+cancer_type <- substr(x = cd_brain.ol$gdc_cases.project.project_id, 6,
+    nchar(cd_brain.ol$gdc_cases.project.project_id))
 ```
+
+## Combine
 
 Combining TCGA data into the recount_brain_v1 format, some columns are consistent (e.g. all sequencing data was paired end) As such, the paired end sequencing column is "paired".
 
 ```{r}
-
 TCGA_combn <- cbind(cd_brain.ol$cgc_case_age_at_diagnosis, "Years", "RNA_seq", TCGA_readlength,
-                    cd_brain.ol$cgc_case_id, cd_brain.ol$xml_patient_id, cd_brain.ol$gdc_cases.tissue_source_site.name,
-                    NA, NA, cd_brain.ol$gdc_center.name, grade_adjust, cd_brain.ol$gdc_cases.samples.sample_type,
-                    cd_brain.ol$gdc_metadata_files.access.analysis, development_tcga, cd_brain.ol$gdc_cases.samples.sample_type, disease_status_tcga,
-                    cd_brain.ol$gdc_metadata_files.file_id.experiment, NA, NA, cd_brain.ol$gdc_platform, toupper(cd_brain.ol$gdc_file_id), "paired", 
-                    selection_tcga, "TRANSCRIPTOMIC", cd_brain.ol$cgc_file_upload_date, NA, cd_brain.ol$gdc_file_size / 1e6, "Homo sapiens", pathology_comp,
-                    "Illumina", NA, NA, "frozen soon after surgery", "TRUE", cd_brain.ol$gdc_cases.demographic.race, cd_brain.ol$cgc_file_published_date, NA, NA, NA,"Brain",
-                    cd_brain.ol$gdc_cases.demographic.gender, NA,NA,cancer_type,NA,NA, tochr(cd_brain.ol$xml_histological_type), "Biopsy")
+    cd_brain.ol$cgc_case_id, cd_brain.ol$xml_patient_id,
+    cd_brain.ol$gdc_cases.tissue_source_site.name,
+    NA, NA, cd_brain.ol$gdc_center.name, grade_adjust,
+    cd_brain.ol$gdc_cases.samples.sample_type,
+    cd_brain.ol$gdc_metadata_files.access.analysis, development_tcga,
+    cd_brain.ol$gdc_cases.samples.sample_type, disease_status_tcga,
+    cd_brain.ol$gdc_metadata_files.file_id.experiment, NA, NA,
+    cd_brain.ol$gdc_platform, toupper(cd_brain.ol$gdc_file_id), "paired", 
+    selection_tcga, "TRANSCRIPTOMIC", cd_brain.ol$cgc_file_upload_date, NA,
+    cd_brain.ol$gdc_file_size / 1e6, "Homo sapiens", pathology_comp,
+    "Illumina", NA, NA, "frozen soon after surgery", "TRUE",
+    cd_brain.ol$gdc_cases.demographic.race,
+    cd_brain.ol$cgc_file_published_date, NA, NA, NA,"Brain",
+    cd_brain.ol$gdc_cases.demographic.gender, NA,NA,cancer_type,NA,NA,
+    tochr(cd_brain.ol$xml_histological_type), "Biopsy")
                     
 rownames(cd_brain.ol) <- toupper(cd_brain.ol$gdc_file_id)
 
 ```
 
+## Drug information
 
-Below sorts TCGA drug and 260/280 information.
-
-The drug information in the "cgc_drug_therapy_drug_name" column contains multiple typos and ambiguous droug names. The script below adjusts these drug names to allow for consistancy. drug_info_T informs the presence of drug information. drug_therapy_type distinguishes between chemo, radiation etc. Finally, 260/280 is the TCGA proxy of RNA quality. Some older cancers (i.e. OV) have Rin, however LGG and GBM moved over to 260/280. 
+The drug information in the `cgc_drug_therapy_drug_name` column contains multiple typos and ambiguous drug names. The script below adjusts these drug names to allow for consistency. `drug_info_T` informs the presence of drug information. `drug_therapy_type` distinguishes between chemo, radiation etc. Finally, 260/280 is the TCGA proxy of RNA quality. Some older cancers (i.e. OV) have RIN, however LGG and GBM moved over to 260/280. 
 
 ```{r}
-
 dN <- toupper(cd_brain.ol$cgc_drug_therapy_drug_name)
 drugName <- c()
 # fixed typos in TCGA drugs
@@ -408,48 +479,48 @@ drug_info_T <- cd_brain.ol$xml_has_drugs_information
 drug_therapy_type <- cd_brain.ol$cgc_drug_therapy_pharmaceutical_therapy_type
 
 T_260_280 <- cd_brain.ol$gdc_cases.samples.portions.analytes.a260_a280_ratio
-
-
 ```
 
-The code below readjusts the order of recount_brain_v1. This is completed by insuring that the order of columms in recount_brain matches TCGA, GTEx, and the recount website. All of the column names are then matches.
+# Combining all and cleaning
+
+The code below readjusts the order of `recount_brain_v1`. This is completed by insuring that the order of columns in recount_brain matches TCGA, GTEx, and the recount website. All of the column names are then matches.
 
 ```{r}
-
-
 notes48 <- notes[1:48,]
 recount_brain_reorder <- recount_brain[,notes48$recount_brain]
 
 colnames(TCGA_combn) <- colnames(GTEX_combn) <- colnames(recount_brain_reorder)
-
 ```
 
 
-The data below cleans up the coldata related to combining the three datasets and making a consistant identifier. The "Study" is the name of SRA study, "TCGA", or "GTEX". the "_full" columns are TCGA columns with the correct number of rows filled up for recount_brain and GTEx. Finally, these colums are combined together and the dataset is saved.
+The data below cleans up the `colData` related to combining the three datasets and making a consistent identifier. The `Study` is the name of SRA study, `TCGA`, or `GTEX`. The `_full` columns are TCGA columns with the correct number of rows filled up for recount_brain and GTEx. Finally, these columns are combined together and the dataset is saved.
 
 ```{r}
-
-
-
 Study <- sub("\\..*","", rownames(recount_brain) )
-Study_full <- c(Study, rep("TCGA", nrow(TCGA_combn)), rep("GTEX", nrow(GTEX_combn)))
-Dataset <- c(rep("recount_brain_v1",length(Study)), rep("TCGA", nrow(TCGA_combn)), rep("GTEX", nrow(GTEX_combn)))
+Study_full <- c(Study, rep("TCGA", nrow(TCGA_combn)),
+    rep("GTEX", nrow(GTEX_combn)))
+Dataset <- c(rep("recount_brain_v1",length(Study)),
+    rep("TCGA", nrow(TCGA_combn)), rep("GTEX", nrow(GTEX_combn)))
 drugName_full <- c(rep(NA, length(Study)), drugName, rep(NA, nrow(GTEX_combn) ))
-drug_info_full <- c(rep(NA, length(Study)), drug_info_T, rep(NA, nrow(GTEX_combn) ))
-drug_type_full <- c(rep(NA, length(Study)), drug_therapy_type, rep(NA, nrow(GTEX_combn) ))
+drug_info_full <- c(rep(NA, length(Study)), drug_info_T,
+    rep(NA, nrow(GTEX_combn) ))
+drug_type_full <- c(rep(NA, length(Study)), drug_therapy_type,
+    rep(NA, nrow(GTEX_combn) ))
 full_260_280<- c(rep(NA, length(Study)), T_260_280, rep(NA, nrow(GTEX_combn) ))
-count_file_identifier <- c(recount_brain$run_s, rownames(cd_brain.ol), GTEx_brain_merge$run)
+count_file_identifier <- c(recount_brain$run_s, rownames(cd_brain.ol),
+    GTEx_brain_merge$run)
 brain_meta <- rbind(recount_brain_reorder, TCGA_combn, GTEX_combn )
-metadata_complete <- cbind(brain_meta, Study_full, drugName_full, drug_info_full, drug_type_full, full_260_280, count_file_identifier, Dataset)
-
-
+metadata_complete <- cbind(brain_meta, Study_full, drugName_full,
+    drug_info_full, drug_type_full, full_260_280, count_file_identifier, Dataset)
 ```
 
-The code below adjusts some of the major columns within the dataset to account for different datasets using slightly different names. For example, if you filter for "Primary", you get all primary tumours instead of just the recount_brain_v1 primary tumours.
+## Consistent names
+
+The code below adjusts some of the major columns within the dataset to account for different datasets using slightly different names. For example, if you filter for "Primary", you get all primary tumors instead of just the recount_brain_v1 primary tumors.
 
 ```{r}
 
-#Tissue site 1 adjsut
+#Tissue site 1 adjust
 
 tsite1 <- c()
 ts <- metadata_complete$tissue_site_1
@@ -547,35 +618,34 @@ for(i in 1:length(t_type)) {
 metadata_complete$sample_origin <- origin
 metadata_complete$tumor_type <- t_type
 
-
-
 ```
 
+## Create `recount_brain_v2`
 
-The final chunk checks the final dimensions and md5sum object of recount_brain_v2 before saving it into an RData object and listing variables.
+The final code chunk checks the final dimensions and md5sum object of `recount_brain_v2` before saving it into an Rdata object and listing variables.
 
 ```{r}
-
 #Completed metadata is the combined and saved
 recount_brain <- metadata_complete
 dim(recount_brain)
 
 ## Save the data
 save(recount_brain, file = 'recount_brain_v2.Rdata')
-write.csv(recount_brain, file = 'recount_brain_v2.csv', quote = TRUE, row.names = FALSE)
+write.csv(recount_brain, file = 'recount_brain_v2.csv', quote = TRUE,
+    row.names = FALSE)
 
 ## Check md5sum for the resulting files
 sapply(dir(pattern = 'recount_brain_v2'), tools::md5sum)
 
 ## List of all variables
 colnames(recount_brain)
-
 ```
+
+# Explore `recount_brain_v2`
 
 Below provides some summary statistics on the merged dataset. Below there are some pivot tables of columns split by the major dataset.
 
 ```{r}
-
 #Sex
 table(recount_brain$sex, recount_brain$Dataset) 
 
@@ -597,3 +667,44 @@ table(recount_brain$present_in_recount, recount_brain$Dataset)
 
 ```
 
+# Reproducibility
+
+This document was made possible thanks to:
+
+* R `r citep(bib[['R']])`
+* `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+* `r CRANpkg('devtools')` `r citep(bib[['devtools']])`
+* `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
+* `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
+* `r Biocpkg('recount')` `r citep(bib[['recount']])`
+* `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+
+Code for creating this document
+ 
+```{r createVignette, eval=FALSE}
+## Create the vignette
+library('rmarkdown')
+system.time(render('cross_studies_metadata.Rmd', 'BiocStyle::html_document'))
+```
+
+
+Reproducibility information for this document.
+
+```{r 'reproducibility info'}
+## Reproducibility info
+proc.time()
+message(Sys.time())
+options(width = 120)
+session_info()
+```
+
+# Bibliography
+
+This document was generated using `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])` with `r CRANpkg('knitr')` `r citep(bib[['knitr']])` and `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])` running behind the scenes.
+
+Citations made with `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])` and the bibliographical file is available [here](cross_studies_metadata.bib).
+
+```{r biblio, results = 'asis', echo = FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+bibliography()
+```
