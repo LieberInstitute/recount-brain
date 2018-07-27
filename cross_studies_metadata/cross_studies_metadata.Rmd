@@ -618,6 +618,10 @@ for(i in 1:length(t_type)) {
 metadata_complete$sample_origin <- origin
 metadata_complete$tumor_type <- t_type
 
+# Converting run_s to also contain the identifier. This allows recount_brain_v2 to be accessed via the "add_metadata()" function
+
+metadata_complete$run_s <-  metadata_complete$count_file_identifier
+
 ```
 
 ## Create `recount_brain_v2`
