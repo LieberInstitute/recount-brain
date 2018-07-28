@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-07-27" />
+<meta name="date" content="2018-07-28" />
 
 <title>Merging recount_brain metadata with GTEx and TCGA metadata</title>
 
@@ -233,7 +233,7 @@ div.tocify {
 <p class="author-name">Dustin Sokolowski<span class="affil-mark">1,2*</span>, Leonardo Collado-Torres<span class="affil-mark">3,4**</span> and Michael D Wilson<span class="affil-mark">1,2,5</span></p>
 <p class="author-affiliation"><span class="affil-mark">1</span>Program in Genetics and Genome Biology, Hospital for Sick Children, Toronto M5G 0A4, Canada<br><span class="affil-mark">2</span>Department of Molecular Genetics, University of Toronto, Toronto M5S 1A8, Canada<br><span class="affil-mark">3</span>Lieber Institute for Brain Development, Johns Hopkins Medical Campus<br><span class="affil-mark">4</span>Center for Computational Biology, Johns Hopkins University<br><span class="affil-mark">5</span>Heart and Stroke Richard Lewar Centre of Excellence in Cardiovascular Research, Toronto M5S 3H2, Canada</p>
 <p class="author-email"><span class="affil-mark">*</span><a href="mailto:djsokolowski95@gmail.com">djsokolowski95@gmail.com</a><br><span class="affil-mark">**</span><a href="mailto:leo.collado@libd.org">leo.collado@libd.org</a></p>
-<h4 class="date"><em>27 July 2018</em></h4>
+<h4 class="date"><em>28 July 2018</em></h4>
 
 </div>
 
@@ -247,13 +247,13 @@ div.tocify {
 
 #GTEx &amp; TCGA metadata from recount
 recount_brain &lt;- add_metadata(source = &quot;recount_brain_v1&quot;)</code></pre>
-<pre><code>## 2018-07-27 16:47:23 downloading the recount_brain metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp3geLdP/recount_brain_v1.Rdata</code></pre>
+<pre><code>## 2018-07-28 02:04:33 downloading the recount_brain metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmptetTUv/recount_brain_v1.Rdata</code></pre>
 <pre><code>## Loading objects:
 ##   recount_brain</code></pre>
 <pre class="r"><code>GTEx &lt;-  recount::all_metadata(&quot;gtex&quot;)</code></pre>
-<pre><code>## 2018-07-27 16:47:24 downloading the metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp3geLdP/metadata_clean_gtex.Rdata</code></pre>
+<pre><code>## 2018-07-28 02:04:33 downloading the metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmptetTUv/metadata_clean_gtex.Rdata</code></pre>
 <pre class="r"><code>tcga &lt;- recount::all_metadata(&quot;tcga&quot;)</code></pre>
-<pre><code>## 2018-07-27 16:47:28 downloading the metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp3geLdP/metadata_clean_tcga.Rdata</code></pre>
+<pre><code>## 2018-07-28 02:04:35 downloading the metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmptetTUv/metadata_clean_tcga.Rdata</code></pre>
 <pre class="r"><code># Read txt file downloaded from:
 # &quot;https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SubjectPhenotypesDS.txt&quot;
 # this dataset was also converted into a csv before being loaded into R
@@ -739,7 +739,11 @@ for(i in 1:length(t_type)) {
 
 }
 metadata_complete$sample_origin &lt;- origin
-metadata_complete$tumor_type &lt;- t_type</code></pre>
+metadata_complete$tumor_type &lt;- t_type
+
+# Converting run_s to also contain the identifier. This allows recount_brain_v2 to be accessed via the &quot;add_metadata()&quot; function
+
+metadata_complete$run_s &lt;-  metadata_complete$count_file_identifier</code></pre>
 </div>
 <div id="create-recount_brain_v2" class="section level2">
 <h2><span class="header-section-number">4.2</span> Create <code>recount_brain_v2</code></h2>
@@ -748,6 +752,43 @@ metadata_complete$tumor_type &lt;- t_type</code></pre>
 recount_brain &lt;- metadata_complete
 dim(recount_brain)</code></pre>
 <pre><code>## [1] 6547   55</code></pre>
+<pre class="r"><code>## For compatibility with add_metadata()
+recount_brain$run_s &lt;- as.character(recount_brain$run_s)
+
+## Re-cast some vars
+recount_brain$count_file_identifier &lt;- as.character(recount_brain$count_file_identifier)
+recount_brain$drug_info_full &lt;- recount_brain$drug_info_full == 'YES'
+recount_brain$rin &lt;- as.numeric(recount_brain$rin)
+recount_brain$pmi &lt;- as.numeric(recount_brain$pmi)
+recount_brain$avgspotlen_l &lt;- as.numeric(recount_brain$avgspotlen_l)
+recount_brain$insertsize_l &lt;- as.numeric(recount_brain$insertsize_l)
+recount_brain$mbases_l &lt;- as.integer(recount_brain$mbases_l)
+recount_brain$mbytes_l &lt;- as.numeric(recount_brain$mbytes_l)
+recount_brain$brodmann_area &lt;- as.integer(recount_brain$brodmann_area)
+recount_brain$present_in_recount &lt;- as.logical(recount_brain$present_in_recount)
+
+## Simplify age by turning ranges such as 20-29 to mean(c(20, 29))
+mean_age &lt;- function(x) {
+    mean(as.integer(strsplit(x, '-')[[1]]))
+}
+age &lt;- as.numeric(recount_brain$age)</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre class="r"><code>age[grepl('-', recount_brain$age)] &lt;- sapply(
+    recount_brain$age[grepl('-', recount_brain$age)], mean_age)
+recount_brain$age &lt;- age
+
+## Between version 1 and 2, these are the columns that change types
+r &lt;- add_metadata(source = 'recount_brain_v1')</code></pre>
+<pre><code>## 2018-07-28 02:04:45 downloading the recount_brain metadata to /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmptetTUv/recount_brain_v1.Rdata</code></pre>
+<pre><code>## Loading objects:
+##   recount_brain</code></pre>
+<pre class="r"><code>x &lt;- sapply(r, class) == sapply(recount_brain[, colnames(r)], class)
+sapply(recount_brain[, colnames(r)], class)[!x]</code></pre>
+<pre><code>## avgspotlen_l insertsize_l     mbytes_l 
+##    &quot;numeric&quot;    &quot;numeric&quot;    &quot;numeric&quot;</code></pre>
+<pre class="r"><code>sapply(r, class)[!x]</code></pre>
+<pre><code>## avgspotlen_l insertsize_l     mbytes_l 
+##    &quot;integer&quot;    &quot;integer&quot;    &quot;integer&quot;</code></pre>
 <pre class="r"><code>## Save the data
 save(recount_brain, file = 'recount_brain_v2.Rdata')
 write.csv(recount_brain, file = 'recount_brain_v2.csv', quote = TRUE,
@@ -756,9 +797,9 @@ write.csv(recount_brain, file = 'recount_brain_v2.csv', quote = TRUE,
 ## Check md5sum for the resulting files
 sapply(dir(pattern = 'recount_brain_v2'), tools::md5sum)</code></pre>
 <pre><code>##     recount_brain_v2.csv.recount_brain_v2.csv 
-##            &quot;9c186207c082971b08040de4dc084a98&quot; 
+##            &quot;bf56b3767589e1da6d83554bd5a746a9&quot; 
 ## recount_brain_v2.Rdata.recount_brain_v2.Rdata 
-##            &quot;df1284b697dba79e6fc5ef2ab7b48652&quot;</code></pre>
+##            &quot;c533fef675d5ca98e8cc01738fb61849&quot;</code></pre>
 <pre class="r"><code>## List of all variables
 colnames(recount_brain)</code></pre>
 <pre><code>##  [1] &quot;age&quot;                   &quot;age_units&quot;             &quot;assay_type_s&quot;         
@@ -861,6 +902,128 @@ table(recount_brain$present_in_recount, recount_brain$Dataset) </code></pre>
 ##         GTEX recount_brain_v1 TCGA
 ##   FALSE    0             1217    0
 ##   TRUE  1409             3214  707</code></pre>
+<p>Full summary:</p>
+<pre class="r"><code>summary(recount_brain)</code></pre>
+<pre><code>##       age          age_units         assay_type_s        avgspotlen_l    
+##  Min.   :  1.00   Length:6547        Length:6547        Min.   :  27.00  
+##  1st Qu.: 40.00   Class :character   Class :character   1st Qu.:  95.57  
+##  Median : 54.50   Mode  :character   Mode  :character   Median : 152.00  
+##  Mean   : 50.77                                         Mean   : 157.56  
+##  3rd Qu.: 64.50                                         3rd Qu.: 200.00  
+##  Max.   :106.00                                         Max.   :2017.00  
+##  NA's   :3446                                                            
+##  bioproject_s       biosample_s         brain_bank        brodmann_area  
+##  Length:6547        Length:6547        Length:6547        Min.   : 4.00  
+##  Class :character   Class :character   Class :character   1st Qu.: 9.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median : 9.00  
+##                                                           Mean   :14.61  
+##                                                           3rd Qu.:24.00  
+##                                                           Max.   :46.00  
+##                                                           NA's   :6003   
+##   cell_line         center_name_s      clinical_stage_1   clinical_stage_2  
+##  Length:6547        Length:6547        Length:6547        Length:6547       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##   consent_s         development          disease          disease_status    
+##  Length:6547        Length:6547        Length:6547        Length:6547       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##  experiment_s        hemisphere         insertsize_l     instrument_s      
+##  Length:6547        Length:6547        Min.   :  0.000   Length:6547       
+##  Class :character   Class :character   1st Qu.:  0.000   Class :character  
+##  Mode  :character   Mode  :character   Median :  0.000   Mode  :character  
+##                                        Mean   :  3.124                     
+##                                        3rd Qu.:  0.000                     
+##                                        Max.   :245.000                     
+##                                        NA's   :2116                        
+##  library_name_s     librarylayout_s    libraryselection_s librarysource_s   
+##  Length:6547        Length:6547        Length:6547        Length:6547       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##   loaddate_s           mbases_l          mbytes_l      organism_s       
+##  Length:6547        Min.   :    0.0   Min.   :    0   Length:6547       
+##  Class :character   1st Qu.:  787.5   1st Qu.:  640   Class :character  
+##  Mode  :character   Median : 1542.0   Median : 1272   Mode  :character  
+##                     Mean   : 2872.6   Mean   : 2488                     
+##                     3rd Qu.: 2660.0   3rd Qu.: 3226                     
+##                     Max.   :52310.0   Max.   :35161                     
+##                     NA's   :2116      NA's   :1409                      
+##   pathology          platform_s             pmi          pmi_units        
+##  Length:6547        Length:6547        Min.   :   0.0   Length:6547       
+##  Class :character   Class :character   1st Qu.:   0.0   Class :character  
+##  Mode  :character   Mode  :character   Median :   6.0   Mode  :character  
+##                                        Mean   : 152.1                     
+##                                        3rd Qu.:  21.0                     
+##                                        Max.   :1442.0                     
+##                                        NA's   :5988                       
+##  preparation        present_in_recount     race           releasedate_s     
+##  Length:6547        Mode :logical      Length:6547        Length:6547       
+##  Class :character   FALSE:1217         Class :character   Class :character  
+##  Mode  :character   TRUE :5330         Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##       rin           run_s           sample_name_s      sample_origin     
+##  Min.   :1.500   Length:6547        Length:6547        Length:6547       
+##  1st Qu.:6.500   Class :character   Class :character   Class :character  
+##  Median :7.100   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :7.209                                                           
+##  3rd Qu.:7.900                                                           
+##  Max.   :9.800                                                           
+##  NA's   :4828                                                            
+##      sex            sra_sample_s       sra_study_s        tissue_site_1     
+##  Length:6547        Length:6547        Length:6547        Length:6547       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##  tissue_site_2      tissue_site_3       tumor_type         viability        
+##  Length:6547        Length:6547        Length:6547        Length:6547       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##      Study_full         drugName_full  drug_info_full 
+##  SRP025982:2898   TEMODAR      : 155   Mode :logical  
+##  GTEX     :1409   TEMOZOLOMIDE : 127   FALSE:278      
+##  TCGA     : 707   AVASTIN      :  17   TRUE :422      
+##  SRP027383: 274   DEXAMETHASONE:  10   NA's :5847     
+##  SRP044668:  94   CARMUSTINE   :   9                  
+##  SRP058181:  73   (Other)      :  77                  
+##  (Other)  :1092   NA's         :6152                  
+##                     drug_type_full  full_260_280   count_file_identifier
+##  Chemotherapy              : 356   Min.   :1.500   Length:6547          
+##  Hormone Therapy           :  13   1st Qu.:1.800   Class :character     
+##  Immunotherapy             :   7   Median :1.810   Mode  :character     
+##  Other, specify            :   2   Mean   :1.835                        
+##  Targeted Molecular therapy:  13   3rd Qu.:1.880                        
+##  NA's                      :6156   Max.   :2.270                        
+##                                    NA's   :5972                         
+##              Dataset    
+##  GTEX            :1409  
+##  recount_brain_v1:4431  
+##  TCGA            : 707  
+##                         
+##                         
+##                         
+## </code></pre>
 </div>
 <div id="reproducibility" class="section level1">
 <h1><span class="header-section-number">6</span> Reproducibility</h1>
@@ -882,9 +1045,9 @@ system.time(render('cross_studies_metadata.Rmd', 'BiocStyle::html_document'))</c
 <pre class="r"><code>## Reproducibility info
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  21.824   1.309  31.940</code></pre>
+##  19.710   1.098  26.238</code></pre>
 <pre class="r"><code>message(Sys.time())</code></pre>
-<pre><code>## 2018-07-27 16:47:38</code></pre>
+<pre><code>## 2018-07-28 02:04:47</code></pre>
 <pre class="r"><code>options(width = 120)
 session_info()</code></pre>
 <pre><code>## Session info ----------------------------------------------------------------------------------------------------------</code></pre>
@@ -895,7 +1058,7 @@ session_info()</code></pre>
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2018-07-27</code></pre>
+##  date     2018-07-28</code></pre>
 <pre><code>## Packages --------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package              * version   date       source        
 ##  acepack                1.4.1     2016-10-29 CRAN (R 3.5.0)

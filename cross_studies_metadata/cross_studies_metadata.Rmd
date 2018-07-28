@@ -633,6 +633,36 @@ The final code chunk checks the final dimensions and md5sum object of `recount_b
 recount_brain <- metadata_complete
 dim(recount_brain)
 
+## For compatibility with add_metadata()
+recount_brain$run_s <- as.character(recount_brain$run_s)
+
+## Re-cast some vars
+recount_brain$count_file_identifier <- as.character(recount_brain$count_file_identifier)
+recount_brain$drug_info_full <- recount_brain$drug_info_full == 'YES'
+recount_brain$rin <- as.numeric(recount_brain$rin)
+recount_brain$pmi <- as.numeric(recount_brain$pmi)
+recount_brain$avgspotlen_l <- as.numeric(recount_brain$avgspotlen_l)
+recount_brain$insertsize_l <- as.numeric(recount_brain$insertsize_l)
+recount_brain$mbases_l <- as.integer(recount_brain$mbases_l)
+recount_brain$mbytes_l <- as.numeric(recount_brain$mbytes_l)
+recount_brain$brodmann_area <- as.integer(recount_brain$brodmann_area)
+recount_brain$present_in_recount <- as.logical(recount_brain$present_in_recount)
+
+## Simplify age by turning ranges such as 20-29 to mean(c(20, 29))
+mean_age <- function(x) {
+    mean(as.integer(strsplit(x, '-')[[1]]))
+}
+age <- as.numeric(recount_brain$age)
+age[grepl('-', recount_brain$age)] <- sapply(
+    recount_brain$age[grepl('-', recount_brain$age)], mean_age)
+recount_brain$age <- age
+
+## Between version 1 and 2, these are the columns that change types
+r <- add_metadata(source = 'recount_brain_v1')
+x <- sapply(r, class) == sapply(recount_brain[, colnames(r)], class)
+sapply(recount_brain[, colnames(r)], class)[!x]
+sapply(r, class)[!x]
+
 ## Save the data
 save(recount_brain, file = 'recount_brain_v2.Rdata')
 write.csv(recount_brain, file = 'recount_brain_v2.csv', quote = TRUE,
@@ -670,6 +700,14 @@ table(recount_brain$tissue_site_1, recount_brain$Dataset)
 table(recount_brain$present_in_recount, recount_brain$Dataset) 
 
 ```
+
+Full summary:
+
+```{r}
+summary(recount_brain)
+```
+
+
 
 # Reproducibility
 
