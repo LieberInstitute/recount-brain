@@ -108,10 +108,21 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 1. `viability`: Tissue viability - (Postmortem / Biopsy)
 
 
+List of variables present in `recount_brain_v2`.
+
+49. `Study_full`: either the SRA study accession, GTEX or TCGA.
+50. `drugName_full`: the drug name for TCGA samples.
+51. `drug_info_full`: logical, whether the sample has drug information; only for TCGA.
+52. `drug_type_full`: the drug classification (chemotherapy, immunotherapy, ...); only for TCGA.
+53. `full_260_280`: the 260 to 280 ratio; only for TCGA.
+54. `count_file_identifier`: the SRA run accession or the TCGA run (sample) identifier. Useful for merging with the rest of recount2 metadata.
+55. `Dataset`: either SRA, GTEX or TCGA.
+
+
 # List of SRA projects present in `recount_brain`
 
 ```{r 'list of projects', echo = FALSE, results = 'asis'}
-load('mreged_metadata/recount_brain_v1.Rdata')
+load('merged_metadata/recount_brain_v1.Rdata')
 cat(paste0('1. [', unique(recount_brain$sra_study_s), '](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=', unique(recount_brain$sra_study_s), ') \n'))
 ```
 

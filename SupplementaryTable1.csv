@@ -1,4 +1,4 @@
-﻿Variable,Description
+Variable,Description
 age, Age of donor
  age_units, Units of age - (Years / Months / Post Conception Weeks)
  assay_type_s, Sequencing technique - (RNA-Seq)
@@ -6,11 +6,11 @@ age, Age of donor
  bioproject_s, NCBI BioProject ID
  biosample_s, NCBI BioSample ID
  brain_bank, Brain tissue repository source
- brodmann_area, Brodmann area for tissue from cerebral cortex - (1-52)
+ brodmann_area,Brodmann area for tissue from cerebral cortex - (1-52)
  cell_line, Cell line description
  center_name_s, Project center
- clinical_stage_1, Clinically relevant tissue sample information
- clinical_stage_2, Clinically relevant tissue sample information
+clinical_stage_1, Clinically relevant tissue sample information
+clinical_stage_2, Clinically relevant tissue sample information
  consent_s, Data availability - (Public)
  development, Stage of human development - (Fetus / Infant / Child / Adolescent / Adult)
  disease, Disease description
@@ -32,7 +32,7 @@ age, Age of donor
  pmi, Postmortem interval
  pmi_units, Units of postmortem interval - (Hours)
  preparation, Specimen preparation - (Frozen)
- present_in_recount, Expression data present in recount2
+ present_in_recount,Expression data present in recount2
  race, Race of donor - (Asian / Black / Hispanic / White)
  releasedate_s, Sequencing release date
  rin, RNA integrity number
@@ -42,8 +42,15 @@ age, Age of donor
  sex, Sex of donor - (Female / Male)
  sra_sample_s, NCBI SRA Sample ID
  sra_study_s, NCBI SRA Study ID
- tissue_site_1, Anatomic site of tissue
- tissue_site_2," Anatomic site of tissue, further specified"
- tissue_site_3," Anatomic site of tissue, further specified"
+tissue_site_1, Anatomic site of tissue
+tissue_site_2," Anatomic site of tissue, further specified"
+tissue_site_3," Anatomic site of tissue, further specified"
  tumor_type, Type of tumor - (Glioblastoma / Astrocytoma / Ependymoma / Oligodendroglioma)
  viability, Tissue viability - (Postmortem / Biopsy)
+Study_full,"Either the SRA study accession, GTEX or TCGA"
+drugName_full,the drug name for TCGA samples
+drug_info_full,"logical, whether the sample has drug information; only for TCGA"
+drug_type_full,"the drug classification (chemotherapy, immunotherapy, ...); only for TCGA"
+full_260_280,the 260 to 280 ratio; only for TCGA
+count_file_identifier,the SRA run accession or the TCGA run (sample) identifier. Useful for merging with the rest of recount2 metadata
+Dataset,"either SRA, GTEX or TCGA"
