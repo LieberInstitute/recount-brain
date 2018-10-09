@@ -189,7 +189,7 @@ rse_gene_total <- cbind(rse_gene_TCGA, rse_gene_SRA)
 
 
 # Expression and metadata combined across data sets
-# 538 samples
+# 520 samples
 md <- bind_rows(tcga_md, SRP027383_md) %>%
         bind_rows(., SRP044668_md)
 ```
@@ -202,7 +202,7 @@ There are a number of critical quality control steps that are necessary before w
 
 ```{r 'exprcut', fig.cap = c('Number of genes expressed at given mean RPKM cutoff.', 'Percent of genes epxressed at a given mean RPKM cutoff.', 'Distribution of number of expressed samples across all genes at a given mean RPKM cutoff')}
 ## remove lowly expressed genes
-rse_rpkm <- getRPKM(scale_counts(rse_gene_total)) # 707 samples 
+rse_rpkm <- getRPKM(scale_counts(rse_gene_total)) # 520 samples 
 
 ## Compute RPKM and mean RPKM
 rpkm_mean <- rowMeans(rse_rpkm)
