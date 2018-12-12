@@ -507,7 +507,7 @@ names(tissue_mappings)[is.na(tissue_mappings)]</code></pre>
 ##  [9] &quot;LGG&quot;                              &quot;GBM&quot;                             
 ## [11] &quot;Anterior cingulate cortex (BA24)&quot; &quot;Spinal cord (cervical c-1)&quot;</code></pre>
 <pre class="r"><code>tissue_mappings = c(tissue_mappings, 
-                    c(
+                    
     &quot;Motor cortex&quot; = &quot;http://purl.obolibrary.org/obo/UBERON_0001384&quot;,
     &quot;Anterior cingulate gyrus&quot; = &quot;http://purl.obolibrary.org/obo/UBERON_0002756&quot;,
     &quot;Anterior prefrontal cortex&quot; = &quot;http://purl.obolibrary.org/obo/UBERON_0000451&quot;,
@@ -518,7 +518,7 @@ names(tissue_mappings)[is.na(tissue_mappings)]</code></pre>
     &quot;Spinal cord (cervical c-1)&quot; = &quot;http://purl.obolibrary.org/obo/UBERON_0002726&quot;,
     &quot;GBM&quot; = &quot;http://purl.obolibrary.org/obo/HP_0012174&quot;,
     &quot;LGG&quot; = &quot;http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C132067&quot;
-))
+)
 ontomap = c(ontomap, tissue_mappings)
 matchers = match(tissues, names(tissue_mappings))
 ontobrain$tissue = tissues
@@ -532,6 +532,7 @@ ontobrain$tissue_ontology = tissue_mappings[matchers]</code></pre>
 write.csv(recount_brain_with_ontology, file=&quot;recount_brain_v2_with_ontology.csv&quot;)
 ontomap_full = merge(as.data.frame(ontomap), ontolookup, by.x=1, by.y = 1, all.x=TRUE)
 ontomap_full$original_name = names(ontomap)
+ontomap_full = ontomap_full[!is.na(ontomap_full$ontomap),]
 write.csv(ontomap_full, file='ontology_mapping.csv')</code></pre>
 </div>
 </div>
