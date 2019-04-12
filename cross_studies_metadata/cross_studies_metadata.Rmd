@@ -82,8 +82,8 @@ gtex_pheno <- read.csv("https://raw.githubusercontent.com/LieberInstitute/recoun
 gtexSampinfo <- read.csv("https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/cross_studies_metadata/GTEx_extra/gtex_sampinfo.csv",
     header = T, as.is = T)
 
-# Supplementary table 4 to re-order columns
-notes <- read.csv("https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/SupplementaryTable4.csv",
+# Supplementary table 1 to re-order columns
+notes <- read.csv("https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/SupplementaryTable1.csv",
     header= T, as.is = T)
 
 # Generic funciton to convert factor into character vector
@@ -664,8 +664,8 @@ sapply(recount_brain[, colnames(r)], class)[!x]
 sapply(r, class)[!x]
 
 ## Save the data
-save(recount_brain, file = 'recount_brain_v2.Rdata')
-write.csv(recount_brain, file = 'recount_brain_v2.csv', quote = TRUE,
+save(recount_brain, file = 'recount_brain_v2_noOntology.Rdata')
+write.csv(recount_brain, file = 'recount_brain_v2_noOntology.csv', quote = TRUE,
     row.names = FALSE)
 
 ## Check md5sum for the resulting files

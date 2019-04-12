@@ -61,3 +61,7 @@ drug_info_T,NA,xml_has_drugs_information,NA,NA,none,NA
 drug_therapy_type,NA,cgc_drug_therapy_pharmaceutical_therapy_type,NA,NA,none,NA
 count_identifier,run_s,rownames,run,none,none,none
 Dataset or origin,Dataset,"""recount_brain_v1""","""TCGA""","""GTEX""",,
+broadmann_ontology,broadmann_ontology,NA,NA,http://research.libd.org/recount-brain/cross_studies_metadata/recount_brain_ontologies.html ,none,none
+disease_ontology,disease_ontology,NA,NA,http://research.libd.org/recount-brain/cross_studies_metadata/recount_brain_ontologies.html ,none,none
+disease_ontology,disease_ontology,NA,NA,http://research.libd.org/recount-brain/cross_studies_metadata/recount_brain_ontologies.html ,none,none
+tissue_ontology,tissue_ontology,NA,NA,http://research.libd.org/recount-brain/cross_studies_metadata/recount_brain_ontologies.html ,none,none

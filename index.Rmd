@@ -46,9 +46,9 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 * [select_studies](select_studies.html) uses the predicted phenotype information by Shannon Ellis _et al._ `r citep(bib[['phenopredict']])` version 0.0.03 to determine candidate studies for `recount_brain` from the Sequence Read Archive (SRA) that have at least 4 samples and over 70% of the samples are from the brain. It creates the list of candidate projects saved in [projects_lists.txt](projects_list.txt).
 * [SRA_run_selector_info](https://github.com/LieberInstitute/recount-brain/tree/master/SRA_run_selector_info) contains a table per study in [projects_lists.txt](projects_list.txt) with the data downloaded from the SRA Run Selector website https://www.ncbi.nlm.nih.gov/Traces/study/. 
 * [SRA_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/SRA_metadata) contains a CSV table with the curated metadata for each study. This is the data that is then used to create `recount_brain`. Note that not all candidate studies were brain studies so the final number of projects considered is 62.
-* [merged_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata) contains the `recount_brain` table that can be easily accessed via `r Biocpkg('recount')` `r citep(bib[['recount']])` using the `add_metadata()` function. The document [merging_data](merged_metadata/merging_data.html) describes how the `recount_brain` was created using the files from `SRA_metadata` and includes some brief examples on how to explore the `recount_brain` table.
+* [merged_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata) contains the `recount_brain` table that can be easily accessed via `r Biocpkg('recount')` `r citep(bib[['recount']])` using the `add_metadata()` function. The document [merging_data](merged_metadata/merging_data.html) describes how the `recount_brain` was created using the files from `SRA_metadata` and includes some brief examples on how to explore the `recount_brain` table. You can access this initial version of `recount_brain` using `recount::add_metadata(source = 'recount_brain_v1')`.
 * [metadata_reproducibility](https://github.com/LieberInstitute/recount-brain/tree/master/metadata_reproducibility) contains a document describing how the metadata was processed for each SRA study. It is intended to be useful for reproducibility purposes.
-* [cross_studies_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata) contains a document describing how the recount-brain version 1 table was merged with GTEx and TCGA brain samples metadata to create the recount-brain version 2 table that facilitates cross-study comparisons.
+* The [cross_studies_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata) directory contains the [cross_studies_metadata](cross_studies_metadata/cross_studies_metadata.html) document describing how the recount-brain version 1 table was merged with GTEx and TCGA brain samples metadata to create the recount-brain version 2 table that facilitates cross-study comparisons. [SupplementaryTable2.csv](SupplementaryTable2.csv) describes which fields from the GTEx and TCGA data were used to merge them with `recount_brain` and any manipulations required to do so. The [cross_studies_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata) directory also contains a second document, [recount_brain_ontologies](cross_studies_metadata/recount_brain_ontologies), with the code used for adding Broadmann area, disease and tissue ontology information to `recount_brain`. This final table is the one you can access using `recount::add_metadata(source = 'recount_brain_v2')`.
 
 # Example analyses
 
@@ -57,6 +57,8 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 * We also illustrate how to perform an analysis across multiple studies present in `recount_brain` and combining them with specific tissue data from The Cancer Genome Atlas (TCGA). See the full example for more information: [example_multistudy](example_multistudy/recount_brain_multistudy.html). You can also access the [pdf version](example_multistudy/recount_brain_multistudy.pdf) if you prefer it over the HTML version.
 
 # List of variables
+
+This information is also available as a csv file at [SupplementaryTable1.csv](SupplementaryTable1.csv).
 
 1. `age`: Age of donor
 1. `age_units`: Units of age - (Years / Months / Post Conception Weeks)
@@ -107,6 +109,8 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 1. `tumor_type`: Type of tumor - (Glioblastoma / Astrocytoma / Ependymoma / Oligodendroglioma)
 1. `viability`: Tissue viability - (Postmortem / Biopsy)
 
+You can access this initial version with `recount::add_metadata(source = 'recount_brain_v1')`.
+
 
 List of variables present in `recount_brain_v2`.
 
@@ -117,6 +121,12 @@ List of variables present in `recount_brain_v2`.
 53. `full_260_280`: the 260 to 280 ratio; only for TCGA.
 54. `count_file_identifier`: the SRA run accession or the TCGA run (sample) identifier. Useful for merging with the rest of recount2 metadata.
 55. `Dataset`: either SRA, GTEX or TCGA.
+56. `broadmann_ontology`: URL for the Broadmann region ontology. See the [`recount_brain_ontologies`](cross_studies_metadata/recount_brain_ontologies.html) file for how this information was added.
+57. `disease_ontology`: URL for the disease ontology.
+58. `tissue`: tissue in text derived from the `tissue_ontology`.
+59. `tissue_ontology`: URL for the tissue ontology.
+
+You can access this version with `recount::add_metadata(source = 'recount_brain_v2')`.
 
 
 # List of SRA projects present in `recount_brain`
@@ -125,6 +135,17 @@ List of variables present in `recount_brain_v2`.
 load('merged_metadata/recount_brain_v1.Rdata')
 cat(paste0('1. [', unique(recount_brain$sra_study_s), '](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=', unique(recount_brain$sra_study_s), ') \n'))
 ```
+
+# Questions
+
+If you have any questions about `recount_brain` please post them as an issue at [LieberInstitute/recount-brain](https://github.com/LieberInstitute/recount-brain/issues) and include the relevant session information using the following code. Thank you!
+
+```{r, eval = FALSE}
+library('sessioninfo')
+options(width = 120)
+session_info()
+```
+
 
 
 # References

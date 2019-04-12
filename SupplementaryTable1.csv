@@ -54,3 +54,7 @@ drug_type_full,"the drug classification (chemotherapy, immunotherapy, ...); only
 full_260_280,the 260 to 280 ratio; only for TCGA
 count_file_identifier,the SRA run accession or the TCGA run (sample) identifier. Useful for merging with the rest of recount2 metadata
 Dataset,"either SRA, GTEX or TCGA"
+broadmann_ontology,URL for the Broadmann region ontology. See http://research.libd.org/recount-brain/cross_studies_metadata/recount_brain_ontologies.html for how this information was added.
+disease_ontology,URL for the disease ontology
+tissue,tissue in text derived from the `tissue_ontology`
+tissue_ontology,URL for the tissue ontology

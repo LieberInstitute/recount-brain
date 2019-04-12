@@ -1,19 +1,57 @@
 ---
 title: "Ontology-based metadata for recount-brain"
-author: "Sean Davis"
+author: 
+  - name: Sean Davis
+    affiliation:
+    - Genetics Branch, Center for Cancer Research, National Cancer Institute, NIH, Bethesda, MD, 20892, USA
+    email: sdavis2@mail.nih.gov
+output: 
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
 date: "12/11/2018"
-output: html_document
-
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+This code takes the `recount-brain_v2` output created by Dustin Sokolowski in [`cross_studies_metadata`](cross_studies_metadata.html) and adds ontology information. Specifically, this adds the `brodmann_ontology`, `disease_ontology`, `tissue` and `tissy_ontology` fields to `recount-brain`. The results are saved in [`recount_brain_v2.Rdata`](recount_brain_v2.Rdata) (as well as a csv version) which can then be used with `recount::add_metadata(source = 'recount_brain_v2')`.
+
+
+```{r 'citation info', warning = FALSE, message = FALSE, echo = FALSE}
+library('knitcitations')
+library('BiocStyle')
+
+
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+# Note links won't show for now due to the following issue
+# https://github.com/cboettig/knitcitations/issues/63
+ ## Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation('BiocStyle'),
+    sessioninfo = citation('sessioninfo'),
+    knitcitations = citation('knitcitations'),
+    knitr = citation('knitr')[3],
+	tidyverse = citation('tidyverse'),
+    rmarkdown = citation('rmarkdown')
+)
+write.bibtex(bib, file = 'recount_brain_ontologies.bib')
+```
+
+
 # Build ontology lookup
 
-```{r}
-library(tidyverse)
+First we start by building an ontology lookup table using data from [data.bioontology.org/](http://data.bioontology.org/)'s API.
+
+```{r, message = FALSE}
+library('tidyverse')
 build_ontology_table = function(ontology_name) {
     destfile = paste0(ontology_name,".csv.gz")
     download.file(sprintf("http://data.bioontology.org/ontologies/%s/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb&download_format=csv", ontology_name),
@@ -33,8 +71,10 @@ ontolookup = bind_rows(build_ontology_table('ORDO'),
                        build_ontology_table('NCIT'))
 ```
 
+Next we load the `recount-brain` files created by Dustin Sokolowski and explore them.
+
 ```{r}
-load("recount_brain_v2.Rdata")
+load("recount_brain_v2_noOntology.Rdata")
 head(recount_brain)
 ```
 
@@ -52,6 +92,8 @@ ontobrain = data.frame(brodmann_ontology = ontomap[matchers])
 ```
 
 ## Disease
+
+We then select the disease ontology mappings.
 
 ```{r}
 disease_mappings = c(
@@ -128,17 +170,85 @@ ontobrain$tissue_ontology = tissue_mappings[matchers]
 
 ## Result files
 
-The `recount_brain_v2_with_ontology.csv` file contains the 
-metadata with ontologies for Tissue, Brodmann area, and Disease added.
+The [`recount_brain_v2.Rdata`](recount_brain_v2.Rdata) and [`recount_brain_v2.csv`](recount_brain_v2.csv) files contain the metadata with ontologies for Tissue, Brodmann area, and Disease added. They also include the actual tissue.
 
 The `ontology_mapping.csv` file contains a dataframe of the mappings
 from original names to ontology entries.
 
 ```{r}
-recount_brain_with_ontology = cbind(recount_brain, ontobrain)
-write.csv(recount_brain_with_ontology, file="recount_brain_v2_with_ontology.csv")
+recount_brain = cbind(recount_brain, ontobrain)
+## Cast factors into characters
+recount_brain$brodmann_ontology <- as.character(recount_brain$brodmann_ontology)
+write.csv(recount_brain, file="recount_brain_v2.csv")
+
+## Export in Rdata for use with recount::add_metadata()
+save(recount_brain, file = 'recount_brain_v2.Rdata')
 ontomap_full = merge(as.data.frame(ontomap), ontolookup, by.x=1, by.y = 1, all.x=TRUE)
 ontomap_full$original_name = names(ontomap)
 ontomap_full = ontomap_full[!is.na(ontomap_full$ontomap),]
 write.csv(ontomap_full, file='ontology_mapping.csv')
+```
+
+Next we can explore which are the ontologies present in `recount_brain_v2`:
+
+```{r}
+map(
+    recount_brain[, grep('ontology', colnames(recount_brain))],
+    ~ sort(table('ontologies:' = .x), decreasing = TRUE)
+)
+```
+
+
+Here's some information for making sure the files you download are complete.
+
+```{r}
+## Check md5sum for the resulting files
+map(dir(pattern = 'recount_brain_v2|ontology_mapping'), tools::md5sum)
+
+## List of all variables
+colnames(recount_brain)
+```
+
+
+# Reproducibility
+
+This document was made possible thanks to:
+
+* R `r citep(bib[['R']])`
+* `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+* `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
+* `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
+* `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+* `r CRANpkg('sessioninfo')` `r citep(bib[['sessioninfo']])`
+* `r CRANpkg('tidyverse')` `r citep(bib[['tidyverse']])`
+
+Code for creating this document
+ 
+```{r createVignette, eval=FALSE}
+## Create the vignette
+library('rmarkdown')
+system.time(render('recount_brain_ontologies.Rmd', 'BiocStyle::html_document'))
+```
+
+
+Reproducibility information for this document.
+
+```{r 'reproducibility info'}
+## Reproducibility info
+proc.time()
+message(Sys.time())
+options(width = 120)
+library('sessioninfo')
+session_info()
+```
+
+# Bibliography
+
+This document was generated using `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])` with `r CRANpkg('knitr')` `r citep(bib[['knitr']])` and `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])` running behind the scenes.
+
+Citations made with `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])` and the bibliographical file is available [here](recount_brain_ontologies.bib).
+
+```{r biblio, results = 'asis', echo = FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+bibliography()
 ```
