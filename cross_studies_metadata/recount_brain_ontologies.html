@@ -588,7 +588,7 @@ ontobrain$tissue_parents_label &lt;- sapply(tissue_parents_label, paste, collaps
 <p>The <a href="recount_brain_v2.Rdata"><code>recount_brain_v2.Rdata</code></a> and <a href="recount_brain_v2.csv"><code>recount_brain_v2.csv</code></a> files contain the metadata with ontologies for Tissue, Brodmann area, and Disease added. They also include the actual tissue as prioritized by <code>tissue_site_3</code> over <code>tissue_site_2</code> over <code>tissue_site_1</code>. For the Broadmann area and the tissue, we further added their synonyms, ontology parents and ontology parent labels which will facilitate text based searches on <code>recount_brain</code>.</p>
 <p>The <code>ontology_mapping.csv</code> file contains a dataframe of the mappings from original names to ontology entries.</p>
 <pre class="r"><code>recount_brain = cbind(recount_brain, ontobrain)
-write.csv(recount_brain, file=&quot;recount_brain_v2.csv&quot;)
+write.csv(recount_brain, file=&quot;recount_brain_v2.csv&quot;, row.names = FALSE)
 
 ## Export in Rdata for use with recount::add_metadata()
 save(recount_brain, file = 'recount_brain_v2.Rdata')
@@ -726,7 +726,7 @@ map(dir(pattern = 'recount_brain_v2|ontology_mapping'), tools::md5sum)</code></p
 ## 
 ## [[4]]
 ##               recount_brain_v2.csv 
-## &quot;1298fc21aa01239d5a26213fdf70c664&quot; 
+## &quot;bf9a773ad70e8a706279151a1c23a4dd&quot; 
 ## 
 ## [[5]]
 ##             recount_brain_v2.Rdata 
@@ -788,9 +788,9 @@ system.time(render('recount_brain_ontologies.Rmd', 'BiocStyle::html_document'))<
 <pre class="r"><code>## Reproducibility info
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  34.080   3.650 101.308</code></pre>
+##  36.866   3.700 105.491</code></pre>
 <pre class="r"><code>message(Sys.time())</code></pre>
-<pre><code>## 2019-04-15 10:52:10</code></pre>
+<pre><code>## 2019-04-15 11:42:17</code></pre>
 <pre class="r"><code>options(width = 120)
 library('sessioninfo')
 session_info()</code></pre>

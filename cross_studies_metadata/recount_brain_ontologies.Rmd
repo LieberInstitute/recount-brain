@@ -254,7 +254,7 @@ from original names to ontology entries.
 
 ```{r}
 recount_brain = cbind(recount_brain, ontobrain)
-write.csv(recount_brain, file="recount_brain_v2.csv")
+write.csv(recount_brain, file="recount_brain_v2.csv", row.names = FALSE)
 
 ## Export in Rdata for use with recount::add_metadata()
 save(recount_brain, file = 'recount_brain_v2.Rdata')
