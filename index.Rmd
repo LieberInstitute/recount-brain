@@ -20,16 +20,20 @@ cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
 bib <- c(
     R = citation(),
     BiocStyle = citation('BiocStyle'),
+    bioportal = bib_metadata('10.1093/nar/gkr469'),
     devtools = citation('devtools'),
     downloader = citation('downloader'),
     DT = citation('DT'),
     knitcitations = citation('knitcitations'),
     knitr = citation('knitr')[3],
+    metasra = bib_metadata('10.1093/bioinformatics/btx334'),
     phenopredict = citation('recount')[3],
 	recount = citation('recount')[1],
     rmarkdown = citation('rmarkdown'),
+    sessioninfo = citation('sessioninfo'),
     shinycsv = citation('shinycsv'),
     srp = bib_metadata('10.1101/gr.165126.113'),
+    tidyverse = citation('tidyverse'),
     gtex = bib_metadata('10.1038/s41467-017-02772-x')
 )
 
@@ -38,7 +42,7 @@ write.bibtex(bib, file = 'index.bib')
 
 <a href="https://jhubiostatistics.shinyapps.io/recount/"><img src="https://raw.githubusercontent.com/LieberInstitute/recount-brain/master/recount_brain.png" align="center"></a>
 
-Code and results for the [recount-brain](https://github.com/LieberInstitute/recount-brain) project that enhances the [recount2 project](https://jhubiostatistics.shinyapps.io/recount/) project. The `recount_brain` table can be accessed via the `r Biocpkg('recount')` `r citep(bib[['recount']])` Bioconductor package.
+Code and results for the [recount-brain](https://github.com/LieberInstitute/recount-brain) project that enhances the [recount2 project](https://jhubiostatistics.shinyapps.io/recount/) project. The `recount_brain` table can be accessed via the `r Biocpkg('recount')` `r citep(bib[['recount']])` Bioconductor package using `recount::add_metadata(source = 'recount_brain_v2')`.
 
 
 
@@ -49,7 +53,8 @@ Code and results for the [recount-brain](https://github.com/LieberInstitute/reco
 * [SRA_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/SRA_metadata) contains a CSV table with the curated metadata for each study. This is the data that is then used to create `recount_brain`. Note that not all candidate studies were brain studies so the final number of projects considered is 62.
 * [merged_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/merged_metadata) contains the `recount_brain` table that can be easily accessed via `r Biocpkg('recount')` `r citep(bib[['recount']])` using the `add_metadata()` function. The document [merging_data](merged_metadata/merging_data.html) describes how the `recount_brain` was created using the files from `SRA_metadata` and includes some brief examples on how to explore the `recount_brain` table. You can access this initial version of `recount_brain` using `recount::add_metadata(source = 'recount_brain_v1')`.
 * [metadata_reproducibility](https://github.com/LieberInstitute/recount-brain/tree/master/metadata_reproducibility) contains a document describing how the metadata was processed for each SRA study. It is intended to be useful for reproducibility purposes.
-* The [cross_studies_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata) directory contains the [cross_studies_metadata](cross_studies_metadata/cross_studies_metadata.html) document describing how the recount-brain version 1 table was merged with GTEx and TCGA brain samples metadata to create the recount-brain version 2 table that facilitates cross-study comparisons. [SupplementaryTable2.csv](SupplementaryTable2.csv) describes which fields from the GTEx and TCGA data were used to merge them with `recount_brain` and any manipulations required to do so. The [cross_studies_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata) directory also contains a second document, [recount_brain_ontologies](cross_studies_metadata/recount_brain_ontologies), with the code used for adding Broadmann area, disease and tissue ontology information to `recount_brain`. This final table is the one you can access using `recount::add_metadata(source = 'recount_brain_v2')`.
+* The [cross_studies_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata) directory contains the [cross_studies_metadata](cross_studies_metadata/cross_studies_metadata.html) document describing how the recount-brain version 1 table was merged with GTEx and TCGA brain samples metadata to create the recount-brain version 2 table that facilitates cross-study comparisons. [SupplementaryTable2.csv](SupplementaryTable2.csv) describes which fields from the GTEx and TCGA data were used to merge them with `recount_brain` and any manipulations required to do so. The [cross_studies_metadata](https://github.com/LieberInstitute/recount-brain/tree/master/cross_studies_metadata) directory also contains a second document, [recount_brain_ontologies](cross_studies_metadata/recount_brain_ontologies.html), with the code used for adding Broadmann area, disease and tissue ontology information to `recount_brain`. This final table is the one you can access using `recount::add_metadata(source = 'recount_brain_v2')`.
+* [metasra_comp](https://github.com/LieberInstitute/recount-brain/tree/master/metasra_comp) contains a comparison of `recount_brain_v2`  and `MetaSRA` `r citep(bib[['metasra']])` as described in the [metasra_comp](metasra_comp/metasra_comp.html) html document. 
 
 # Example analyses
 
@@ -173,7 +178,7 @@ session_info()
 
 # References
 
-The analyses were made possible thanks to:
+The analyses were made possible thanks to `BioPortal` `r citep(bib[['bioportal']])`, `MetaSRA` `r citep(bib[['metasra']])`, and:
 
 * R `r citep(bib[['R']])`
 * `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
@@ -185,7 +190,9 @@ The analyses were made possible thanks to:
 * `r Githubpkg('leekgroup/phenopredict')` `r citep(bib[['phenopredict']])`
 * `r Biocpkg('recount')` `r citep(bib[['recount']])`
 * `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+* `r CRANpkg('sessioninfo')` `r citep(bib[['sessioninfo']])`
 * `r Githubpkg('LieberInstitute/shinycsv')` `r citep(bib[['shinycsv']])`
+* `r CRANpkg('tidyverse')` `r citep(bib[['tidyverse']])`
 
 [Bibliography file](index.bib)
 

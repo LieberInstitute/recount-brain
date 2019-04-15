@@ -5,6 +5,11 @@ author:
     affiliation:
     - Genetics Branch, Center for Cancer Research, National Cancer Institute, NIH, Bethesda, MD, 20892, USA
     email: sdavis2@mail.nih.gov
+  - name: Leonardo Collado-Torres
+    affiliation:
+    - &libd Lieber Institute for Brain Development, Johns Hopkins Medical Campus
+    - &ccb Center for Computational Biology, Johns Hopkins University
+    email: leo.collado@libd.org
 output: 
   BiocStyle::html_document:
     self_contained: yes
@@ -12,7 +17,7 @@ output:
     toc_float: true
     toc_depth: 2
     code_folding: show
-date: "12/11/2018"
+date: "`r doc_date()`"
 ---
 
 ```{r setup, include=FALSE}
@@ -36,6 +41,7 @@ cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
 bib <- c(
     R = citation(),
     BiocStyle = citation('BiocStyle'),
+    bioportal = bib_metadata('10.1093/nar/gkr469'),
     sessioninfo = citation('sessioninfo'),
     knitcitations = citation('knitcitations'),
     knitr = citation('knitr')[3],
@@ -287,7 +293,7 @@ colnames(recount_brain)
 
 # Reproducibility
 
-This document was made possible thanks to:
+This document was made possible thanks to `BioPortal` `r citep(bib[['bioportal']])` and:
 
 * R `r citep(bib[['R']])`
 * `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
