@@ -28,6 +28,7 @@ bib <- c(
     phenopredict = citation('recount')[3],
 	recount = citation('recount')[1],
     rmarkdown = citation('rmarkdown'),
+    shinycsv = citation('shinycsv'),
     srp = bib_metadata('10.1101/gr.165126.113'),
     gtex = bib_metadata('10.1038/s41467-017-02772-x')
 )
@@ -143,6 +144,21 @@ load('merged_metadata/recount_brain_v1.Rdata')
 cat(paste0('1. [', unique(recount_brain$sra_study_s), '](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=', unique(recount_brain$sra_study_s), ') \n'))
 ```
 
+
+# Explore interactively
+
+We recommend opening the [interactive `recount_brain` exploration](https://jhubiostatistics.shinyapps.io/recount-brain/) in another window.
+
+<iframe id="example1" src="https://jhubiostatistics.shinyapps.io/recount-brain/"
+style="border: non; width: 1400px; height: 1500px"
+frameborder="0">
+</iframe>
+
+This application is a custom version of `shinycsv` `r citep(bib[['shinycsv']])`. The code for making this application is available in the [shinytable](https://github.com/LieberInstitute/recount-brain/tree/master/shinytable/) directory.
+
+
+
+
 # Questions
 
 If you have any questions about `recount_brain` please post them as an issue at [LieberInstitute/recount-brain](https://github.com/LieberInstitute/recount-brain/issues) and include the relevant session information using the following code. Thank you!
@@ -169,6 +185,7 @@ The analyses were made possible thanks to:
 * `r Githubpkg('leekgroup/phenopredict')` `r citep(bib[['phenopredict']])`
 * `r Biocpkg('recount')` `r citep(bib[['recount']])`
 * `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+* `r Githubpkg('LieberInstitute/shinycsv')` `r citep(bib[['shinycsv']])`
 
 [Bibliography file](index.bib)
 

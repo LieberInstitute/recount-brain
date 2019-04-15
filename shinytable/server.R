@@ -2,28 +2,15 @@ library('shinycsv')
 library('RColorBrewer')
 library('DT')
 library('shiny')
-library('devtools')
-
-if(Sys.getenv('SHINY_PORT') == '') {
-    options(shiny.maxRequestSize = 500 * 1024^2)
-} else {
-    options(shiny.maxRequestSize = 25 * 1024^2)
-}
+library('sessioninfo')
+recount_brain <- read.csv('recount_brain_v2.csv')
 
 shinyServer(function(input, output, session) {
       
     selectedData <- reactive ({
-        if(!is.null(input$tablefile)) {
-#            print(input$tablefile$datapath)
-#            print(input$tablefile$name)
-            df <- read_table(input$tablefile$datapath, input$tablefile$name)
-        } else {
-            df <- mtcars
-            df$cyl <- as.factor(df$cyl)
-            df$vs <- as.factor(df$vs)
-            df$am <- as.factor(df$am)
-            df$gear <- as.factor(df$gear)
-        }
+        ## Don't let users upload their own csv file
+        ## shinycsv allows that
+        df <- recount_brain
         return(df)
     })
     
@@ -87,15 +74,9 @@ shinyServer(function(input, output, session) {
     
     ## Code for one variable plot
     output$plot_code_one <- renderPrint({
-        if(is.null(input$tablefile)) {
-            code <- plot_code(filename = 'mtcars.csv', fulldata = mtcars,
-            selection = input$raw_data_rows_all, x = input$summary_var,
-            color = selectedColor(), pal = input$palette)
-        } else {
-            code <- plot_code(input$tablefile$name, fulldata = selectedData(),
-            selection = input$raw_data_rows_all, x = input$summary_var,
-            color = selectedColor(), pal = input$palette)
-        }
+        code <- plot_code(filename = 'recount_brain_v2.csv', fulldata = selectedData(),
+        selection = input$raw_data_rows_all, x = input$summary_var,
+        color = selectedColor(), pal = input$palette)
         cat(code)
     })
     
@@ -138,24 +119,17 @@ shinyServer(function(input, output, session) {
     output$plot_code_two <- renderPrint({
         input$goTwo
         
-        if(is.null(input$tablefile)) {
-            code <- plot_code(filename = 'mtcars.csv', fulldata = mtcars,
-            selection = input$raw_data_rows_all, x = input$summary_var_x,
-            y = input$summary_var_y, color = selectedColor(),
-            pal = input$palette)
-        } else {
-            code <- plot_code(input$tablefile$name, selectedData(),
-            selection = input$raw_data_rows_all, x = input$summary_var_x,
-            y = input$summary_var_y, color = selectedColor(),
-            pal = input$palette)
-        }
+        code <- plot_code(filename = 'recount_brain_v2.csv', fulldata = selectedData(),
+        selection = input$raw_data_rows_all, x = input$summary_var_x,
+        y = input$summary_var_y, color = selectedColor(),
+        pal = input$palette)
         cat(code)
     })
     
    
     ## Download selected data
     output$downloadData <- downloadHandler(
-        filename = function() { paste0('shinycsv_selection_', Sys.time(), '.csv') },
+        filename = function() { paste0('recount_brain_v2_selection_', Sys.time(), '.csv') },
         content = function(file) {
             current <- dropEmpty_row(selectedData() )[input$raw_data_rows_all, ]
             write.csv(current, file, row.names = FALSE)
@@ -165,7 +139,7 @@ shinyServer(function(input, output, session) {
     ## Download raw summary table
     output$download_summary <- downloadHandler(
         filename = function() {
-            paste0('shinycsv_raw_summary_', Sys.time(), '.csv')
+            paste0('recount_brain_v2_raw_summary_', Sys.time(), '.csv')
         },
         content = function(file) {
             write.csv(summary(

@@ -1,6 +1,6 @@
-Title: shinycsv: explore a table interactively
-Author: Leonardo Collado-Torres, Stephen Semick and Andrew Jaffe
-AuthorUrl: https://github.com/LieberInstitute/shinycsv
+Title: explore recount-brain interactively
+Author: Leonardo Collado-Torres
+AuthorUrl: https://github.com/LieberInstitute/recount-brain
 License: GPL-3
 DisplayMode: Showcase
 Tags: table
