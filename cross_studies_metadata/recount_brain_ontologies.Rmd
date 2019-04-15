@@ -132,9 +132,9 @@ brodmann_parents_label <- lapply(brodmann_parents, function(x) {
 # lapply(brodmann_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
 
 ## Add them and their labels
-ontobrain$brodmann_parents <- sapply(brodmann_parents, paste, collapse = '|')[
+ontobrain$brodmann_parents <- sapply(brodmann_parents, paste, collapse = ' | ')[
     match(ontobrain$brodmann_ontology, brodmann_uni)]
-ontobrain$brodmann_parents_label <- sapply(brodmann_parents_label, paste, collapse = '|')[
+ontobrain$brodmann_parents_label <- sapply(brodmann_parents_label, paste, collapse = ' | ')[
     match(ontobrain$brodmann_ontology, brodmann_uni)]
 ```
 
@@ -239,9 +239,9 @@ tissue_parents_label <- lapply(tissue_parents, function(x) {
 # lapply(tissue_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
 
 ## Add them and their labels
-ontobrain$tissue_parents <- sapply(tissue_parents, paste, collapse = '|')[
+ontobrain$tissue_parents <- sapply(tissue_parents, paste, collapse = ' | ')[
     match(ontobrain$tissue_ontology, tissue_uni)]
-ontobrain$tissue_parents_label <- sapply(tissue_parents_label, paste, collapse = '|')[
+ontobrain$tissue_parents_label <- sapply(tissue_parents_label, paste, collapse = ' | ')[
     match(ontobrain$tissue_ontology, tissue_uni)]
 ```
 

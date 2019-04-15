@@ -476,9 +476,9 @@ brodmann_parents_label &lt;- lapply(brodmann_parents, function(x) {
 # lapply(brodmann_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
 
 ## Add them and their labels
-ontobrain$brodmann_parents &lt;- sapply(brodmann_parents, paste, collapse = '|')[
+ontobrain$brodmann_parents &lt;- sapply(brodmann_parents, paste, collapse = ' | ')[
     match(ontobrain$brodmann_ontology, brodmann_uni)]
-ontobrain$brodmann_parents_label &lt;- sapply(brodmann_parents_label, paste, collapse = '|')[
+ontobrain$brodmann_parents_label &lt;- sapply(brodmann_parents_label, paste, collapse = ' | ')[
     match(ontobrain$brodmann_ontology, brodmann_uni)]</code></pre>
 </div>
 <div id="disease" class="section level2">
@@ -578,9 +578,9 @@ tissue_parents_label &lt;- lapply(tissue_parents, function(x) {
 # lapply(tissue_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
 
 ## Add them and their labels
-ontobrain$tissue_parents &lt;- sapply(tissue_parents, paste, collapse = '|')[
+ontobrain$tissue_parents &lt;- sapply(tissue_parents, paste, collapse = ' | ')[
     match(ontobrain$tissue_ontology, tissue_uni)]
-ontobrain$tissue_parents_label &lt;- sapply(tissue_parents_label, paste, collapse = '|')[
+ontobrain$tissue_parents_label &lt;- sapply(tissue_parents_label, paste, collapse = ' | ')[
     match(ontobrain$tissue_ontology, tissue_uni)]</code></pre>
 </div>
 <div id="result-files" class="section level2">
@@ -726,11 +726,11 @@ map(dir(pattern = 'recount_brain_v2|ontology_mapping'), tools::md5sum)</code></p
 ## 
 ## [[4]]
 ##               recount_brain_v2.csv 
-## &quot;bf9a773ad70e8a706279151a1c23a4dd&quot; 
+## &quot;7b3948e873f6c21629202e664b490f19&quot; 
 ## 
 ## [[5]]
 ##             recount_brain_v2.Rdata 
-## &quot;425db897c0b50c8771c136e683f35b02&quot;</code></pre>
+## &quot;89002f27380568f2180e3c07f5ef843e&quot;</code></pre>
 <pre class="r"><code>## List of all variables
 colnames(recount_brain)</code></pre>
 <pre><code>##  [1] &quot;age&quot;                    &quot;age_units&quot;             
@@ -788,9 +788,9 @@ system.time(render('recount_brain_ontologies.Rmd', 'BiocStyle::html_document'))<
 <pre class="r"><code>## Reproducibility info
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  36.866   3.700 105.491</code></pre>
+##  34.952   3.336  95.075</code></pre>
 <pre class="r"><code>message(Sys.time())</code></pre>
-<pre><code>## 2019-04-15 11:42:17</code></pre>
+<pre><code>## 2019-04-15 11:50:17</code></pre>
 <pre class="r"><code>options(width = 120)
 library('sessioninfo')
 session_info()</code></pre>
