@@ -1,0 +1,357 @@
+---
+title: "Comparing recount-brain and MetaSRA 'UBERON:0000955'"
+author: 
+  - name: Leonardo Collado-Torres
+    affiliation:
+    - &libd Lieber Institute for Brain Development, Johns Hopkins Medical Campus
+    - &ccb Center for Computational Biology, Johns Hopkins University
+    email: leo.collado@libd.org
+output: 
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+date: "`r doc_date()`"
+---
+
+
+```{r 'setup', echo = FALSE, warning = FALSE, message = FALSE}
+## Bib setup
+library('knitcitations')
+library('BiocStyle')
+
+## Load knitcitations with a clean bibliography
+cleanbib()
+cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
+
+ ## Write bibliography information
+bib <- c(
+    R = citation(),
+    BiocStyle = citation('BiocStyle'),
+    sessioninfo = citation('sessioninfo'),
+    knitcitations = citation('knitcitations'),
+    knitr = citation('knitr')[3],
+    metasra = bib_metadata('10.1093/bioinformatics/btx334'),
+    phenopredict = citation('recount')[3],
+    recount = citation('recount')[1],
+	tidyverse = citation('tidyverse'),
+    rmarkdown = citation('rmarkdown')
+)
+write.bibtex(bib, file = 'metasra_comp.bib')
+```
+
+`MetaSRA` `r citep(bib[['metasra']])` contains "normalized metadata for the Sequence Read Archive" which is constructed using the SRA Run Info tables. The `MetaSRA` `r citep(bib[['metasra']])` authors provide a website where you can query the samples by term such as the `brain` which leads to [metasra.biostat.wisc.edu/?and=UBERON:0000955](http://metasra.biostat.wisc.edu/?and=UBERON:0000955). As of April 15th, 2019 they have 17,890 brain samples from 342 studies listed.
+
+
+# Data setup
+
+
+We can download the data using the following link:
+
+
+```{bash, eval = FALSE}
+## April 15, 2019
+wget http://metasra.biostat.wisc.edu/api/v01/samples.csv?and=UBERON:0000955
+```
+
+
+
+Next, we load the required R packages.
+
+
+```{r libs, message = FALSE}
+library('recount')
+library('tidyverse')
+```
+
+Now we can get all the required data
+
+```{r 'data setup'}
+## Read the MetaSRA data
+metasra <- read.csv('samples.csv?and=UBERON:0000955')
+head(metasra)
+
+## Get the unique 342 studies
+metasra_study <- unique(metasra$study_id)
+stopifnot(length(metasra_study) == 342)
+
+## Get the recount2 metadata
+meta <- all_metadata()
+
+## Load the predictions
+PredictedPhenotypes <- add_predictions(version = '0.0.03')
+PredictedPhenotypes_latest <- add_predictions(version = '0.0.06')
+
+## Get recount-brain using the recount Bioconductor package
+recount_brain <- add_metadata(source = 'recount_brain_v2')
+
+```
+
+
+# General comparison
+
+
+## `MetaSRA` to `recount_brain`
+
+First, we can check how many studies with at least one brain sample as detected with `MetaSRA` are in either `recount2` or `recount_brain`.
+
+```{r 'MetaSRA to recount (studies)'}
+## using tolower() doesn't change any of these numbers
+addmargins(table(
+    'In recount2' = metasra_study %in% recount_abstract$project,
+    'In recount-brain' = metasra_study %in% unique(recount_brain$sra_study_s)
+))
+
+## In percent
+addmargins(table(
+    'In recount2' = metasra_study %in% recount_abstract$project,
+    'In recount-brain' = metasra_study %in% unique(recount_brain$sra_study_s)
+)) / length(metasra_study) * 100
+
+
+## Studies in MetaSRA and recount2 but not in recount_brain
+studies_to_check <- metasra_study[
+    metasra_study %in% recount_abstract$project &
+    !metasra_study %in% unique(recount_brain$sra_study_s)
+]
+```
+
+As a check, anything in `recount_brain` has to be in `recount2` by construction. We'll later take a deeper look at the `r length(studies_to_check)` studies present in `MetaSRA` and `recount2` yet absent from `recount_brain`.
+
+
+At the sample level we can find samples present in `recount_brain` absent from `recount2` which is not unexpected (`recount2` was built to be only human RNA-seq samples). All the samples present in `MetaSRA` and `recount2` yet absent from `recount_brain` from the studies we wanted to check.
+
+```{r 'MetaSRA to recount (samples)'}
+## using tolower() doesn't change any of these numbers
+addmargins(table(
+    'In recount2' = metasra$sample_id %in% meta$sample,
+    'In recount-brain' = metasra$sample_id %in% recount_brain$sra_sample_s
+))
+
+## in percent
+addmargins(table(
+    'In recount2' = metasra$sample_id %in% meta$sample,
+    'In recount-brain' = metasra$sample_id %in% recount_brain$sra_sample_s
+)) / nrow(metasra) * 100
+
+## Samples in MetaSRA and recount2 but not in recount_brain
+samples_to_check <- metasra$sample_id[
+    metasra$sample_id %in% meta$sample &
+    !metasra$sample_id %in% recount_brain$sra_sample_s
+]
+
+## All of them are from the studies we need to check
+table(unique(meta$project[meta$sample %in% samples_to_check]) %in%
+    studies_to_check)
+```
+
+
+
+## `recount_brain` to `MetaSRA`
+
+
+We can also do the reverse check and ask which studies or samples present in `recount_brain` are present in `MetaSRA`.
+
+
+```{r 'recount to MetaSRA'}
+## At the study level
+addmargins(table(
+    'In MetaSRA (project)' = unique(recount_brain$sra_study_s) %in%
+    metasra_study
+))
+## in percent
+addmargins(table(
+    'In MetaSRA (project)' = unique(recount_brain$sra_study_s) %in% metasra_study
+)) / length(unique(recount_brain$sra_study_s)) * 100
+
+## At the sample level
+addmargins(table(
+    'In MetaSRA (sample)' = recount_brain$sra_sample_s %in% metasra$sample_id,
+    'SRP025982' = recount_brain$sra_study_s == 'SRP025982'
+))
+
+## in percent
+addmargins(table(
+    'In MetaSRA (sample)' = recount_brain$sra_sample_s %in% metasra$sample_id,
+    'SRP025982' = recount_brain$sra_study_s == 'SRP025982'
+)) / nrow(recount_brain) * 100
+```
+
+From these checks, we can see that 26.6 and 44.9 percent of the `recount_brain` studies and samples are missing from `MetaSRA`, respectively.
+
+
+# Studies to check
+
+Lets take a deeper look at the `r length(studies_to_check)` studies present in `MetaSRA` and `recount2` yet absent from `recount_brain`. The `recount` package already has the study abstract and number of samples information. We can then construct the URL to explore manually these discrepant studies. Next, we can look at the `phenoPredict` `r citep(bib[['phenopredict']])` predictions we used (version 0.0.03) for selecting the studies as well and the latest (0.0.06) predictions. The prediction table also includes a `reported_tissue`. Along with the predictions and the reported tissue, we can also look at `MetaSRA` to identify the number of brain samples according to each source and the percent of brain samples per study. We can then evaluate whether the study passed or not our selection criteria of at least 4 brain samples with 70 percent of the study samples coming from the brain.
+
+
+```{r 'discrepant studies'}
+## Lets get the study-level information already present in the recount package
+discrepant <- subset(recount_abstract, project %in% studies_to_check)
+
+## Does the abstract mention the word brain?
+discrepant$mentions_brain <- grepl('brain', tolower(discrepant$abstract))
+
+## Next, the url
+discrepant$url <- paste0(
+    'https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=',
+    discrepant$project
+)
+
+## Order by decreasing number of samples
+discrepant <- discrepant[order(discrepant$number_samples, decreasing = TRUE), ]
+
+## Get information at the sample level for each project
+discrepant_studies_samples <- map(discrepant$project, function(x) {
+    y <- meta$run[meta$project == x]
+    m <- match(y, PredictedPhenotypes$sample_id)
+    m2 <- match(y, PredictedPhenotypes_latest$sample_id)
+    
+    data.frame(
+        prediction_original = PredictedPhenotypes$predicted_tissue[m],
+        prediction_latest = PredictedPhenotypes_latest$predicted_tissue[m2],
+        reported = PredictedPhenotypes_latest$reported_tissue[m2],
+        project = x,
+        sample_id = y,
+        stringsAsFactors = FALSE
+    )
+})
+
+## Summarize the information found for each study
+discrepant <- cbind(discrepant, map_dfr(discrepant_studies_samples, function(x) {
+    
+    data.frame(
+        brain_n_original = sum(x$prediction_original == 'Brain', na.rm = TRUE),
+        brain_n_latest = sum(x$prediction_latest == 'Brain', na.rm = TRUE),
+        brain_n_reported = sum(x$reported == 'Brain', na.rm = TRUE),
+        brain_n_metasra = sum(metasra$study_id == unique(x$project)),
+        brain_percent_original = sum(x$prediction_original == 'Brain',
+            na.rm = TRUE) / nrow(x) * 100,
+        brain_percent_latest = sum(x$prediction_latest == 'Brain',
+            na.rm = TRUE) / nrow(x) * 100,
+        brain_percent_reported = sum(x$reported == 'Brain',
+            na.rm = TRUE) / nrow(x) * 100,
+        brain_percent_metasra = sum(metasra$study_id == unique(x$project)) /
+            nrow(x) * 100,
+        stringsAsFactors = FALSE
+    )
+    
+}))
+
+## Does it match the original criterial of at least 4 brain samples and greater than
+## 70% brain samples in the study?
+discrepant$criteria_original <- discrepant$brain_n_original >= 4 &
+    discrepant$brain_percent_original > 70
+discrepant$criteria_latest <- discrepant$brain_n_latest >= 4 &
+    discrepant$brain_percent_latest > 70
+discrepant$criteria_reported <- discrepant$brain_n_reported >= 4 &
+    discrepant$brain_percent_reported > 70
+discrepant$criteria_metasra <- discrepant$brain_n_metasra >= 4 &
+    discrepant$brain_percent_metasra > 70
+
+## Check the original criteria is all FALSE since they are absent from recount_brain
+stopifnot(all(!discrepant$criteria_original))
+```
+
+
+Now that we have our detailed table for these `r length(studies_to_check)` studies, we can look into them in more detail.
+
+```{r 'discrepant detail'}
+addmargins(with(discrepant,
+    table(criteria_latest, criteria_reported, criteria_metasra)))
+```
+
+From the above output we can see that `r sum(discrepant$criteria_metasra)` of the `r length(studies_to_check)` studies would match our study criteria had we used `MetaSRA`, which includes `r sum(discrepant$criteria_latest)` studies that now also match our criteria using the version 0.0.06 predictions.
+
+
+```{r 'discrepant plots'}
+## all
+ggplot(discrepant,
+    aes(x = brain_percent_original, y = brain_percent_latest,
+        color = criteria_latest, size = number_samples,
+        shape = criteria_metasra)) +
+    geom_point() +
+    facet_grid( ~ criteria_reported) +
+    geom_abline(linetype = 3, color = 'red') +
+    labs(caption = 'Panels by criteria_reported')
+
+## just those with some TRUE criteria
+ggplot(subset(discrepant,
+    criteria_reported | criteria_metasra | criteria_latest),
+    aes(x = brain_percent_original, y = brain_percent_latest,
+        color = criteria_latest, size = number_samples,
+        shape = criteria_metasra)) +
+    geom_point() +
+    facet_grid( ~ criteria_reported) +
+    geom_abline(linetype = 3, color = 'red') +
+    labs(caption = 'Panels by criteria_reported')
+```
+
+
+There are `r with(discrepant, sum(criteria_reported & !(criteria_metasra | criteria_latest)))` studies that only pass the selection criteria based on the `reported_tissue` information present in the predictions table.
+
+```{r 'reported only'}
+subset(discrepant, criteria_reported & !(criteria_metasra | criteria_latest))
+```
+
+These are the `r sum(discrepant$criteria_latest)` studies that would pass the selection criteria with the latest predictions which would all pass it with `MetaSRA` data.
+
+```{r 'latest'}
+subset(discrepant, criteria_latest)
+```
+
+To explore the table in more detail, open the [`discrepant_studies.csv`](discrepant_studies.csv) file.
+
+```{r 'export table', warning = FALSE}
+write.csv(discrepant, file = 'discrepant_studies.csv')
+```
+
+
+
+
+# Reproducibility
+
+This document was made possible thanks to `MetaSRA` `r citep(bib[['metasra']])` and :
+
+* R `r citep(bib[['R']])`
+* `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])`
+* `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])`
+* `r CRANpkg('knitr')` `r citep(bib[['knitr']])`
+* `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])`
+* `r CRANpkg('sessioninfo')` `r citep(bib[['sessioninfo']])`
+* `r CRANpkg('tidyverse')` `r citep(bib[['tidyverse']])`
+
+Code for creating this document
+ 
+```{r createVignette, eval=FALSE}
+## Create the vignette
+library('rmarkdown')
+system.time(render('metasra_comp.Rmd', 'BiocStyle::html_document'))
+```
+
+
+Reproducibility information for this document.
+
+```{r 'reproducibility info'}
+## Reproducibility info
+proc.time()
+message(Sys.time())
+options(width = 120)
+library('sessioninfo')
+session_info()
+```
+
+# Bibliography
+
+This document was generated using `r Biocpkg('BiocStyle')` `r citep(bib[['BiocStyle']])` with `r CRANpkg('knitr')` `r citep(bib[['knitr']])` and `r CRANpkg('rmarkdown')` `r citep(bib[['rmarkdown']])` running behind the scenes.
+
+Citations made with `r CRANpkg('knitcitations')` `r citep(bib[['knitcitations']])` and the bibliographical file is available [here](recount_brain_ontologies.bib).
+
+[Bibliography file](metasra_comp.bib)
+
+```{r biblio, results = 'asis', echo = FALSE, warning = FALSE, message = FALSE}
+## Print bibliography
+bibliography()
+```
