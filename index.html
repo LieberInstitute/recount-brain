@@ -375,10 +375,16 @@ div.tocify {
 <li><code>full_260_280</code>: the 260 to 280 ratio; only for TCGA.</li>
 <li><code>count_file_identifier</code>: the SRA run accession or the TCGA run (sample) identifier. Useful for merging with the rest of recount2 metadata.</li>
 <li><code>Dataset</code>: either SRA, GTEX or TCGA.</li>
-<li><code>broadmann_ontology</code>: URL for the Broadmann region ontology. See the <a href="cross_studies_metadata/recount_brain_ontologies.html"><code>recount_brain_ontologies</code></a> file for how this information was added.</li>
+<li><code>brodmann_ontology</code>: URL for the Brodmann region ontology. See the <a href="cross_studies_metadata/recount_brain_ontologies.html"><code>recount_brain_ontologies</code></a> file for how this information was added.</li>
+<li><code>brodmann_synonyms</code>: synonyms used for the Brodmann regions. These facilitate text based searches. Separated by <code>|</code>.</li>
+<li><code>brodmann_parents</code>: URLs for the Brodmann ontology parents. Separated by <code>|</code>.</li>
+<li><code>brodmann_parents_label</code>: Brodmann ontology parent text preferred labels. Separated by <code>|</code>.</li>
 <li><code>disease_ontology</code>: URL for the disease ontology.</li>
-<li><code>tissue</code>: tissue in text derived from the <code>tissue_ontology</code>.</li>
+<li><code>tissue</code>: tissue as prioritized by <code>tissue_site_3</code> over <code>tissue_site_2</code> over <code>tissue_site_1</code>.</li>
 <li><code>tissue_ontology</code>: URL for the tissue ontology.</li>
+<li><code>tissue_synonyms</code>: tissue synonyms which facilitate text based searches. Separated by <code>|</code>.</li>
+<li><code>tissue_parents</code>: URLs for the tissue ontology parents. Separated by <code>|</code>.</li>
+<li><code>tissue_parents_label</code>: tissue ontology parent text preferred labels. Separated by <code>|</code>.</li>
 </ol>
 <p>You can access this version with <code>recount::add_metadata(source = 'recount_brain_v2')</code>.</p>
 </div>

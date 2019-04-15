@@ -121,10 +121,17 @@ List of variables present in `recount_brain_v2`.
 53. `full_260_280`: the 260 to 280 ratio; only for TCGA.
 54. `count_file_identifier`: the SRA run accession or the TCGA run (sample) identifier. Useful for merging with the rest of recount2 metadata.
 55. `Dataset`: either SRA, GTEX or TCGA.
-56. `broadmann_ontology`: URL for the Broadmann region ontology. See the [`recount_brain_ontologies`](cross_studies_metadata/recount_brain_ontologies.html) file for how this information was added.
-57. `disease_ontology`: URL for the disease ontology.
-58. `tissue`: tissue in text derived from the `tissue_ontology`.
-59. `tissue_ontology`: URL for the tissue ontology.
+56. `brodmann_ontology`: URL for the Brodmann region ontology. See the [`recount_brain_ontologies`](cross_studies_metadata/recount_brain_ontologies.html) file for how this information was added.
+57. `brodmann_synonyms`: synonyms used for the Brodmann regions. These facilitate text based searches. Separated by `|`.
+58. `brodmann_parents`: URLs for the Brodmann ontology parents. Separated by `|`.
+59. `brodmann_parents_label`: Brodmann ontology parent text preferred labels. Separated by `|`.
+60. `disease_ontology`: URL for the disease ontology.
+61. `tissue`: tissue as prioritized by `tissue_site_3` over `tissue_site_2` over `tissue_site_1`.
+62. `tissue_ontology`: URL for the tissue ontology.
+63. `tissue_synonyms`: tissue synonyms which facilitate text based searches. Separated by `|`.
+64. `tissue_parents`: URLs for the tissue ontology parents. Separated by `|`.
+65. `tissue_parents_label`: tissue ontology parent text preferred labels. Separated by `|`.
+
 
 You can access this version with `recount::add_metadata(source = 'recount_brain_v2')`.
 

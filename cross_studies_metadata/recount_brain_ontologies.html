@@ -435,7 +435,51 @@ ontomap = ontolookup$`Class.ID`[match(unique(extended_brodmann_area), ontolookup
 names(ontomap) = unique(extended_brodmann_area)
 ontomap['Brodmann (1909) area 41'] = &quot;http://purl.obolibrary.org/obo/UBERON_0006095&quot;
 matchers = match( extended_brodmann_area, names(ontomap))
-ontobrain = data.frame(brodmann_ontology = ontomap[matchers])</code></pre>
+ontobrain = data.frame(
+    brodmann_ontology = ontomap[matchers],
+    stringsAsFactors = FALSE
+)
+
+## Add synonyms too, for searching by text
+ontobrain$brodmann_synonyms &lt;- ontolookup$Synonyms[
+    match(ontobrain$brodmann_ontology, ontolookup$Class.ID)]</code></pre>
+<pre class="r"><code>## Functions for traversing the ontolookup table to find all the parents
+find_parent &lt;- function(i) {
+    res &lt;- ontolookup$Parents[ontolookup$Class.ID == i]
+    if(length(res) == 0) return(NULL)
+    strsplit(res, '\\|')[[1]]
+}
+find_parent_recurr &lt;- function(i) {
+    res &lt;- find_parent(i)
+    if(length(res) == 0) {
+        return(NULL)
+    } else {
+        return(c(res, unique(unlist(sapply(res, find_parent_recurr)))))
+    }
+}
+
+## Find the unique brodmann ontologies listed
+brodmann_uni &lt;- as.character(unique(ontobrain$brodmann_ontology))
+brodmann_uni &lt;- brodmann_uni[!is.na(brodmann_uni)]
+
+## Find the parents
+brodmann_parents &lt;- lapply(brodmann_uni, find_parent_recurr)
+names(brodmann_parents) &lt;- brodmann_uni
+
+## Find what they mean
+brodmann_parents_label &lt;- lapply(brodmann_parents, function(x) {
+    ontolookup$Preferred.Label[match(x, ontolookup$Class.ID)]
+})
+
+## Could have also found the parents synonyms, but it doesn't
+## add much
+# lapply(brodmann_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
+
+## Add them and their labels
+ontobrain$brodmann_parents &lt;- sapply(brodmann_parents, paste, collapse = '|')[
+    match(ontobrain$brodmann_ontology, brodmann_uni)]
+ontobrain$brodmann_parents_label &lt;- sapply(brodmann_parents_label, paste, collapse = '|')[
+    match(ontobrain$brodmann_ontology, brodmann_uni)]</code></pre>
 </div>
 <div id="disease" class="section level2">
 <h2><span class="header-section-number">1.2</span> Disease</h2>
@@ -511,15 +555,39 @@ names(tissue_mappings)[is.na(tissue_mappings)]</code></pre>
 ontomap = c(ontomap, tissue_mappings)
 matchers = match(tissues, names(tissue_mappings))
 ontobrain$tissue = tissues
-ontobrain$tissue_ontology = tissue_mappings[matchers]</code></pre>
+ontobrain$tissue_ontology = tissue_mappings[matchers]
+
+## Add synonyms too, for searching by text
+ontobrain$tissue_synonyms &lt;- ontolookup$Synonyms[
+    match(ontobrain$tissue_ontology, ontolookup$Class.ID)]</code></pre>
+<pre class="r"><code>## Find the unique tissue ontologies listed
+tissue_uni &lt;- as.character(unique(ontobrain$tissue_ontology))
+tissue_uni &lt;- tissue_uni[!is.na(tissue_uni)]
+
+## Find the parents
+tissue_parents &lt;- lapply(tissue_uni, find_parent_recurr)
+names(tissue_parents) &lt;- tissue_uni
+
+## Find what they mean
+tissue_parents_label &lt;- lapply(tissue_parents, function(x) {
+    ontolookup$Preferred.Label[match(x, ontolookup$Class.ID)]
+})
+
+## Could have also found the parents synonyms, but it doesn't
+## add much
+# lapply(tissue_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
+
+## Add them and their labels
+ontobrain$tissue_parents &lt;- sapply(tissue_parents, paste, collapse = '|')[
+    match(ontobrain$tissue_ontology, tissue_uni)]
+ontobrain$tissue_parents_label &lt;- sapply(tissue_parents_label, paste, collapse = '|')[
+    match(ontobrain$tissue_ontology, tissue_uni)]</code></pre>
 </div>
 <div id="result-files" class="section level2">
 <h2><span class="header-section-number">1.4</span> Result files</h2>
-<p>The <a href="recount_brain_v2.Rdata"><code>recount_brain_v2.Rdata</code></a> and <a href="recount_brain_v2.csv"><code>recount_brain_v2.csv</code></a> files contain the metadata with ontologies for Tissue, Brodmann area, and Disease added. They also include the actual tissue.</p>
+<p>The <a href="recount_brain_v2.Rdata"><code>recount_brain_v2.Rdata</code></a> and <a href="recount_brain_v2.csv"><code>recount_brain_v2.csv</code></a> files contain the metadata with ontologies for Tissue, Brodmann area, and Disease added. They also include the actual tissue as prioritized by <code>tissue_site_3</code> over <code>tissue_site_2</code> over <code>tissue_site_1</code>. For the Broadmann area and the tissue, we further added their synonyms, ontology parents and ontology parent labels which will facilitate text based searches on <code>recount_brain</code>.</p>
 <p>The <code>ontology_mapping.csv</code> file contains a dataframe of the mappings from original names to ontology entries.</p>
 <pre class="r"><code>recount_brain = cbind(recount_brain, ontobrain)
-## Cast factors into characters
-recount_brain$brodmann_ontology &lt;- as.character(recount_brain$brodmann_ontology)
 write.csv(recount_brain, file=&quot;recount_brain_v2.csv&quot;)
 
 ## Export in Rdata for use with recount::add_metadata()
@@ -658,33 +726,46 @@ map(dir(pattern = 'recount_brain_v2|ontology_mapping'), tools::md5sum)</code></p
 ## 
 ## [[4]]
 ##               recount_brain_v2.csv 
-## &quot;55481fe8802e79d9a01e678905bd4e68&quot; 
+## &quot;1298fc21aa01239d5a26213fdf70c664&quot; 
 ## 
 ## [[5]]
 ##             recount_brain_v2.Rdata 
-## &quot;3b0f9cb12a1be80dfd68fac14202a578&quot;</code></pre>
+## &quot;425db897c0b50c8771c136e683f35b02&quot;</code></pre>
 <pre class="r"><code>## List of all variables
 colnames(recount_brain)</code></pre>
-<pre><code>##  [1] &quot;age&quot;                   &quot;age_units&quot;             &quot;assay_type_s&quot;         
-##  [4] &quot;avgspotlen_l&quot;          &quot;bioproject_s&quot;          &quot;biosample_s&quot;          
-##  [7] &quot;brain_bank&quot;            &quot;brodmann_area&quot;         &quot;cell_line&quot;            
-## [10] &quot;center_name_s&quot;         &quot;clinical_stage_1&quot;      &quot;clinical_stage_2&quot;     
-## [13] &quot;consent_s&quot;             &quot;development&quot;           &quot;disease&quot;              
-## [16] &quot;disease_status&quot;        &quot;experiment_s&quot;          &quot;hemisphere&quot;           
-## [19] &quot;insertsize_l&quot;          &quot;instrument_s&quot;          &quot;library_name_s&quot;       
-## [22] &quot;librarylayout_s&quot;       &quot;libraryselection_s&quot;    &quot;librarysource_s&quot;      
-## [25] &quot;loaddate_s&quot;            &quot;mbases_l&quot;              &quot;mbytes_l&quot;             
-## [28] &quot;organism_s&quot;            &quot;pathology&quot;             &quot;platform_s&quot;           
-## [31] &quot;pmi&quot;                   &quot;pmi_units&quot;             &quot;preparation&quot;          
-## [34] &quot;present_in_recount&quot;    &quot;race&quot;                  &quot;releasedate_s&quot;        
-## [37] &quot;rin&quot;                   &quot;run_s&quot;                 &quot;sample_name_s&quot;        
-## [40] &quot;sample_origin&quot;         &quot;sex&quot;                   &quot;sra_sample_s&quot;         
-## [43] &quot;sra_study_s&quot;           &quot;tissue_site_1&quot;         &quot;tissue_site_2&quot;        
-## [46] &quot;tissue_site_3&quot;         &quot;tumor_type&quot;            &quot;viability&quot;            
-## [49] &quot;Study_full&quot;            &quot;drugName_full&quot;         &quot;drug_info_full&quot;       
-## [52] &quot;drug_type_full&quot;        &quot;full_260_280&quot;          &quot;count_file_identifier&quot;
-## [55] &quot;Dataset&quot;               &quot;brodmann_ontology&quot;     &quot;disease_ontology&quot;     
-## [58] &quot;tissue&quot;                &quot;tissue_ontology&quot;</code></pre>
+<pre><code>##  [1] &quot;age&quot;                    &quot;age_units&quot;             
+##  [3] &quot;assay_type_s&quot;           &quot;avgspotlen_l&quot;          
+##  [5] &quot;bioproject_s&quot;           &quot;biosample_s&quot;           
+##  [7] &quot;brain_bank&quot;             &quot;brodmann_area&quot;         
+##  [9] &quot;cell_line&quot;              &quot;center_name_s&quot;         
+## [11] &quot;clinical_stage_1&quot;       &quot;clinical_stage_2&quot;      
+## [13] &quot;consent_s&quot;              &quot;development&quot;           
+## [15] &quot;disease&quot;                &quot;disease_status&quot;        
+## [17] &quot;experiment_s&quot;           &quot;hemisphere&quot;            
+## [19] &quot;insertsize_l&quot;           &quot;instrument_s&quot;          
+## [21] &quot;library_name_s&quot;         &quot;librarylayout_s&quot;       
+## [23] &quot;libraryselection_s&quot;     &quot;librarysource_s&quot;       
+## [25] &quot;loaddate_s&quot;             &quot;mbases_l&quot;              
+## [27] &quot;mbytes_l&quot;               &quot;organism_s&quot;            
+## [29] &quot;pathology&quot;              &quot;platform_s&quot;            
+## [31] &quot;pmi&quot;                    &quot;pmi_units&quot;             
+## [33] &quot;preparation&quot;            &quot;present_in_recount&quot;    
+## [35] &quot;race&quot;                   &quot;releasedate_s&quot;         
+## [37] &quot;rin&quot;                    &quot;run_s&quot;                 
+## [39] &quot;sample_name_s&quot;          &quot;sample_origin&quot;         
+## [41] &quot;sex&quot;                    &quot;sra_sample_s&quot;          
+## [43] &quot;sra_study_s&quot;            &quot;tissue_site_1&quot;         
+## [45] &quot;tissue_site_2&quot;          &quot;tissue_site_3&quot;         
+## [47] &quot;tumor_type&quot;             &quot;viability&quot;             
+## [49] &quot;Study_full&quot;             &quot;drugName_full&quot;         
+## [51] &quot;drug_info_full&quot;         &quot;drug_type_full&quot;        
+## [53] &quot;full_260_280&quot;           &quot;count_file_identifier&quot; 
+## [55] &quot;Dataset&quot;                &quot;brodmann_ontology&quot;     
+## [57] &quot;brodmann_synonyms&quot;      &quot;brodmann_parents&quot;      
+## [59] &quot;brodmann_parents_label&quot; &quot;disease_ontology&quot;      
+## [61] &quot;tissue&quot;                 &quot;tissue_ontology&quot;       
+## [63] &quot;tissue_synonyms&quot;        &quot;tissue_parents&quot;        
+## [65] &quot;tissue_parents_label&quot;</code></pre>
 </div>
 </div>
 <div id="reproducibility" class="section level1">
@@ -707,9 +788,9 @@ system.time(render('recount_brain_ontologies.Rmd', 'BiocStyle::html_document'))<
 <pre class="r"><code>## Reproducibility info
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  26.003   2.708  93.126</code></pre>
+##  34.080   3.650 101.308</code></pre>
 <pre class="r"><code>message(Sys.time())</code></pre>
-<pre><code>## 2019-04-12 13:51:02</code></pre>
+<pre><code>## 2019-04-15 10:52:10</code></pre>
 <pre class="r"><code>options(width = 120)
 library('sessioninfo')
 session_info()</code></pre>
@@ -723,7 +804,7 @@ session_info()</code></pre>
 ##  collate  en_US.UTF-8                                
 ##  ctype    en_US.UTF-8                                
 ##  tz       America/New_York                           
-##  date     2019-04-12                                 
+##  date     2019-04-15                                 
 ## 
 ## ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##  package       * version date       lib source        

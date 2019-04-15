@@ -50,7 +50,7 @@ write.bibtex(bib, file = 'recount_brain_ontologies.bib')
 
 First we start by building an ontology lookup table using data from [data.bioontology.org/](http://data.bioontology.org/)'s API.
 
-```{r, message = FALSE}
+```{r 'build onto table code', message = FALSE}
 library('tidyverse')
 build_ontology_table = function(ontology_name) {
     destfile = paste0(ontology_name,".csv.gz")
@@ -63,7 +63,7 @@ build_ontology_table = function(ontology_name) {
 }
 ```
 
-```{r message=FALSE}
+```{r 'build onto table', message=FALSE}
 ontolookup = bind_rows(build_ontology_table('ORDO'),
                        build_ontology_table('HP'),
                        build_ontology_table('UBERON'),
@@ -73,7 +73,7 @@ ontolookup = bind_rows(build_ontology_table('ORDO'),
 
 Next we load the `recount-brain` files created by Dustin Sokolowski and explore them.
 
-```{r}
+```{r 'load recount brain'}
 load("recount_brain_v2_noOntology.Rdata")
 head(recount_brain)
 ```
@@ -82,20 +82,68 @@ head(recount_brain)
 
 The UBERON ontology has direct mappings to Brodmann areas, amenable to direct lookup.
 
-```{r}
+```{r 'find the brodmann area'}
 extended_brodmann_area = paste("Brodmann (1909) area", recount_brain$brodmann_area)
 ontomap = ontolookup$`Class.ID`[match(unique(extended_brodmann_area), ontolookup$Preferred.Label )]
 names(ontomap) = unique(extended_brodmann_area)
 ontomap['Brodmann (1909) area 41'] = "http://purl.obolibrary.org/obo/UBERON_0006095"
 matchers = match( extended_brodmann_area, names(ontomap))
-ontobrain = data.frame(brodmann_ontology = ontomap[matchers])
+ontobrain = data.frame(
+    brodmann_ontology = ontomap[matchers],
+    stringsAsFactors = FALSE
+)
+
+## Add synonyms too, for searching by text
+ontobrain$brodmann_synonyms <- ontolookup$Synonyms[
+    match(ontobrain$brodmann_ontology, ontolookup$Class.ID)]
 ```
+
+```{r 'brodmann area parent info'}
+## Functions for traversing the ontolookup table to find all the parents
+find_parent <- function(i) {
+    res <- ontolookup$Parents[ontolookup$Class.ID == i]
+    if(length(res) == 0) return(NULL)
+    strsplit(res, '\\|')[[1]]
+}
+find_parent_recurr <- function(i) {
+    res <- find_parent(i)
+    if(length(res) == 0) {
+        return(NULL)
+    } else {
+        return(c(res, unique(unlist(sapply(res, find_parent_recurr)))))
+    }
+}
+
+## Find the unique brodmann ontologies listed
+brodmann_uni <- as.character(unique(ontobrain$brodmann_ontology))
+brodmann_uni <- brodmann_uni[!is.na(brodmann_uni)]
+
+## Find the parents
+brodmann_parents <- lapply(brodmann_uni, find_parent_recurr)
+names(brodmann_parents) <- brodmann_uni
+
+## Find what they mean
+brodmann_parents_label <- lapply(brodmann_parents, function(x) {
+    ontolookup$Preferred.Label[match(x, ontolookup$Class.ID)]
+})
+
+## Could have also found the parents synonyms, but it doesn't
+## add much
+# lapply(brodmann_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
+
+## Add them and their labels
+ontobrain$brodmann_parents <- sapply(brodmann_parents, paste, collapse = '|')[
+    match(ontobrain$brodmann_ontology, brodmann_uni)]
+ontobrain$brodmann_parents_label <- sapply(brodmann_parents_label, paste, collapse = '|')[
+    match(ontobrain$brodmann_ontology, brodmann_uni)]
+```
+
 
 ## Disease
 
 We then select the disease ontology mappings.
 
-```{r}
+```{r 'map diseases'}
 disease_mappings = c(
     "Bipolar disorder" = "http://purl.obolibrary.org/obo/HP_0007302",
     "Schizophrenia" = "http://purl.obolibrary.org/obo/HP_0100753",
@@ -127,7 +175,7 @@ ontomap = c(ontomap, disease_mappings)
 Since ontologies are graphs, we only need to annotate the most specific term. 
 
 
-```{r}
+```{r 'map tissues'}
 tissues = recount_brain$tissue_site_1
 not_na = !is.na(recount_brain$tissue_site_2)
 tissues[not_na] = recount_brain$tissue_site_2[not_na]
@@ -166,19 +214,46 @@ ontomap = c(ontomap, tissue_mappings)
 matchers = match(tissues, names(tissue_mappings))
 ontobrain$tissue = tissues
 ontobrain$tissue_ontology = tissue_mappings[matchers]
+
+## Add synonyms too, for searching by text
+ontobrain$tissue_synonyms <- ontolookup$Synonyms[
+    match(ontobrain$tissue_ontology, ontolookup$Class.ID)]
+```
+
+```{r 'tissue parent info'}
+## Find the unique tissue ontologies listed
+tissue_uni <- as.character(unique(ontobrain$tissue_ontology))
+tissue_uni <- tissue_uni[!is.na(tissue_uni)]
+
+## Find the parents
+tissue_parents <- lapply(tissue_uni, find_parent_recurr)
+names(tissue_parents) <- tissue_uni
+
+## Find what they mean
+tissue_parents_label <- lapply(tissue_parents, function(x) {
+    ontolookup$Preferred.Label[match(x, ontolookup$Class.ID)]
+})
+
+## Could have also found the parents synonyms, but it doesn't
+## add much
+# lapply(tissue_parents, function(x) ontolookup$Synonyms[match(x, ontolookup$Class.ID)])
+
+## Add them and their labels
+ontobrain$tissue_parents <- sapply(tissue_parents, paste, collapse = '|')[
+    match(ontobrain$tissue_ontology, tissue_uni)]
+ontobrain$tissue_parents_label <- sapply(tissue_parents_label, paste, collapse = '|')[
+    match(ontobrain$tissue_ontology, tissue_uni)]
 ```
 
 ## Result files
 
-The [`recount_brain_v2.Rdata`](recount_brain_v2.Rdata) and [`recount_brain_v2.csv`](recount_brain_v2.csv) files contain the metadata with ontologies for Tissue, Brodmann area, and Disease added. They also include the actual tissue.
+The [`recount_brain_v2.Rdata`](recount_brain_v2.Rdata) and [`recount_brain_v2.csv`](recount_brain_v2.csv) files contain the metadata with ontologies for Tissue, Brodmann area, and Disease added. They also include the actual tissue as prioritized by `tissue_site_3` over `tissue_site_2` over `tissue_site_1`. For the Broadmann area and the tissue, we further added their synonyms, ontology parents and ontology parent labels which will facilitate text based searches on `recount_brain`.
 
 The `ontology_mapping.csv` file contains a dataframe of the mappings
 from original names to ontology entries.
 
 ```{r}
 recount_brain = cbind(recount_brain, ontobrain)
-## Cast factors into characters
-recount_brain$brodmann_ontology <- as.character(recount_brain$brodmann_ontology)
 write.csv(recount_brain, file="recount_brain_v2.csv")
 
 ## Export in Rdata for use with recount::add_metadata()

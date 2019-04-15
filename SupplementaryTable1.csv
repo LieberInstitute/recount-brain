@@ -54,7 +54,13 @@ drug_type_full,"the drug classification (chemotherapy, immunotherapy, ...); only
 full_260_280,the 260 to 280 ratio; only for TCGA
 count_file_identifier,the SRA run accession or the TCGA run (sample) identifier. Useful for merging with the rest of recount2 metadata
 Dataset,"either SRA, GTEX or TCGA"
-broadmann_ontology,URL for the Broadmann region ontology. See http://research.libd.org/recount-brain/cross_studies_metadata/recount_brain_ontologies.html for how this information was added.
-disease_ontology,URL for the disease ontology
-tissue,tissue in text derived from the `tissue_ontology`
-tissue_ontology,URL for the tissue ontology
+brodmann_ontology,URL for the Brodmann region ontology. See http://research.libd.org/recount-brain/cross_studies_metadata/recount_brain_ontologies.html for how this information was added.
+brodmann_synonyms,synonyms used for the Brodmann regions. These facilitate text based searches. Separated by |.
+brodmann_parents,URLs for the Brodmann ontology parents. Separated by |.
+brodmann_parents_label,Brodmann ontology parent text preferred labels. Separated by |.
+disease_ontology,URL for the disease ontology.
+tissue,Tissue as prioritized by tissue_site_3 over tissue_site_2 over tissue_site_1.
+tissue_ontology,URL for the tissue ontology.
+tissue_synonyms,Tissue synonyms which facilitate text based searches. Separated by |.
+tissue_parents,URLs for the tissue ontology parents. Separated by |.
+tissue_parents_label,Tissue ontology parent text preferred labels. Separated by |.
