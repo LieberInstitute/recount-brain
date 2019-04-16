@@ -118,7 +118,7 @@ studies_to_check <- metasra_study[
 ]
 ```
 
-As a check, anything in `recount_brain` has to be in `recount2` by construction. We'll later take a deeper look at the `r length(studies_to_check)` studies present in `MetaSRA` and `recount2` yet absent from `recount_brain`.
+As a check, anything in `recount_brain` has to be in `recount2` by construction. We'll later take a deeper look at the `r length(studies_to_check)` studies present in `MetaSRA` and `recount2` yet absent from `recount_brain` (excluding TCGA).
 
 
 At the sample level we can find samples present in `recount_brain` absent from `recount2` which is not unexpected (`recount2` was built to be only human RNA-seq samples). All the samples present in `MetaSRA` and `recount2` yet absent from `recount_brain` from the studies we wanted to check.
@@ -146,6 +146,13 @@ samples_to_check <- metasra$sample_id[
 table(unique(meta$project[meta$sample %in% samples_to_check]) %in%
     studies_to_check)
 ```
+
+Note that these results exclude TCGA since they don't have SRA sample IDs.
+
+```{r 'TCGA excluded'}
+table('Has SRA sample id' = !is.na(recount_brain$sra_sample_s), recount_brain$Dataset)
+```
+
 
 
 
@@ -179,8 +186,7 @@ addmargins(table(
 )) / nrow(recount_brain) * 100
 ```
 
-From these checks, we can see that 26.6 and 44.9 percent of the `recount_brain` studies and samples are missing from `MetaSRA`, respectively.
-
+From these checks, we can see that 26.6 percent of the `recount_brain` studies are missing from `MetaSRA`, respectively.
 
 # Studies to check
 
