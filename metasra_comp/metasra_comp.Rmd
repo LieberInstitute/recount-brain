@@ -174,19 +174,22 @@ addmargins(table(
 )) / length(unique(recount_brain$sra_study_s)) * 100
 
 ## At the sample level
+## Check whether it's all the large study SRP025982
 addmargins(table(
     'In MetaSRA (sample)' = recount_brain$sra_sample_s %in% metasra$sample_id,
-    'SRP025982' = recount_brain$sra_study_s == 'SRP025982'
+    'SRP025982' = recount_brain$sra_study_s == 'SRP025982',
+    'Dataset' = recount_brain$Dataset, useNA = 'ifany'
 ))
 
-## in percent
+## Ok, it's not all SRP025982 so we can drop that comparison
+## and show the table in percent
 addmargins(table(
     'In MetaSRA (sample)' = recount_brain$sra_sample_s %in% metasra$sample_id,
-    'SRP025982' = recount_brain$sra_study_s == 'SRP025982'
+    'Dataset' = recount_brain$Dataset, useNA = 'ifany'
 )) / nrow(recount_brain) * 100
 ```
 
-From these checks, we can see that 26.6 percent of the `recount_brain` studies are missing from `MetaSRA`, respectively.
+From these checks, we can see that 26.6% of the `recount_brain` studies and 58.7% of the samples are missing from `MetaSRA`, respectively.
 
 # Studies to check
 
