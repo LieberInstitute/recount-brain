@@ -240,15 +240,15 @@ discrepant <- cbind(discrepant, map_dfr(discrepant_studies_samples, function(x) 
     
 }))
 
-## Does it match the original criterial of at least 4 brain samples and greater than
+## Does it match the original criterial of at least 4 samples and greater than
 ## 70% brain samples in the study?
-discrepant$criteria_original <- discrepant$brain_n_original >= 4 &
+discrepant$criteria_original <- discrepant$number_samples >= 4 &
     discrepant$brain_percent_original > 70
-discrepant$criteria_latest <- discrepant$brain_n_latest >= 4 &
+discrepant$criteria_latest <- discrepant$number_samples >= 4 &
     discrepant$brain_percent_latest > 70
-discrepant$criteria_reported <- discrepant$brain_n_reported >= 4 &
+discrepant$criteria_reported <- discrepant$number_samples >= 4 &
     discrepant$brain_percent_reported > 70
-discrepant$criteria_metasra <- discrepant$brain_n_metasra >= 4 &
+discrepant$criteria_metasra <- discrepant$number_samples >= 4 &
     discrepant$brain_percent_metasra > 70
 
 ## Check the original criteria is all FALSE since they are absent from recount_brain
@@ -274,7 +274,7 @@ ggplot(discrepant,
         shape = criteria_metasra)) +
     geom_point() +
     facet_grid( ~ criteria_reported) +
-    geom_abline(linetype = 3, color = 'red') +
+    geom_abline(linetype = 3, color = 'purple') +
     labs(caption = 'Panels by criteria_reported')
 
 ## just those with some TRUE criteria
@@ -285,7 +285,7 @@ ggplot(subset(discrepant,
         shape = criteria_metasra)) +
     geom_point() +
     facet_grid( ~ criteria_reported) +
-    geom_abline(linetype = 3, color = 'red') +
+    geom_abline(linetype = 3, color = 'purple') +
     labs(caption = 'Panels by criteria_reported')
 ```
 
