@@ -221,7 +221,7 @@ discrepant_studies_samples <- map(discrepant$project, function(x) {
     data.frame(
         prediction_original = PredictedPhenotypes$predicted_tissue[m],
         prediction_latest = PredictedPhenotypes_latest$predicted_tissue[m2],
-        reported = PredictedPhenotypes_latest$reported_tissue[m2],
+        sharq = PredictedPhenotypes_latest$reported_tissue[m2],
         project = x,
         sample_id = y,
         stringsAsFactors = FALSE
@@ -234,13 +234,13 @@ discrepant <- cbind(discrepant, map_dfr(discrepant_studies_samples, function(x) 
     data.frame(
         brain_n_original = sum(x$prediction_original == 'Brain', na.rm = TRUE),
         brain_n_latest = sum(x$prediction_latest == 'Brain', na.rm = TRUE),
-        brain_n_reported = sum(x$reported == 'Brain', na.rm = TRUE),
+        brain_n_sharq = sum(x$sharq == 'Brain', na.rm = TRUE),
         brain_n_metasra = sum(metasra$study_id == unique(x$project)),
         brain_percent_original = sum(x$prediction_original == 'Brain',
             na.rm = TRUE) / nrow(x) * 100,
         brain_percent_latest = sum(x$prediction_latest == 'Brain',
             na.rm = TRUE) / nrow(x) * 100,
-        brain_percent_reported = sum(x$reported == 'Brain',
+        brain_percent_sharq = sum(x$sharq == 'Brain',
             na.rm = TRUE) / nrow(x) * 100,
         brain_percent_metasra = sum(metasra$study_id == unique(x$project)) /
             nrow(x) * 100,
@@ -255,8 +255,8 @@ discrepant$criteria_original <- discrepant$number_samples >= 4 &
     discrepant$brain_percent_original > 70
 discrepant$criteria_latest <- discrepant$number_samples >= 4 &
     discrepant$brain_percent_latest > 70
-discrepant$criteria_reported <- discrepant$number_samples >= 4 &
-    discrepant$brain_percent_reported > 70
+discrepant$criteria_sharq <- discrepant$number_samples >= 4 &
+    discrepant$brain_percent_sharq > 70
 discrepant$criteria_metasra <- discrepant$number_samples >= 4 &
     discrepant$brain_percent_metasra > 70
 
@@ -269,7 +269,7 @@ Now that we have our detailed table for these `r length(studies_to_check)` studi
 
 ```{r 'discrepant detail'}
 addmargins(with(discrepant,
-    table(criteria_latest, criteria_reported, criteria_metasra)))
+    table(criteria_latest, criteria_sharq, criteria_metasra)))
 ```
 
 From the above output we can see that `r sum(discrepant$criteria_metasra)` of the `r length(studies_to_check)` studies would match our study criteria had we used `MetaSRA`, which includes `r sum(discrepant$criteria_latest)` studies that now also match our criteria using the version 0.0.06 predictions.
@@ -282,27 +282,27 @@ ggplot(discrepant,
         color = criteria_latest, size = number_samples,
         shape = criteria_metasra)) +
     geom_point() +
-    facet_grid( ~ criteria_reported) +
+    facet_grid( ~ criteria_sharq) +
     geom_abline(linetype = 3, color = 'purple') +
-    labs(caption = 'Panels by criteria_reported')
+    labs(caption = 'Panels by criteria_sharq')
 
 ## just those with some TRUE criteria
 ggplot(subset(discrepant,
-    criteria_reported | criteria_metasra | criteria_latest),
+    criteria_sharq | criteria_metasra | criteria_latest),
     aes(x = brain_percent_original, y = brain_percent_latest,
         color = criteria_latest, size = number_samples,
         shape = criteria_metasra)) +
     geom_point() +
-    facet_grid( ~ criteria_reported) +
+    facet_grid( ~ criteria_sharq) +
     geom_abline(linetype = 3, color = 'purple') +
-    labs(caption = 'Panels by criteria_reported')
+    labs(caption = 'Panels by criteria_sharq')
 ```
 
 
-There are `r with(discrepant, sum(criteria_reported & !(criteria_metasra | criteria_latest)))` studies that only pass the selection criteria based on the `reported_tissue` information present in the predictions table. The `reported_tissue` was extracted from SHARQ beta as described in the `phenopredict` manuscript `r citep(bib[['phenopredict']])`. 
+There are `r with(discrepant, sum(criteria_sharq & !(criteria_metasra | criteria_latest)))` studies that only pass the selection criteria based on the `reported_tissue` information present in the predictions table. The `reported_tissue` was extracted from [SHARQ prototype](http://www.cs.cmu.edu/~ckingsf/sharq/) as described in the `phenopredict` manuscript `r citep(bib[['phenopredict']])`. 
 
-```{r 'reported only'}
-subset(discrepant, criteria_reported & !(criteria_metasra | criteria_latest))
+```{r 'sharq only'}
+subset(discrepant, criteria_sharq & !(criteria_metasra | criteria_latest))
 ```
 
 These are the `r sum(discrepant$criteria_latest)` studies that would pass the selection criteria with the latest predictions which would all pass it with `MetaSRA` data.
