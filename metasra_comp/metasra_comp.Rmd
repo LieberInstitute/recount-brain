@@ -193,7 +193,7 @@ From these checks, we can see that 26.6% of the `recount_brain` studies and 58.7
 
 # Studies to check
 
-Lets take a deeper look at the `r length(studies_to_check)` studies present in `MetaSRA` and `recount2` yet absent from `recount_brain`. The `recount` package already has the study abstract and number of samples information. We can then construct the URL to explore manually these discrepant studies. Next, we can look at the `phenoPredict` `r citep(bib[['phenopredict']])` predictions we used (version 0.0.03) for selecting the studies as well and the latest (0.0.06) predictions. The prediction table also includes a `reported_tissue`. Along with the predictions and the reported tissue, we can also look at `MetaSRA` to identify the number of brain samples according to each source and the percent of brain samples per study. We can then evaluate whether the study passed or not our selection criteria of at least 4 brain samples with 70 percent of the study samples coming from the brain.
+Lets take a deeper look at the `r length(studies_to_check)` studies present in `MetaSRA` and `recount2` yet absent from `recount_brain`. The `recount` package already has the study abstract and number of samples information. We can then construct the URL to explore manually these discrepant studies. Next, we can look at the `phenopredict` `r citep(bib[['phenopredict']])` predictions we used (version 0.0.03) for selecting the studies as well and the latest (0.0.06) predictions. The prediction table also includes a `reported_tissue`. Along with the predictions and the reported tissue, we can also look at `MetaSRA` to identify the number of brain samples according to each source and the percent of brain samples per study. We can then evaluate whether the study passed or not our selection criteria of at least 4 brain samples with 70 percent of the study samples coming from the brain.
 
 
 ```{r 'discrepant studies'}
@@ -299,7 +299,7 @@ ggplot(subset(discrepant,
 ```
 
 
-There are `r with(discrepant, sum(criteria_reported & !(criteria_metasra | criteria_latest)))` studies that only pass the selection criteria based on the `reported_tissue` information present in the predictions table.
+There are `r with(discrepant, sum(criteria_reported & !(criteria_metasra | criteria_latest)))` studies that only pass the selection criteria based on the `reported_tissue` information present in the predictions table. The `reported_tissue` was extracted from SHARQ beta as described in the `phenopredict` manuscript `r citep(bib[['phenopredict']])`. 
 
 ```{r 'reported only'}
 subset(discrepant, criteria_reported & !(criteria_metasra | criteria_latest))
