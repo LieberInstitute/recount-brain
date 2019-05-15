@@ -5,7 +5,7 @@ author:
   affiliation:
   - Lieber Institute for Brain Development, Johns Hopkins Medical Campus, Baltimore, MD, 21205, USA
   - Center for Computational Biology, Johns Hopkins University, Baltimore, MD, 21205, USA
-  email: leo.collado@libd.org
+  email: lcolladotor@gmail.com
 output:
   BiocStyle::html_document
 abstract: |
