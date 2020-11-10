@@ -486,8 +486,7 @@ T_260_280 <- cd_brain.ol$gdc_cases.samples.portions.analytes.a260_a280_ratio
 The code below readjusts the order of `recount_brain_v1`. This is completed by insuring that the order of columns in recount_brain matches TCGA, GTEx, and the recount website. All of the column names are then matches.
 
 ```{r}
-notes48 <- notes[1:48,]
-recount_brain_reorder <- recount_brain[,notes48$recount_brain]
+recount_brain_reorder = recount_brain[,gsub(' ','', notes$Variable[1:48])]
 
 colnames(TCGA_combn) <- colnames(GTEX_combn) <- colnames(recount_brain_reorder)
 ```
