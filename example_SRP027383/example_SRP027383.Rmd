@@ -387,12 +387,12 @@ names(go_comp) <- c('Biological Process', 'Molecular Function',
     'Cellular Component')
 ```
 
-Now that we have the data for each of the ontologies we can visualize the results using `clusterProfiler::plot()`. Figure \@ref(fig:goplot)A shows the enriched biological process terms where we see terms enriched for DNA replication and chromosome segregation in the genes with an increasing expression relationship with grade tumor progression. Intuitively this makes sense since gliomas are a type of cancer. The enriched molecular function ontology terms show in Figure \@ref(fig:goplot)B reflect the same picture with transmembrane transporters enriched in the genes with a decreasing expression association with grade tumor progression. Figure \@ref(fig:goplot)C shows the enriched cellular components with chromosome-releated terms related with the genes that have a higher expression as tumor progression advances. This is related to the findings in the original study where they focused in gene fusions `r citep(bib[['original']])`. 
+Now that we have the data for each of the ontologies we can visualize the results using `clusterProfiler::dotplot()`. Figure \@ref(fig:goplot)A shows the enriched biological process terms where we see terms enriched for DNA replication and chromosome segregation in the genes with an increasing expression relationship with grade tumor progression. Intuitively this makes sense since gliomas are a type of cancer. The enriched molecular function ontology terms show in Figure \@ref(fig:goplot)B reflect the same picture with transmembrane transporters enriched in the genes with a decreasing expression association with grade tumor progression. Figure \@ref(fig:goplot)C shows the enriched cellular components with chromosome-releated terms related with the genes that have a higher expression as tumor progression advances. This is related to the findings in the original study where they focused in gene fusions `r citep(bib[['original']])`. 
 
 ```{r 'goplot', fig.cap = c('A. Enriched biological process ontology terms.', 'B. Enriched molecular function ontology terms.', 'C. Enriched cellular component ontology terms.'), fig.wide = TRUE}
 ## Visualize enriched GO terms
 xx <- lapply(names(go_comp), function(bp) {
-    print(plot(go_comp[[bp]], title = paste(bp, 'ontology'), font.size = 15))
+    print(dotplot(go_comp[[bp]], title = paste(bp, 'ontology'), font.size = 15))
     return(NULL)
 })
 ```
