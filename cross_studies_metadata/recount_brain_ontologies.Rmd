@@ -46,7 +46,7 @@ bib <- c(
     knitcitations = citation('knitcitations'),
     knitr = citation('knitr')[3],
 	tidyverse = citation('tidyverse'),
-    rmarkdown = citation('rmarkdown')
+    rmarkdown = citation('rmarkdown')[1]
 )
 write.bibtex(bib, file = 'recount_brain_ontologies.bib')
 ```

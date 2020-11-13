@@ -34,7 +34,7 @@ bib <- c(
 	recount = citation('recount')[1],
     recountWorkflow = citation('recount')[2],
     phenopredict = citation('recount')[3],
-    rmarkdown = citation('rmarkdown'),
+    rmarkdown = citation('rmarkdown')[1],
     original = bib_metadata('10.1038/s41467-017-02772-x'),
     jaffelab = citation('jaffelab')
 )

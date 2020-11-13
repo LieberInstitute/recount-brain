@@ -32,7 +32,7 @@ bib <- c(
     knitr = citation('knitr')[3],
 	recount = citation('recount')[1],
     recountWorkflow = citation('recount')[2],
-    rmarkdown = citation('rmarkdown'),
+    rmarkdown = citation('rmarkdown')[1],
     original = bib_metadata('10.1101/gr.165126.113'),
     jaffelab = citation('jaffelab'),
     edgeR = citation('edgeR')[1],
