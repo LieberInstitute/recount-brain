@@ -2008,13 +2008,13 @@ function toggle_visibility(id1) {
 
 #GTEx &amp; TCGA metadata from recount
 recount_brain &lt;- add_metadata(source = &quot;recount_brain_v1&quot;)</code></pre>
-<pre><code>## 2020-11-13 16:01:50 downloading the recount_brain metadata to /tmp/RtmpEwqGw6/recount_brain_v1.Rdata</code></pre>
+<pre><code>## 2020-11-13 16:24:16 downloading the recount_brain metadata to /tmp/RtmpK9pZcs/recount_brain_v1.Rdata</code></pre>
 <pre><code>## Loading objects:
 ##   recount_brain</code></pre>
 <pre class="r"><code>GTEx &lt;-  recount::all_metadata(&quot;gtex&quot;)</code></pre>
-<pre><code>## 2020-11-13 16:01:51 downloading the metadata to /tmp/RtmpEwqGw6/metadata_clean_gtex.Rdata</code></pre>
+<pre><code>## 2020-11-13 16:24:17 downloading the metadata to /tmp/RtmpK9pZcs/metadata_clean_gtex.Rdata</code></pre>
 <pre class="r"><code>tcga &lt;- recount::all_metadata(&quot;tcga&quot;)</code></pre>
-<pre><code>## 2020-11-13 16:01:52 downloading the metadata to /tmp/RtmpEwqGw6/metadata_clean_tcga.Rdata</code></pre>
+<pre><code>## 2020-11-13 16:24:18 downloading the metadata to /tmp/RtmpK9pZcs/metadata_clean_tcga.Rdata</code></pre>
 <pre class="r"><code># Read txt file downloaded from:
 # &quot;https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SubjectPhenotypesDS.txt&quot;
 # this dataset was also converted into a csv before being loaded into R
@@ -2539,7 +2539,7 @@ recount_brain$age &lt;- age
 
 ## Between version 1 and 2, these are the columns that change types
 r &lt;- add_metadata(source = &#39;recount_brain_v1&#39;)</code></pre>
-<pre><code>## 2020-11-13 16:02:02 downloading the recount_brain metadata to /tmp/RtmpEwqGw6/recount_brain_v1.Rdata</code></pre>
+<pre><code>## 2020-11-13 16:24:28 downloading the recount_brain metadata to /tmp/RtmpK9pZcs/recount_brain_v1.Rdata</code></pre>
 <pre><code>## Loading objects:
 ##   recount_brain</code></pre>
 <pre class="r"><code>x &lt;- sapply(r, class) == sapply(recount_brain[, colnames(r)], class)
@@ -2561,9 +2561,9 @@ sapply(dir(pattern = &#39;recount_brain_v2&#39;), tools::md5sum)</code></pre>
 ## recount_brain_v2_noOntology.Rdata.recount_brain_v2_noOntology.Rdata 
 ##                                  &quot;aa95cc6a34b77b9062e2f77da0cac286&quot; 
 ##                           recount_brain_v2.csv.recount_brain_v2.csv 
-##                                  &quot;7e07a146b0681b2ecc61a46e582cbb1b&quot; 
+##                                  &quot;2ab643a4ce55d731c637456ff50ef36b&quot; 
 ##                       recount_brain_v2.Rdata.recount_brain_v2.Rdata 
-##                                  &quot;c4d1f66db1f9a71b80aafbc7e94607bd&quot;</code></pre>
+##                                  &quot;0cc562916ced9f2bf4fb2b9a1a446121&quot;</code></pre>
 <pre class="r"><code>## List of all variables
 colnames(recount_brain)</code></pre>
 <pre><code>##  [1] &quot;age&quot;                   &quot;age_units&quot;             &quot;assay_type_s&quot;          &quot;avgspotlen_l&quot;         
@@ -2764,9 +2764,9 @@ system.time(render(&#39;cross_studies_metadata.Rmd&#39;, &#39;BiocStyle::html_do
 <pre class="r"><code>## Reproducibility info
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  31.570   2.588 200.632</code></pre>
+##  33.407   3.364  51.681</code></pre>
 <pre class="r"><code>message(Sys.time())</code></pre>
-<pre><code>## 2020-11-13 16:02:03</code></pre>
+<pre><code>## 2020-11-13 16:24:28</code></pre>
 <pre class="r"><code>options(width = 120)
 session_info()</code></pre>
 <pre><code>## ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────
